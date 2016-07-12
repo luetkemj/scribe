@@ -1,0 +1,9 @@
+{
+  "parser": "babel-eslint",
+  "extends": "airbnb",
+  "rules": {
+    "no-else-return": 0,
+    "global-require": 0,
+    "no-underscore-dangle": 0
+  }
+}

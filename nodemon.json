@@ -1,0 +1,15 @@
+{
+  "ignore": [
+    ".git",
+    "node_modules",
+    "public",
+    "build"
+  ],
+  "verbose": true,
+  "events": {
+    "restart": "eslint ."
+  },
+  "watch": [
+    "server/"
+  ]
+}
