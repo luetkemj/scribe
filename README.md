@@ -29,7 +29,7 @@ If no environment is specified, it will default to `development`.
 
 To start the application (in development mode), execute the following command:
 
-`$ npm start`
+`$ MONGO_USERNAME=<username> MONGO_PASSWORD=<password> npm start`
 
 This script will call `babel-node` to run the server side code in an "esnext"
 environment. This compiles all the server side source code into ES5 to run
