@@ -7,6 +7,9 @@ const logger = require('./lib/logger')();
 import config from './config';
 logger.log('config: %j', config);
 
+// load the mongo database
+import './mongo';
+
 // load the express application
 import app from './express';
 
