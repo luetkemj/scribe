@@ -1,0 +1,10 @@
+@import '../../theme/variables';
+
+.listItem {
+  composes: sansSerifMedium from 'sass!../../theme/typography.scss';
+
+  a {
+    text-decoration: none;
+    color: $swatch01;
+  }
+}
