@@ -8,6 +8,10 @@ const config = {
     username: process.env.MONGO_USERNAME,
     password: process.env.MONGO_PASSWORD,
   },
+  api: {
+    monsters: '/api/monsters',
+    monster: '/api/monster',
+  },
 };
 
 export default config;

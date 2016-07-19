@@ -32,6 +32,10 @@ rules:
   no-ids: 2
   no-important: 2
   no-mergeable-selectors: 2
+  no-misspelled-properties:
+    - 1
+    - extra-properties:
+        - composes
   no-qualifying-elements: 0
   placeholder-name-format:
     - 2
