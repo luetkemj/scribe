@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import MonstersListContainer from '../containers/monsters-list.container';
-import { loadMonsters } from '../actions/monsters.actions.js';
+import MonstersListContainer from '../monsters-list/monsters-list.container';
+import { loadMonsters } from '../../actions/monsters.actions.js';
 
 class MonstersContainer extends Component {
   componentWillMount() {

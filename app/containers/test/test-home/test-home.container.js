@@ -11,6 +11,12 @@ export default function TestHomeContainer() {
         <li className={style.listItem}>
           <Link to="/monster-details">Monster Details Component</Link>
         </li>
+        <li className={style.listItem}>
+          <Link to="/spinner">Spinner Component</Link>
+        </li>
+        <li className={style.listItem}>
+          <Link to="/list-item">List Item Component</Link>
+        </li>
       </ul>
     </div>
   );

@@ -2,9 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import List from '../components/list/list.component';
-import MonsterListItemContainer from './monster-list-item.container';
-import { loadMonsters } from '../actions/monsters.actions.js';
+import List from '../../components/list/list.component';
+import MonsterListItemContainer from '../monster-list-item/monster-list-item.container';
+import { loadMonsters } from '../../actions/monsters.actions.js';
 
 class MonstersListContainer extends Component {
   componentWillMount() {
@@ -12,12 +12,13 @@ class MonstersListContainer extends Component {
   }
 
   render() {
-    const { monsters } = this.props.monstersState;
+    const { monsters, monstersLoaded } = this.props.monstersState;
 
     return (
       <List
         data={monsters}
         ListItemContainer={MonsterListItemContainer}
+        loading={monstersLoaded}
       />
     );
   }

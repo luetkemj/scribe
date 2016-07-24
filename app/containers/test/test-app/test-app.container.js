@@ -1,9 +1,10 @@
 import React, { PropTypes } from 'react';
 
-// function input is shorthand for const { children } = this.props
+import style from './test-app.container.scss';
+
 export default function TestApp({ children }) {
   return (
-    <div>
+    <div className={style.app}>
       {children}
     </div>
   );

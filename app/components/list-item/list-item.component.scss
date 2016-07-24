@@ -2,6 +2,13 @@
 
 .listItem {
   composes: sansSerifMedium from 'sass!../../theme/typography.scss';
+  padding-left: 20px;
+  border: 0;
+
+  &.active {
+    padding-left: 10px;
+    border-left: 10px solid $swatch03;
+  }
 
   a {
     text-decoration: none;

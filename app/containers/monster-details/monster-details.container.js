@@ -2,8 +2,10 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import MonsterDetails from '../components/monster-details/monster-details.component';
-import { loadMonster } from '../actions/monsters.actions.js';
+import MonstersContainer from '../monsters/monsters.container';
+import MonsterDetails from '../../components/monster-details/monster-details.component';
+import { loadMonster } from '../../actions/monsters.actions.js';
+import style from './monster-details.scss';
 
 class MonsterDetailsContainer extends Component {
   componentWillMount() {
@@ -13,8 +15,13 @@ class MonsterDetailsContainer extends Component {
   render() {
     const { monster } = this.props.monstersState;
     return (
-      <div>
-        <MonsterDetails data={monster} />
+      <div className={style.monsterDetailsContainer}>
+        <div className={style.colOne}>
+          <MonstersContainer />
+        </div>
+        <div className={style.colTwo}>
+          <MonsterDetails className={style.monsterDetails} data={monster} />
+        </div>
       </div>
     );
   }

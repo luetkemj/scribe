@@ -37,6 +37,7 @@ rules:
     - extra-properties:
         - composes
   no-qualifying-elements: 0
+  no-vendor-prefixes: 0
   placeholder-name-format:
     - 2
     - convention: hyphenatedlowercase

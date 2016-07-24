@@ -2,7 +2,11 @@
   "name": "Scribe",
   "description": "DM Tools",
   "version": "0.0.0",
-  "private": false,
+  "license": "WTFPL",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/luetkemj/scribe"
+  },
   "scripts": {
     "clean:build": "rimraf build && rimraf public",
     "clean:node_modules": "rimraf node_modules",
@@ -34,6 +38,7 @@
     "isomorphic-fetch": "2.2.1",
     "lodash": "4.12.0",
     "mongoose": "4.4.15",
+    "normalize.css": "4.2.0",
     "passport": "0.3.2",
     "passport-local": "1.0.0",
     "react": "15.0.2",

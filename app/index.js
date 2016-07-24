@@ -5,9 +5,9 @@ import { Router, Route, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 
 import configureStore from './store/configureStore';
-import App from './containers/app.container';
-import MonstersContainer from './containers/monsters.container';
-import MonsterDetailsContainer from './containers/monster-details.container';
+import App from './containers/app/app.container';
+import MonstersContainer from './containers/monsters/monsters.container';
+import MonsterDetailsContainer from './containers/monster-details/monster-details.container';
 
 const store = configureStore(undefined, browserHistory);
 
