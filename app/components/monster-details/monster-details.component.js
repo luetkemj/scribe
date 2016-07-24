@@ -7,8 +7,9 @@ export default function MonsterDetails({ data }) {
 
   let specialAbilitiesToRender;
   if (data.special_abilities) {
+    let key = 0;
     specialAbilitiesToRender = special_abilities.map(ability =>
-      (<div className={style.specialAbility}>
+      (<div key={key++} className={style.specialAbility}>
         <p><span className={style.specialAbilityName}>{ability.name}.</span> {ability.desc}</p>
       </div>)
     );
@@ -16,8 +17,9 @@ export default function MonsterDetails({ data }) {
 
   let actionsToRender;
   if (data.actions) {
+    let key = 0;
     actionsToRender = actions.map(action =>
-      (<div className={style.action}>
+      (<div key={key++} className={style.action}>
         <p><span className={style.actionName}>{action.name}.</span> {action.desc}</p>
       </div>)
     );
@@ -29,7 +31,7 @@ export default function MonsterDetails({ data }) {
         <header>
           <h1 className={style.name}>{data.name}</h1>
           <h2 className={style.sizeTypeAlignment}>
-            {data.size} {data.type} ([subtype]), {data.alignment}
+            {data.size} {data.type} ({data.subtype}), {data.alignment}
           </h2>
         </header>
         <hr />
@@ -103,8 +105,7 @@ export default function MonsterDetails({ data }) {
         <section className={style.actions}>
           {actionsToRender}
         </section>
-
-
+        <img src="https://s-media-cache-ak0.pinimg.com/736x/fe/d6/0c/fed60c160d1b53c84f9b6fb186f5107b.jpg" role="presentation" />
       </article>
     </section>
   );

@@ -1,0 +1,40 @@
+@import '../../theme/variables';
+
+$stroke: 1px;
+$style: solid;
+$width: 25px;
+$height: 25px;
+
+.loader {
+  position: relative;
+  text-indent: -9999em;
+  margin: 30px auto;
+  border-top: $stroke $style rgba($swatch01, 0.2);
+  border-right: $stroke $style rgba($swatch01, 0.2);
+  border-bottom: $stroke $style rgba($swatch01, 0.2);
+  border-left: $stroke $style $swatch03;
+  transform: translateZ(0);
+  animation: load8 .6s infinite linear;
+  border-radius: 50%;
+  width: $width;
+  height: $height;
+  overflow: hidden;
+
+  &::after {
+    border-radius: 50%;
+    width: $width;
+    height: $height;
+  }
+}
+
+@keyframes load8 {
+  0% {
+    transform: rotate(0deg);
+    width: $width;
+    height: $height;
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

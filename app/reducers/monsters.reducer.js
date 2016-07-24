@@ -10,6 +10,8 @@ import {
 const initialState = {
   loadingMonsters: false,
   monstersLoaded: false,
+  loadingMonster: false,
+  monsterLoaded: false,
   monsters: [],
   monster: {},
   error: null,
@@ -41,22 +43,22 @@ export default function monstersReducer(state = initialState, action) {
 
     case LOADING_MONSTER_INITIATED:
       return Object.assign({}, state, {
-        loadingMonsters: true,
-        monstersLoaded: false,
+        loadingMonster: true,
+        monsterLoaded: false,
         monster: {},
         error: null,
       });
     case LOADING_MONSTER_SUCCESS:
       return Object.assign({}, state, {
-        loadingMonsters: false,
-        monstersLoaded: true,
+        loadingMonster: false,
+        monsterLoaded: true,
         monster: action.monster,
         error: null,
       });
     case LOADING_MONSTER_ERROR:
       return Object.assign({}, state, {
-        loadingMonsters: false,
-        monstersLoaded: false,
+        loadingMonster: false,
+        monsterLoaded: false,
         monster: {},
         error: action.error,
       });
