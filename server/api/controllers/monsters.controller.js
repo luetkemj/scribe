@@ -17,7 +17,7 @@ export function getMonsters(req, res) {
   .exec((err, monsters) => {
     if (!err) {
       const monstersUI = _.map(monsters, (monster) => buildMonsterUI(monster));
-      return res.send([monstersUI]);
+      return res.send(monstersUI);
     } else {
       throw err;
     }
