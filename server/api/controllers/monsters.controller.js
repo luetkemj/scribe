@@ -1,6 +1,9 @@
-const mongoose = require('mongoose');
-
+import * as _ from 'lodash';
+import mongoose from 'mongoose';
 const Monster = mongoose.model('Monster');
+
+import { buildMonsterUI } from '../../lib/monsters.js';
+
 
 export function getMonsters(req, res) {
   const { limit, skip } = req.query;
@@ -10,9 +13,11 @@ export function getMonsters(req, res) {
   .skip(skip || 30)
   .limit(limit || 10)
   .sort('name')
-  .exec((err, docs) => {
+  .lean()
+  .exec((err, monsters) => {
     if (!err) {
-      return res.send(docs);
+      const monstersUI = _.map(monsters, (monster) => buildMonsterUI(monster));
+      return res.send([monstersUI]);
     } else {
       throw err;
     }
@@ -22,9 +27,13 @@ export function getMonsters(req, res) {
 export function getMonster(req, res) {
   const { id } = req.query;
 
-  Monster.findById(id, (err, monster) => {
+  Monster
+  .findById(id)
+  .lean()
+  .exec((err, monster) => {
     if (!err) {
-      return res.send(monster);
+      const monsterUI = buildMonsterUI(monster);
+      return res.send(monsterUI);
     } else {
       throw err;
     }
