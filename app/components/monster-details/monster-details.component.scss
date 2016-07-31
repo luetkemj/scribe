@@ -2,11 +2,6 @@
 
 .monsterDetails {
   width: 400px;
-
-  img {
-    max-width: 100%;
-    height: auto;
-  }
 }
 
 .name {
@@ -17,57 +12,4 @@
 .sizeTypeAlignment {
   composes: sansSerifSmallLightItalic from 'sass!../../theme/typography.scss';
   margin: 0;
-}
-
-.stat {
-  composes: sansSerifSmallLight from 'sass!../../theme/typography.scss';
-  margin: 0;
-}
-
-.statName {
-  composes: sansSerifSmallBold from 'sass!../../theme/typography.scss';
-}
-
-.abilityScores {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-}
-
-.ability {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.abilityName {
-  composes: sansSerifSmallBold from 'sass!../../theme/typography.scss';
-}
-
-.abilityScore {
-  composes: sansSerifSmallLight from 'sass!../../theme/typography.scss';
-}
-
-.action {
-  composes: sansSerifSmallLight from 'sass!../../theme/typography.scss';
-}
-
-.actionName {
-  composes: sansSerifSmallBoldItalic from 'sass!../../theme/typography.scss';
-}
-
-.specialAbility {
-  composes: sansSerifSmallLight from 'sass!../../theme/typography.scss';
-}
-
-.specialAbilityName {
-  composes: sansSerifSmallBoldItalic from 'sass!../../theme/typography.scss';
-}
-
-hr {
-  border: 0;
-  width: 100%;
-  height: 1px;
-  background: $swatch01;
-  margin: 15px 0;
 }

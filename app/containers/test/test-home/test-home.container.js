@@ -9,13 +9,19 @@ export default function TestHomeContainer() {
       <h1>Test Home</h1>
       <ul className={style.list}>
         <li className={style.listItem}>
-          <Link to="/monster-details">Monster Details Component</Link>
+          <Link to="/ability-scores">Ability Scores</Link>
         </li>
         <li className={style.listItem}>
-          <Link to="/spinner">Spinner Component</Link>
+          <Link to="/definition-list">Definition List</Link>
         </li>
         <li className={style.listItem}>
-          <Link to="/list-item">List Item Component</Link>
+          <Link to="/list-item">List Item</Link>
+        </li>
+        <li className={style.listItem}>
+          <Link to="/monster-details">Monster Details</Link>
+        </li>
+        <li className={style.listItem}>
+          <Link to="/spinner">Spinner</Link>
         </li>
       </ul>
     </div>

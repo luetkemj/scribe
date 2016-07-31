@@ -1,0 +1,44 @@
+@import '../../theme/variables';
+@import '../../theme/typography';
+
+.definitions {
+  border-top: 1px solid $swatch01;
+  margin-top: 15px;
+  padding-top: 15px;
+
+  dd {
+    @include font($sans-serif, $small, $light);
+    display: inline;
+    margin: 0;
+
+    &::after {
+      content: '';
+      display: block;
+      margin: 0;
+    }
+  }
+
+  dt {
+    @include font($sans-serif, $small, $bold, 21px);
+    display: inline;
+  }
+
+  &.verbose {
+    dd {
+      @include font($sans-serif, $small, $light);
+      display: inline;
+      margin: 0;
+
+      &::after {
+        content: '';
+        display: block;
+        margin: 0 0 15px;
+      }
+    }
+
+    dt {
+      @include font($sans-serif, $small, $bold, 21px, italic);
+      display: inline;
+    }
+  }
+}

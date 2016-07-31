@@ -2,28 +2,56 @@ import React, { PropTypes } from 'react';
 
 import style from './monster-details.component.scss';
 
+import DefinitionList from '../definition-list/definition-list.component';
+import AbilityScores from '../ability-scores/ability-scores.component';
+
 export default function MonsterDetails({ data }) {
-  const { special_abilities, actions } = data;
-
-  let specialAbilitiesToRender;
-  if (data.special_abilities) {
-    let key = 0;
-    specialAbilitiesToRender = special_abilities.map(ability =>
-      (<div key={key++} className={style.specialAbility}>
-        <p><span className={style.specialAbilityName}>{ability.name}.</span> {ability.desc}</p>
-      </div>)
+  let type;
+  if (data.subtype) {
+    type = (
+      <span>
+        {data.type} ({data.subtype}),
+      </span>
+    );
+  } else {
+    type = (
+      <span>
+        {data.type},
+      </span>
     );
   }
 
-  let actionsToRender;
-  if (data.actions) {
-    let key = 0;
-    actionsToRender = actions.map(action =>
-      (<div key={key++} className={style.action}>
-        <p><span className={style.actionName}>{action.name}.</span> {action.desc}</p>
-      </div>)
-    );
-  }
+  const primaryStats = [
+    {
+      name: 'Armor Class',
+      stat: data.armor_class,
+    }, {
+      name: 'Hit Points',
+      stat: data.hit_points,
+    }, {
+      name: 'Speed',
+      stat: data.speed,
+    },
+  ];
+
+  const secondaryStats = [
+    {
+      name: 'Damage Resistances',
+      stat: data.damage_resistances,
+    }, {
+      name: 'Condition Immunities',
+      stat: data.condition_immunities,
+    }, {
+      name: 'Senses',
+      stat: data.senses,
+    }, {
+      name: 'Languages',
+      stat: data.languages,
+    }, {
+      name: 'Challenge',
+      stat: data.challenge_rating,
+    },
+  ];
 
   return (
     <section className={style.monsterDetails}>
@@ -31,81 +59,32 @@ export default function MonsterDetails({ data }) {
         <header>
           <h1 className={style.name}>{data.name}</h1>
           <h2 className={style.sizeTypeAlignment}>
-            {data.size} {data.type} ({data.subtype}), {data.alignment}
+            {data.size} {type} {data.alignment}
           </h2>
         </header>
-        <hr />
-
-        <section className={style.statBlock}>
-          <p className={style.stat}>
-            <span className={style.statName}>Armor Class:</span> {data.armor_class}
-          </p>
-          <p className={style.stat}>
-            <span className={style.statName}>Hit Points:</span> {data.hit_points}
-          </p>
-          <p className={style.stat}>
-            <span className={style.statName}>Speed:</span> {data.speed}
-          </p>
-        </section>
-        <hr />
-
-        <section className={style.abilityScores}>
-          <div className={style.ability}>
-            <span className={style.abilityName}>WIS</span>
-            <span className={style.abilityScore}>{data.wisdom}(+1)</span>
-          </div>
-          <div className={style.ability}>
-            <span className={style.abilityName}>CON</span>
-            <span className={style.abilityScore}>{data.constitution}(+1)</span>
-          </div>
-          <div className={style.ability}>
-            <span className={style.abilityName}>DEX</span>
-            <span className={style.abilityScore}>{data.dexterity}(+1)</span>
-          </div>
-          <div className={style.ability}>
-            <span className={style.abilityName}>STR</span>
-            <span className={style.abilityScore}>{data.strength}(+1)</span>
-          </div>
-          <div className={style.ability}>
-            <span className={style.abilityName}>INT</span>
-            <span className={style.abilityScore}>{data.intelligence}(+1)</span>
-          </div>
-          <div className={style.ability}>
-            <span className={style.abilityName}>CHA</span>
-            <span className={style.abilityScore}>{data.charisma}(+1)</span>
-          </div>
-        </section>
-        <hr />
-
-        <section className={style.statBlock}>
-          <p className={style.stat}>
-            <span className={style.statName}>Damage Resistances:</span> {data.damage_resistances}
-          </p>
-          <p className={style.stat}>
-            <span className={style.statName}>
-            Condition Immunities:</span> {data.condition_immunities}
-          </p>
-          <p className={style.stat}>
-            <span className={style.statName}>Senses:</span> {data.senses}
-          </p>
-          <p className={style.stat}>
-            <span className={style.statName}>Languages:</span> {data.languages}
-          </p>
-          <p className={style.stat}>
-            <span className={style.statName}>Challenge:</span> {data.challenge_rating}
-          </p>
-        </section>
-        <hr />
-
-        <section className={style.specialAbilities}>
-          {specialAbilitiesToRender}
-        </section>
-        <hr />
-
-        <section className={style.actions}>
-          {actionsToRender}
-        </section>
-        <img src="https://s-media-cache-ak0.pinimg.com/736x/fe/d6/0c/fed60c160d1b53c84f9b6fb186f5107b.jpg" role="presentation" />
+        <AbilityScores ability_scores={data.ability_scores} />
+        <DefinitionList
+          definitions={primaryStats}
+          dd={'stat'}
+          dt={'name'}
+        />
+        <DefinitionList
+          definitions={secondaryStats}
+          dd={'stat'}
+          dt={'name'}
+        />
+        <DefinitionList
+          definitions={data.special_abilities}
+          dd={'desc'}
+          dt={'name'}
+          verbose
+        />
+        <DefinitionList
+          definitions={data.actions}
+          dd={'desc'}
+          dt={'name'}
+          verbose
+        />
       </article>
     </section>
   );
