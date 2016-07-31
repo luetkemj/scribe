@@ -102,26 +102,32 @@ describe('monsters library', () => {
         speed: '30 ft',
         ability_scores: [{
           name: 'strength',
+          abrv: 'STR',
           score: 0,
           modifier: -5,
         }, {
           name: 'dexterity',
+          abrv: 'DEX',
           score: 5,
           modifier: -3,
         }, {
           name: 'constitution',
+          abrv: 'CON',
           score: 10,
           modifier: 0,
         }, {
           name: 'intelligence',
+          abrv: 'INT',
           score: 15,
           modifier: 2,
         }, {
           name: 'wisdom',
+          abrv: 'WIS',
           score: 20,
           modifier: 5,
         }, {
           name: 'charisma',
+          abrv: 'CHA',
           score: 12,
           modifier: 1,
         }],

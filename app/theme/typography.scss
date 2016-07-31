@@ -1,3 +1,22 @@
+$serif: 'Crimson Text';
+$sans-serif: 'Lato';
+
+$small: 14px;
+$medium: 16px;
+$large: 36px;
+
+$light: 300;
+$normal: 400;
+$bold: 600;
+
+@mixin font($family: $sans-serif, $size: $small, $weight: $normal, $line-height: 21px, $style: normal) {
+  font-family: $family;
+  font-size: $size;
+  line-height: $line-height;
+  font-weight: $weight;
+  font-style: $style;
+}
+
 .serifLargeNormal {
   font-family: 'Crimson Text';
   font-size: 36px;

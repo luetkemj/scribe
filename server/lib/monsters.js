@@ -37,26 +37,32 @@ export function buildMonsterUI(monster) {
     speed,
     ability_scores: [{
       name: 'strength',
+      abrv: 'STR',
       score: strength,
       modifier: _getAbilityScoreModifier(strength),
     }, {
       name: 'dexterity',
+      abrv: 'DEX',
       score: dexterity,
       modifier: _getAbilityScoreModifier(dexterity),
     }, {
       name: 'constitution',
+      abrv: 'CON',
       score: constitution,
       modifier: _getAbilityScoreModifier(constitution),
     }, {
       name: 'intelligence',
+      abrv: 'INT',
       score: intelligence,
       modifier: _getAbilityScoreModifier(intelligence),
     }, {
       name: 'wisdom',
+      abrv: 'WIS',
       score: wisdom,
       modifier: _getAbilityScoreModifier(wisdom),
     }, {
       name: 'charisma',
+      abrv: 'CHA',
       score: charisma,
       modifier: _getAbilityScoreModifier(charisma),
     }],
