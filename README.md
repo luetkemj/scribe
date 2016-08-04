@@ -1,4 +1,4 @@
-# Scribe #
+# Scribe [![Build Status](https://travis-ci.org/luetkemj/scribe.svg?branch=master)](https://travis-ci.org/luetkemj/scribe)
 
 Scribe is my collection of DM tools.
 
