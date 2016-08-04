@@ -21,7 +21,7 @@ export function _getAbilityScoreModifier(abilityScore) {
 }
 
 export function buildMonsterUI(monster) {
-  const { _id, name, size, type, alignment, armor_class, hit_points, hit_dice, speed,
+  const { _id, name, size, type, subtype, alignment, armor_class, hit_points, hit_dice, speed,
   strength, dexterity, constitution, intelligence, wisdom, charisma, damage_vulnerabilities,
   damage_resistances, damage_immunities, condition_immunities, senses, languages, challenge_rating,
   special_abilities, actions } = monster;
@@ -30,6 +30,7 @@ export function buildMonsterUI(monster) {
     name,
     size,
     type,
+    subtype,
     alignment,
     armor_class,
     hit_points,

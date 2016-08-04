@@ -6,22 +6,15 @@ import DefinitionList from '../definition-list/definition-list.component';
 import AbilityScores from '../ability-scores/ability-scores.component';
 
 export default function MonsterDetails({ data }) {
+  let header;
   let type;
-  if (data.subtype) {
-    type = (
-      <span>
-        {data.type} ({data.subtype}),
-      </span>
-    );
-  } else {
-    type = (
-      <span>
-        {data.type},
-      </span>
-    );
-  }
+  let abilityScores;
+  let primaryStats;
+  let secondaryStats;
+  let specialAbilities;
+  let actions;
 
-  const primaryStats = [
+  const primaryStatsData = [
     {
       name: 'Armor Class',
       stat: data.armor_class,
@@ -34,7 +27,7 @@ export default function MonsterDetails({ data }) {
     },
   ];
 
-  const secondaryStats = [
+  const secondaryStatsData = [
     {
       name: 'Damage Resistances',
       stat: data.damage_resistances,
@@ -53,6 +46,64 @@ export default function MonsterDetails({ data }) {
     },
   ];
 
+  if (data.subtype) {
+    type = (
+      <span>
+        {data.type} ({data.subtype}),
+      </span>
+    );
+  } else {
+    type = (
+      <span>
+        {data.type},
+      </span>
+    );
+  }
+
+  if (data.ability_scores) {
+    abilityScores = (<AbilityScores ability_scores={data.ability_scores} />);
+  }
+
+  if (data.special_abilities) {
+    specialAbilities = (
+      <DefinitionList
+        definitions={data.special_abilities}
+        dd={'desc'}
+        dt={'name'}
+        verbose
+      />
+    );
+  }
+
+  if (data.actions) {
+    actions = (
+      <DefinitionList
+        definitions={data.actions}
+        dd={'desc'}
+        dt={'name'}
+        verbose
+      />
+    );
+  }
+
+  if (data._id) {
+    primaryStats = (
+      <DefinitionList
+        definitions={primaryStatsData}
+        dd={'stat'}
+        dt={'name'}
+      />
+    );
+
+    secondaryStats = (
+      <DefinitionList
+        definitions={secondaryStatsData}
+        dd={'stat'}
+        dt={'name'}
+      />
+    );
+  }
+
   return (
     <section className={style.monsterDetails}>
       <article>
@@ -62,29 +113,11 @@ export default function MonsterDetails({ data }) {
             {data.size} {type} {data.alignment}
           </h2>
         </header>
-        <AbilityScores ability_scores={data.ability_scores} />
-        <DefinitionList
-          definitions={primaryStats}
-          dd={'stat'}
-          dt={'name'}
-        />
-        <DefinitionList
-          definitions={secondaryStats}
-          dd={'stat'}
-          dt={'name'}
-        />
-        <DefinitionList
-          definitions={data.special_abilities}
-          dd={'desc'}
-          dt={'name'}
-          verbose
-        />
-        <DefinitionList
-          definitions={data.actions}
-          dd={'desc'}
-          dt={'name'}
-          verbose
-        />
+        {abilityScores}
+        {primaryStats}
+        {secondaryStats}
+        {specialAbilities}
+        {actions}
       </article>
     </section>
   );
