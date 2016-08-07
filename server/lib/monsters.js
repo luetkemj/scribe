@@ -1,4 +1,5 @@
 import config from '../config';
+
 const logger = require('./logger')();
 
 export function getMonstersUrl(limit, skip) {

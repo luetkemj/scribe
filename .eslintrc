@@ -1,9 +1,23 @@
 {
   "parser": "babel-eslint",
   "extends": "airbnb",
+  "env": {
+    "browser": true,
+    "node": true
+  },
   "rules": {
     "no-else-return": 0,
     "global-require": 0,
-    "no-underscore-dangle": 0
+    "import/imports-first": 0,
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true,
+        "optionalDependencies": false,
+        "peerDependencies": false
+      }
+    ],
+    "no-underscore-dangle": 0,
+    "react/jsx-filename-extension": 0
   }
 }

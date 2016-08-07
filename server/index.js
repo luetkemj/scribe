@@ -3,8 +3,10 @@ require('./config/init')();
 
 const logger = require('./lib/logger')();
 
-// load and output the configuration
+// load the configuration
 import config from './config';
+
+// output the configuration
 logger.log('config: %j', config);
 
 // load the mongo database

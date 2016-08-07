@@ -4,6 +4,7 @@ import glob from 'glob';
 import config from './config';
 
 const logger = require('./lib/logger')();
+
 const mongoUrl = `${config.mongo.protocol}${config.mongo.username}:` +
   `${config.mongo.password}${config.mongo.host}:${config.mongo.port}/${config.mongo.database}`;
 
