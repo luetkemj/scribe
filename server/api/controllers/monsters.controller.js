@@ -1,9 +1,8 @@
 import * as _ from 'lodash';
 import mongoose from 'mongoose';
-const Monster = mongoose.model('Monster');
-
 import { buildMonsterUI } from '../../lib/monsters.js';
 
+const Monster = mongoose.model('Monster');
 
 export function getMonsters(req, res) {
   const { limit, skip } = req.query;
