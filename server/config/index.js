@@ -11,6 +11,7 @@ const config = {
   api: {
     monsters: '/api/monsters',
     monster: '/api/monster',
+    items: '/api/items',
   },
 };
 
