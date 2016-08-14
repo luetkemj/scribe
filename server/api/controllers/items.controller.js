@@ -20,9 +20,9 @@ export function getItems(req, res) {
       const itemsUI = _.map(items, (item) => buildItemUI(item));
       logger.log('getItems: %j', itemsUI);
       return res.send(itemsUI);
-    } else {
-      throw err;
     }
+    logger.log('getItems Error: %j', err);
+    return res.send(err);
   });
 }
 
@@ -37,20 +37,23 @@ export function getItem(req, res) {
       const itemUI = buildItemUI(item);
       logger.log('getItems: %j', itemUI);
       return res.send(itemUI);
-    } else {
-      throw err;
     }
+    logger.log('getItem Error: %j', err);
+    return res.send(err);
   });
 }
 
-export function saveItem(req, res) {
-  logger.log(`saveItem: item name: ${req.body}`);
+export function createItem(req, res) {
+  logger.log('createItem: %j', req.body);
 
   Item.create(req.body, (err, item) => {
-    if (err) return logger.log(`Error: ${err}`);
+    if (err) {
+      logger.log(`Error: ${err}`);
+      return res.send(err);
+    }
 
-    logger.log('saveItem: %j', item);
-    return res.send();
+    logger.log('createItem: %j', item);
+    return res.send(item);
   });
 }
 
@@ -58,7 +61,11 @@ export function updateItem(req, res) {
   const { id } = req.params;
 
   Item.findByIdAndUpdate(id, { $set: req.body }, (err, item) => {
-    if (err) return logger.log(`Error: ${err}`);
+    if (err) {
+      logger.log(`Error: ${err}`);
+      return res.send(err);
+    }
+
     logger.log('updateItem: %j', item);
     return res.send(item);
   });
@@ -68,7 +75,10 @@ export function deleteItem(req, res) {
   const { id } = req.params;
 
   Item.findByIdAndRemove(id, {}, (err, item) => {
-    if (err) return logger.log(`Error: ${err}`);
+    if (err) {
+      logger.log(`Error: ${err}`);
+      return res.send(err);
+    }
 
     logger.log('deleteItem: %j', item);
     return res.send(item);
