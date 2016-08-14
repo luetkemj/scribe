@@ -2,29 +2,46 @@ import * as _ from 'lodash';
 import mongoose from 'mongoose';
 import { buildMonsterUI } from '../../lib/monsters.js';
 
+const logger = require('../../lib/logger')();
+
 const Monster = mongoose.model('Monster');
+
+export function createMonster(req, res) {
+  logger.log('createMonster: %j', req.body);
+
+  Monster.create(req.body, (err, monster) => {
+    if (err) {
+      logger.log(`Error: ${err}`);
+      return res.send(err);
+    }
+
+    logger.log('saveMonster: %j', monster);
+    return res.send(monster);
+  });
+}
 
 export function getMonsters(req, res) {
   const { limit, skip } = req.query;
 
   Monster
   .find({})
-  .skip(skip || 30)
+  .skip(skip || 0)
   .limit(limit || 10)
   .sort('name')
   .lean()
   .exec((err, monsters) => {
     if (!err) {
       const monstersUI = _.map(monsters, (monster) => buildMonsterUI(monster));
+      logger.log('getMonsters: %j', monstersUI);
       return res.send(monstersUI);
-    } else {
-      throw err;
     }
+    logger.log('getMonsters Error: %j', err);
+    return res.send(err);
   });
 }
 
 export function getMonster(req, res) {
-  const { id } = req.query;
+  const { id } = req.params;
 
   Monster
   .findById(id)
@@ -32,9 +49,38 @@ export function getMonster(req, res) {
   .exec((err, monster) => {
     if (!err) {
       const monsterUI = buildMonsterUI(monster);
+      logger.log('getMonster: %j', monsterUI);
       return res.send(monsterUI);
-    } else {
-      throw err;
     }
+    logger.log('getMonster Error: %j', err);
+    return res.send(err);
+  });
+}
+
+export function updateMonster(req, res) {
+  const { id } = req.params;
+
+  Monster.findByIdAndUpdate(id, { $set: req.body }, (err, monster) => {
+    if (err) {
+      logger.log(`Error: ${err}`);
+      return res.send(err);
+    }
+
+    logger.log('updateMonster: %j', monster);
+    return res.send(monster);
+  });
+}
+
+export function deleteMonster(req, res) {
+  const { id } = req.params;
+
+  Monster.findByIdAndRemove(id, {}, (err, monster) => {
+    if (err) {
+      logger.log(`Error: ${err}`);
+      return res.send(err);
+    }
+
+    logger.log('deleteMonster: %j', monster);
+    return res.send(monster);
   });
 }

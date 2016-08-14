@@ -12,7 +12,7 @@ const mockStore = configureMockStore(middlewares);
 describe('monsterActions', () => {
   let store;
   const GET_MONSTERS_URL = '/api/monsters?limit=400&skip=0';
-  const GET_MONSTER_URL = '/api/monster?id=1';
+  const GET_MONSTER_URL = '/api/monsters/1';
 
   it('should exist', () => {
     should.exist(monsterActions);

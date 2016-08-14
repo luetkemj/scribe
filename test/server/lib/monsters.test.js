@@ -29,11 +29,11 @@ describe('monsters library', () => {
   describe('getMonsterUrl', () => {
     let API;
     beforeEach(() => {
-      API = config.api.monster;
+      API = config.api.monsters;
     });
 
     it('should work', () => {
-      const expected = `${API}?id=20`;
+      const expected = `${API}/20`;
       const actual = monstersLib.getMonsterUrl(20);
 
       should(expected).equal(actual);
