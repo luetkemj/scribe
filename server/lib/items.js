@@ -9,6 +9,13 @@ export function getItemsUrl(limit, skip) {
   return url;
 }
 
+export function getCreateItemUrl() {
+  const url = `${config.api.items}`;
+
+  logger.log(`getCreateItemsUrl: url: ${url}`);
+  return url;
+}
+
 export function getItemUrl(id) {
   const url = `${config.api.items}/${id}`;
 
