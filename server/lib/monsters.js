@@ -10,9 +10,9 @@ export function getMonstersUrl(limit, skip) {
 }
 
 export function getMonsterUrl(id) {
-  const url = `${config.api.monster}?id=${id}`;
+  const url = `${config.api.monsters}/${id}`;
 
-  logger.log(`getMonsterUrl: url: ${url}`);
+  logger.log(`getMonstersUrl: url: ${url}`);
   return url;
 }
 

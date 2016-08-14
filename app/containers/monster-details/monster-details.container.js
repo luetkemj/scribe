@@ -14,13 +14,19 @@ class MonsterDetailsContainer extends Component {
 
   render() {
     const { monster } = this.props.monstersState;
+    let monsterToRender;
+    if (monster) {
+      monsterToRender = (
+        <MonsterDetails className={style.monsterDetails} data={monster} />
+      );
+    }
     return (
       <div className={style.monsterDetailsContainer}>
         <div className={style.colOne}>
           <MonstersContainer />
         </div>
         <div className={style.colTwo}>
-          <MonsterDetails className={style.monsterDetails} data={monster} />
+          {monsterToRender}
         </div>
       </div>
     );
