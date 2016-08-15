@@ -6,6 +6,8 @@ import { syncHistoryWithStore } from 'react-router-redux';
 
 import configureStore from './store/configureStore';
 import App from './containers/app/app.container';
+import ItemsContainer from './containers/items/items.container';
+import ItemDetailsContainer from './containers/items/item-details/item-details.container';
 import MonstersContainer from './containers/monsters/monsters.container';
 import MonsterDetailsContainer from './containers/monster-details/monster-details.container';
 
@@ -17,6 +19,8 @@ render(
   <Provider store={store}>
     <Router history={history}>
       <Route path="/" component={App} >
+        <Route path="items" component={ItemsContainer} />
+        <Route path="items/:id" component={ItemDetailsContainer} />
         <Route path="monsters" component={MonstersContainer} />
         <Route path="monsters/:id" component={MonsterDetailsContainer} />
       </Route>

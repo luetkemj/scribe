@@ -1,0 +1,15 @@
+@import '../../theme/variables';
+
+.itemDetails {
+  width: 400px;
+}
+
+.name {
+  composes: serifLargeNormal from 'sass!../../theme/typography.scss';
+  margin: 0 0 -5px;
+}
+
+.sizeTypeAlignment {
+  composes: sansSerifSmallLightItalic from 'sass!../../theme/typography.scss';
+  margin: 0;
+}

@@ -11,7 +11,7 @@ export default function List({ data, ListItemContainer, loading }) {
 
   let spinner;
 
-  if (!loading) {
+  if (loading) {
     spinner = (<Spinner />);
   }
 

@@ -1,0 +1,15 @@
+.itemDetailsContainer {
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+}
+
+.colOne,
+.colTwo {
+  height: 100%;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
