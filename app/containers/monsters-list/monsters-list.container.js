@@ -12,13 +12,13 @@ class MonstersListContainer extends Component {
   }
 
   render() {
-    const { monsters, monstersLoaded } = this.props.monstersState;
+    const { monsters, loadingMonsters } = this.props.monstersState;
 
     return (
       <List
         data={monsters}
         ListItemContainer={MonsterListItemContainer}
-        loading={monstersLoaded}
+        loading={loadingMonsters}
       />
     );
   }
