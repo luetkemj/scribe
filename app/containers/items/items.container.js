@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import ItemsListContainer from './items-list/items-list.container';
+import ItemFormContainer from './item-form/item-form.container';
 import { loadItems } from '../../actions/items.actions.js';
 
 class ItemsContainer extends Component {
@@ -15,6 +16,7 @@ class ItemsContainer extends Component {
     return (
       <div>
         <ItemsListContainer data={items} />
+        <ItemFormContainer />
       </div>
     );
   }

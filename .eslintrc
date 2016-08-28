@@ -19,6 +19,7 @@
         "peerDependencies": false
       }
     ],
+    "import/prefer-default-export": 0,
     "no-underscore-dangle": 0,
     "no-unsafe-negation": 0,
     "react/jsx-filename-extension": 0
