@@ -125,7 +125,11 @@ describe('itemActions', () => {
     describe('when status is 200', () => {
       beforeEach(() => {
         store = mockStore();
-        fetchMock.mock(GET_CREATE_ITEM_URL, 200);
+        fetchMock.mock(GET_CREATE_ITEM_URL, {
+          status: 200,
+          method: 'POST',
+          body: [{ a: 1 }],
+        });
       });
 
       afterEach(() => {

@@ -245,27 +245,6 @@ describe('items reducer', () => {
       });
     });
 
-    it('should handle CREATING_ITEM_SUCCESS correctly', () => {
-      should(
-        reducer(state, {
-          type: types.CREATING_ITEM_SUCCESS,
-        })
-      ).deepEqual({
-        loadingItems: false,
-        loadingItem: false,
-        savingItem: false,
-        creatingItem: false,
-        items: [],
-        item: {},
-        savingItemSuccess: null,
-        creatingItemSuccess: true,
-        loadingItemsError: null,
-        loadingItemError: null,
-        savingItemError: null,
-        creatingItemError: null,
-      });
-    });
-
     it('should handle CREATING_ITEM_ERROR correctly', () => {
       should(
         reducer(state, {
@@ -285,6 +264,28 @@ describe('items reducer', () => {
         loadingItemError: null,
         savingItemError: null,
         creatingItemError: 'KHANNNN!!',
+      });
+    });
+
+    it('should handle CREATING_ITEM_SUCCESS correctly', () => {
+      should(
+        reducer(state, {
+          type: types.CREATING_ITEM_SUCCESS,
+          item: { name: 'candle' },
+        })
+      ).deepEqual({
+        loadingItems: false,
+        loadingItem: false,
+        savingItem: false,
+        creatingItem: false,
+        items: [{ name: 'candle' }],
+        item: {},
+        savingItemSuccess: null,
+        creatingItemSuccess: true,
+        loadingItemsError: null,
+        loadingItemError: null,
+        savingItemError: null,
+        creatingItemError: null,
       });
     });
   });

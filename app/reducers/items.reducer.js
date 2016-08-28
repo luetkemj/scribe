@@ -1,3 +1,5 @@
+import { sortedIndex } from 'lodash';
+
 import {
   LOADING_ITEMS_INITIATED,
   LOADING_ITEMS_SUCCESS,
@@ -88,12 +90,16 @@ export default function itemsReducer(state = initialState, action) {
         creatingItemSuccess: null,
         creatingItemError: null,
       });
-    case CREATING_ITEM_SUCCESS:
+    case CREATING_ITEM_SUCCESS: {
+      const index = sortedIndex(state.items, action.item.name);
+      state.items.splice(index, 0, action.item);
       return Object.assign({}, state, {
         creatingItem: false,
         creatingItemSuccess: true,
         creatingItemError: null,
+        items: state.items,
       });
+    }
     case CREATING_ITEM_ERROR:
       return Object.assign({}, state, {
         creatingItem: false,

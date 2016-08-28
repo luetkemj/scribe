@@ -1,0 +1,14 @@
+@import '../../theme/variables';
+@import '../../theme/typography';
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  border: 1px solid $swatch01;
+  outline: none;
+  padding: 5px 10px;
+  margin-bottom: 10px;
+}
