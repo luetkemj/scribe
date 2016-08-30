@@ -1,0 +1,92 @@
+@import '../../theme/variables';
+@import '../../theme/icons';
+
+.header {
+  height: 60px;
+  padding: 0 16px;
+  background-color: $swatch01;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  border: 0;
+  font: 0 / 0 a;
+  text-shadow: none;
+  color: transparent;
+  background-image: url('../../theme/assets/images/logo-light.svg');
+  width: 110px;
+  height: 43px;
+}
+
+.nav {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+}
+
+.navItem {
+  margin-left: 10px;
+  color: $swatch02;
+  font-size: 20px;
+  cursor: pointer;
+  transition: color 300ms ease;
+
+  &:hover {
+    color: $swatch06;
+  }
+}
+
+
+.copy {
+  &::before {
+    @include icon(copy);
+  }
+
+  &.active {
+    color: $swatch06;
+  }
+}
+
+.cross {
+  &::before {
+    @include icon(cross);
+  }
+
+  &.active {
+    color: $swatch06;
+  }
+}
+
+.edit {
+  &::before {
+    @include icon(edit);
+  }
+
+  &.active {
+    color: $swatch06;
+  }
+}
+
+.createNew {
+  &::before {
+    @include icon(createNew);
+  }
+
+  &.active {
+    color: $swatch06;
+  }
+}
+
+.trash {
+  &::before {
+    @include icon(trash);
+  }
+
+  &.active {
+    color: $swatch06;
+  }
+}

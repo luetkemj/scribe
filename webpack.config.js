@@ -61,6 +61,9 @@ function getLoaders() {
         presets: ['es2015', 'stage-0', 'react'],
       },
     }, {
+      test: /\.svg/,
+      loader: 'svg-url-loader',
+    }, {
       test: /(\.scss)$/,
       exclude: /node_modules/,
       loader: 'style' +
