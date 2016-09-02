@@ -5,6 +5,13 @@ import Header from
 
 function noop() {}
 
+const navOrder = [
+  'trash',
+  'edit',
+  'copy',
+  'createNew',
+];
+
 const navItems0 = {
   trash: {
     visible: false,
@@ -102,21 +109,27 @@ export default function AbilityScoresTestContainer() {
   return (
     <div>
       <h1>Header no nav items</h1>
-      <Header navItems={navItems0} />
+      <Header
+        navItems={navItems0}
+        navOrder={navOrder}
+      />
 
       <h1>Header some nav items</h1>
       <Header
         navItems={navItems1}
+        navOrder={navOrder}
       />
 
       <h1>Header all nav items</h1>
       <Header
         navItems={navItems2}
+        navOrder={navOrder}
       />
 
       <h1>Header all nav items with active edit</h1>
       <Header
         navItems={navItems3}
+        navOrder={navOrder}
       />
     </div>
   );
