@@ -4,29 +4,33 @@ import style from './header.component.scss';
 
 export default function Header({ navItems, navOrder }) {
   let nav;
-  const navItemsToRender = map(navOrder, (navItem) => {
-    if (navItems[navItem].visible) {
-      if (navItems[navItem].active) {
-        return (
-          <li
-            className={`${style.navItem} ${style[navItem]} ${style.active}`}
-            onClick={navItems[navItem].onClick}
-            key={navItem}
-          />
-        );
-      } else {
-        return (
-          <li
-            className={`${style.navItem} ${style[navItem]}`}
-            onClick={navItems[navItem].onClick}
-            key={navItem}
-          />
-        );
-      }
-    }
+  let navItemsToRender;
 
-    return null;
-  });
+  if (navItems && navOrder) {
+    navItemsToRender = map(navOrder, (navItem) => {
+      if (navItems[navItem].visible) {
+        if (navItems[navItem].active) {
+          return (
+            <li
+              className={`${style.navItem} ${style[navItem]} ${style.active}`}
+              onClick={navItems[navItem].onClick}
+              key={navItem}
+            />
+          );
+        } else {
+          return (
+            <li
+              className={`${style.navItem} ${style[navItem]}`}
+              onClick={navItems[navItem].onClick}
+              key={navItem}
+            />
+          );
+        }
+      }
+
+      return null;
+    });
+  }
 
   if (navItemsToRender) {
     nav = (
@@ -45,6 +49,6 @@ export default function Header({ navItems, navOrder }) {
 }
 
 Header.propTypes = {
-  navItems: PropTypes.object.isRequired,
-  navOrder: PropTypes.array.isRequired,
+  navItems: PropTypes.object,
+  navOrder: PropTypes.array,
 };
