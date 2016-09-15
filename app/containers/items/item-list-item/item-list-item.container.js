@@ -12,15 +12,10 @@ function ItemListItemContainer(props) {
     return props.loadItem(props.data._id);
   }
 
-  function deleteItemCallback() {
-    props.deleteItem(props.data._id);
-  }
-
   const active = props.itemsState.item._id === props.data._id;
 
   return (
     <div>
-      <button onClick={deleteItemCallback}>X</button>
       <ListItem
         active={active}
         name={props.data.name}

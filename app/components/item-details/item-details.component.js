@@ -13,10 +13,14 @@ export default function ItemDetails({ data }) {
     const detailsData = [
       {
         name: 'Cost',
-        stat: `${data.cost.value} ${data.cost.unit}`,
+        stat: `${data.value} ${data.value_unit}`,
       }, {
         name: 'Weight',
-        stat: `${data.weight.value} ${data.weight.unit}`,
+        stat: `${data.weight} ${data.weight_unit}`,
+      },
+      {
+        name: 'Length',
+        stat: `${data.length} ${data.length_unit}`,
       },
     ];
 

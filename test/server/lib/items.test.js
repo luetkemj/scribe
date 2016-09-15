@@ -45,32 +45,16 @@ describe('items library', () => {
 
     beforeEach(() => {
       ITEM = {
-        _id: '57ae3d5a1ba26a808a6d4635',
+        _id: '1',
         name: 'Acid',
-        weight: {
-          value: 25,
-          unit: 'gp',
-        },
-        cost: {
-          value: 1,
-          unit: 'lb',
-        },
         description: 'text',
       };
     });
 
     it('should work', () => {
       const expected = {
-        _id: '57ae3d5a1ba26a808a6d4635',
+        _id: '1',
         name: 'Acid',
-        weight: {
-          value: 25,
-          unit: 'gp',
-        },
-        cost: {
-          value: 1,
-          unit: 'lb',
-        },
         description: 'text',
       };
       const actual = itemsLib.buildItemUI(ITEM);

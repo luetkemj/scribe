@@ -24,13 +24,8 @@ export function getItemUrl(id) {
 }
 
 export function buildItemUI(item) {
-  const { _id, name, weight, cost, description } = item;
   const itemUI = {
-    _id,
-    name,
-    weight,
-    cost,
-    description,
+    ...item,
   };
 
   return itemUI;

@@ -4,10 +4,17 @@
   composes: sansSerifMedium from 'sass!../../theme/typography.scss';
   padding-left: 20px;
   border: 0;
+  cursor: pointer;
+
+  &:hover {
+    padding-left: 18px;
+    border-left: 2px solid $swatch06;
+    color: rgba($swatch01, .8);
+  }
 
   &.active {
     padding-left: 10px;
-    border-left: 10px solid $swatch03;
+    border-left: 10px solid $swatch06;
   }
 
   a {
