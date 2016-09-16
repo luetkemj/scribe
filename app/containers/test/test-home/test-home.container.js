@@ -27,6 +27,9 @@ export default function TestHomeContainer() {
           <Link to="/monster-details">Monster Details</Link>
         </li>
         <li className={style.listItem}>
+          <Link to="/sidebar">Sidebar</Link>
+        </li>
+        <li className={style.listItem}>
           <Link to="/spinner">Spinner</Link>
         </li>
       </ul>
