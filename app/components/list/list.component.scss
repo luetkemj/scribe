@@ -1,3 +1,9 @@
+@import '../../theme/variables';
+
 .list {
   width: 300px;
+
+  margin: 20px 20px 20px 0;
+
+  border-right: 1px solid $swatch01;
 }
