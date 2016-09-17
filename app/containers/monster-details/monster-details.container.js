@@ -26,7 +26,9 @@ class MonsterDetailsContainer extends Component {
           <MonstersContainer />
         </div>
         <div className={style.colTwo}>
-          {monsterToRender}
+          <div>
+            {monsterToRender}
+          </div>
         </div>
       </div>
     );

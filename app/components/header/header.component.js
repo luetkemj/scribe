@@ -42,7 +42,7 @@ export default function Header({ navItems, navOrder }) {
 
   return (
     <div className={style.header}>
-      <h1 className={style.logo}>D&D Scribe</h1>
+      <a href="/"><h1 className={style.logo}>D&D Scribe</h1></a>
       {nav}
     </div>
   );

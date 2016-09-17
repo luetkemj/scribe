@@ -1,0 +1,39 @@
+@import './variables';
+
+@mixin column-container {
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+}
+
+@mixin column {
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  margin-right: 20px;
+
+  & > div {
+    height: 100%;
+  }
+
+  &::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: calc(100% - 40px);
+    position: absolute;
+    right: 0;
+    top: 20px;
+    background: $swatch01;
+  }
+
+  &:last-child {
+    &::after {
+      display: none;
+    }
+  }
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
