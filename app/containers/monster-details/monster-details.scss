@@ -1,15 +1,10 @@
+@import '../../theme/layout';
+
 .monsterDetailsContainer {
-  height: 100%;
-  overflow: hidden;
-  display: flex;
+  @include column-container;
 }
 
 .colOne,
 .colTwo {
-  height: 100%;
-  overflow-y: auto;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
+  @include column;
 }

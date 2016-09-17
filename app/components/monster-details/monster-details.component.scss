@@ -2,7 +2,9 @@
 
 .monsterDetails {
   width: 400px;
-  margin-top: 20px;
+  padding: 20px 20px 20px 0;
+  overflow-y: scroll;
+  height: 100%;
 }
 
 .name {
