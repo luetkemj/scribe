@@ -2,7 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import MonstersListContainer from '../monsters-list/monsters-list.container';
+import MonsterListItemContainer from '../monster-list-item/monster-list-item.container';
+import List from '../../components/list/list.component';
+
 import { loadMonsters } from '../../actions/monsters.actions.js';
 
 class MonstersContainer extends Component {
@@ -11,10 +13,14 @@ class MonstersContainer extends Component {
   }
 
   render() {
-    const { monsters } = this.props.monstersState;
+    const { monsters, loadingMonsters } = this.props.monstersState;
     return (
       <div>
-        <MonstersListContainer data={monsters} />
+        <List
+          data={monsters}
+          ListItemContainer={MonsterListItemContainer}
+          loading={loadingMonsters}
+        />
       </div>
     );
   }
