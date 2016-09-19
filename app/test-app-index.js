@@ -13,6 +13,7 @@ import ListItemTestContainer from './containers/test/list-item-test.container';
 import MonsterDetailsTestContainer from './containers/test/monster-details-test.container';
 import SidebarTestContainer from './containers/test/sidebar-test.container';
 import SpinnerTestContainer from './containers/test/spinner-test.container';
+import TimeKeeperTestContainer from './containers/test/time-keeper-test.container';
 
 
 render(
@@ -27,6 +28,7 @@ render(
       <Route path="monster-details" component={MonsterDetailsTestContainer} />
       <Route path="sidebar" component={SidebarTestContainer} />
       <Route path="spinner" component={SpinnerTestContainer} />
+      <Route path="time-keeper" component={TimeKeeperTestContainer} />
     </Route>
   </Router>,
   document.getElementById('app')
