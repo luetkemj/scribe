@@ -1,0 +1,181 @@
+@import '../../theme/icons';
+@import '../../theme/typography';
+@import '../../theme/variables';
+
+.timeKeeper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.day {
+  text-align: center;
+  @include font($sans-serif, $small, $bold);
+  margin-bottom: 10px;
+}
+
+.sundial {
+  height: 74px;
+  width: 138px;
+  overflow: hidden;
+  margin-bottom: 5px;
+  background-image: url('../../theme/assets/images/sundial-frame.svg');
+  background-repeat: no-repeat;
+  position: relative;
+}
+
+.sky {
+  height: 64px;
+  width: 128px;
+  border-radius: 128px 128px 0 0;
+  position: absolute;
+  z-index: -10;
+  top: 4px;
+  left: 5px;
+  overflow: hidden;
+
+  &.night {
+    background-color: $swatch20;
+  }
+
+  &.dusk {
+    background: linear-gradient(to bottom, $swatch21 0%, $swatch10 100%);
+
+    .cloudA,
+    .cloudB {
+      color: $swatch02;
+    }
+  }
+
+  &.dawn {
+    background: linear-gradient(to bottom, $swatch21 0%, $swatch19 100%);
+
+    .cloudA,
+    .cloudB {
+      color: $swatch02;
+    }
+  }
+
+  &.day {
+    background-color: $swatch21;
+
+    .stars {
+      opacity: 0;
+    }
+
+    .cloudA,
+    .cloudB {
+      color: $swatch02;
+    }
+  }
+}
+
+.stars {
+  height: 58px;
+  width: 110px;
+  background-image: url('../../theme/assets/images/sundial-stars.svg');
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 7px;
+  left: 9px;
+}
+
+.cloudA,
+.cloudB {
+  color: $swatch04;
+  position: absolute;
+
+  &::before {
+    @include icon('cloud', 'scribe-weather');
+  }
+}
+
+.cloudA {
+  top: 29px;
+  left: 20px;
+}
+
+.cloudB {
+  top: 39px;
+  right: 25px;
+}
+
+.sunMoon {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sun {
+  color: $swatch22;
+
+  &::before {
+    @include icon('sun', 'scribe-weather');
+    margin-right: 0;
+    font-size: 20px;
+  }
+}
+
+.moon {
+  color: $swatch23;
+
+  &::before {
+    @include icon('moon', 'scribe-weather');
+    margin-right: 0;
+  }
+}
+
+.time {
+  @include font($sans-serif, $medium-large);
+  margin-bottom: 20px;
+}
+
+.colon {
+  margin: 0 10px;
+}
+
+.button {
+  background: $swatch01;
+  color: $swatch02;
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  border: 0;
+  @include font($sans-serif, $very-small);
+  text-align: center;
+  padding: 0;
+  margin-right: 5px;
+  cursor: pointer;
+  transition: background-color 300ms ease;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &:hover {
+    background-color: $swatch06;
+  }
+
+  &:active {
+    background-color: $swatch07;
+  }
+
+  &:focus {
+    outline: 0;
+  }
+}
+
+.duration {
+  font-weight: $bold;
+}
+
+.unit {
+  font-weight: $light;
+}

@@ -32,6 +32,9 @@ export default function TestHomeContainer() {
         <li className={style.listItem}>
           <Link to="/spinner">Spinner</Link>
         </li>
+        <li className={style.listItem}>
+          <Link to="/time-keeper">Time Keeper</Link>
+        </li>
       </ul>
     </div>
   );
