@@ -9,7 +9,7 @@
   align-items: center;
 }
 
-.day {
+.dayCount {
   text-align: center;
   @include font($sans-serif, $small, $bold);
   margin-bottom: 10px;
@@ -34,31 +34,64 @@
   top: 4px;
   left: 5px;
   overflow: hidden;
+  transition: background 1000ms linear;
+
+  @mixin dusk-till-dawn {
+    content: '';
+    height: 64px;
+    width: 128px;
+    border-radius: 128px 128px 0 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 1000ms linear;
+  }
+
+  // dusk
+  &::before {
+    @include dusk-till-dawn;
+    background: linear-gradient(to bottom, $swatch21 0%, $swatch10 100%);
+  }
+
+  // dawn
+  &::after {
+    @include dusk-till-dawn;
+    z-index: -1;
+    background: linear-gradient(to bottom, $swatch21 0%, $swatch19 100%);
+  }
 
   &.night {
-    background-color: $swatch20;
+    background: $swatch20;
   }
 
   &.dusk {
-    background: linear-gradient(to bottom, $swatch21 0%, $swatch10 100%);
+    &::before {
+      opacity: 1;
+    }
 
     .cloudA,
     .cloudB {
       color: $swatch02;
+      z-index: 1;
     }
   }
 
   &.dawn {
-    background: linear-gradient(to bottom, $swatch21 0%, $swatch19 100%);
+    &::after {
+      opacity: 1;
+    }
 
     .cloudA,
     .cloudB {
       color: $swatch02;
+      z-index: 1;
     }
   }
 
   &.day {
-    background-color: $swatch21;
+    background: $swatch21;
 
     .stars {
       opacity: 0;
@@ -85,6 +118,7 @@
 .cloudB {
   color: $swatch04;
   position: absolute;
+  transition: color 1000ms linear;
 
   &::before {
     @include icon('cloud', 'scribe-weather');
@@ -111,10 +145,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  transition: transform 1000ms linear;
 }
 
 .sun {
   color: $swatch22;
+  transition: transform 1000ms linear;
 
   &::before {
     @include icon('sun', 'scribe-weather');
@@ -125,6 +161,7 @@
 
 .moon {
   color: $swatch23;
+  transition: transform 1000ms linear;
 
   &::before {
     @include icon('moon', 'scribe-weather');

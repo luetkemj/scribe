@@ -37,7 +37,7 @@ export default function TimeKeeper({ day, time, sky, rotation, controls }) {
 
   return (
     <div className={style.timeKeeper}>
-      <div className={style.day}>DAY {day}</div>
+      <div className={style.dayCount}>DAY {day}</div>
 
       <div className={style.sundial}>
         <div className={`${style.sky} ${skyColor}`}>

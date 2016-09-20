@@ -1,89 +1,95 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import TimeKeeper from '../../components/time-keeper/time-keeper.component';
 
-function noop() {
-  console.log('noop');
-}
-let hours = 0;
-const controls = [
-  {
-    duration: 6,
-    unit: 's',
-    onClick: noop,
-  },
-  {
-    duration: 5,
-    unit: 'm',
-    onClick: noop,
-  },
-  {
-    duration: 10,
-    unit: 'm',
-    onClick: noop,
-  },
-  {
-    duration: 1,
-    unit: 'h',
-    onClick: noop,
-  },
-  {
-    duration: 8,
-    unit: 'h',
-    onClick: noop,
-  },
-];
-let rotate = 180;
-
-const TimeKeepers = [];
-let i;
-for (i = 0; i < 24; i++) {
-  TimeKeepers.push({
+export default class TimeKeeperTestContainer extends Component {
+  state = {
     day: 12,
-    rotation: rotate,
+    sky: 'night',
+    rotation: 180,
     time: {
-      hours: hours++,
+      hours: 0,
       minutes: 0,
       seconds: 0,
     },
-    controls,
-  });
-  rotate -= 15;
-}
+    controls: [
+      {
+        duration: 6,
+        unit: 's',
+        onClick: this.noop,
+      },
+      {
+        duration: 5,
+        unit: 'm',
+        onClick: this.noop,
+      },
+      {
+        duration: 10,
+        unit: 'm',
+        onClick: this.noop,
+      },
+      {
+        duration: 1,
+        unit: 'h',
+        onClick: this.noop,
+      },
+      {
+        duration: 8,
+        unit: 'h',
+        onClick: this.noop,
+      },
+    ],
+  };
 
-let skyColor;
-let key = 0;
-
-const TimeKeepersToRender = TimeKeepers.map((timeKeeper) => {
-  if (timeKeeper.time.hours === 6) {
-    skyColor = 'dawn';
-  } else if (timeKeeper.time.hours === 18) {
-    skyColor = 'dusk';
-  } else if (timeKeeper.time.hours < 6 || timeKeeper.time.hours > 18) {
-    skyColor = 'night';
-  } else if (timeKeeper.time.hours > 6 && timeKeeper.time.hours < 18) {
-    skyColor = 'day';
+  componentDidMount() {
+    this.createInterval();
   }
 
-  return (
-    <div>
-      <TimeKeeper
-        day={timeKeeper.day}
-        time={timeKeeper.time}
-        sky={skyColor}
-        rotation={timeKeeper.rotation}
-        controls={timeKeeper.controls}
-        key={key++}
-      />
-      <hr />
-    </div>
-  );
-});
+  componentWillUnmount() {
+    clearInterval(this.state.intervalId);
+  }
 
-export default function TimeKeeperTestContainer() {
-  return (
-    <div>
-      {TimeKeepersToRender}
-    </div>
-  );
+  noop() {}
+
+  createInterval() {
+    const intervalId = setInterval(() => {
+      let hours = this.state.time.hours + 1;
+      if (hours > 23) { hours = 0; }
+
+      this.setState({
+        rotation: this.state.rotation -= 15,
+        time: {
+          hours,
+          minutes: 0,
+          seconds: 0,
+        },
+      });
+
+      if (this.state.time.hours === 6) {
+        this.setState({ sky: 'dawn' });
+      } else if (this.state.time.hours === 18) {
+        this.setState({ sky: 'dusk' });
+      } else if (this.state.time.hours < 6 || this.state.time.hours > 18) {
+        this.setState({ sky: 'night' });
+      } else if (this.state.time.hours > 6 && this.state.time.hours < 18) {
+        this.setState({ sky: 'day' });
+      }
+    }, 1500);
+    this.setState({ intervalId });
+  }
+
+  render() {
+    return (
+      <div>
+        <TimeKeeper
+          day={this.state.day}
+          time={this.state.time}
+          sky={this.state.sky}
+          rotation={this.state.rotation}
+          controls={this.state.controls}
+        />
+        <hr />
+      </div>
+    );
+  }
 }
