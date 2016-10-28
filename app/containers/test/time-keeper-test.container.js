@@ -4,91 +4,81 @@ import TimeKeeper from '../../components/time-keeper/time-keeper.component';
 
 export default class TimeKeeperTestContainer extends Component {
   state = {
-    day: 12,
+    ms: 0,
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
     sky: 'night',
-    rotation: 180,
-    time: {
-      hours: 0,
-      minutes: 0,
-      seconds: 0,
-    },
-    controls: [
-      {
-        duration: 6,
-        unit: 's',
-        onClick: this.noop,
-      },
-      {
-        duration: 5,
-        unit: 'm',
-        onClick: this.noop,
-      },
-      {
-        duration: 10,
-        unit: 'm',
-        onClick: this.noop,
-      },
-      {
-        duration: 1,
-        unit: 'h',
-        onClick: this.noop,
-      },
-      {
-        duration: 8,
-        unit: 'h',
-        onClick: this.noop,
-      },
-    ],
-  };
-
-  componentDidMount() {
-    this.createInterval();
+    rotation: -180,
   }
 
-  componentWillUnmount() {
-    clearInterval(this.state.intervalId);
+  parseMs(milliseconds, divisor) {
+    this.total = Math.trunc(milliseconds / divisor);
+    this.remainder = milliseconds % divisor;
+
+    return {
+      total: this.total,
+      remainder: this.remainder,
+    };
   }
 
-  noop() {}
+  increment = (initialMs, milliseconds) => {
+    // add milliseconds to current time parsing it into days, hours, minutes, seconds
+    const ms = initialMs + milliseconds;
+    const days = this.parseMs(ms, 86400000);
+    const hours = this.parseMs(days.remainder, 3600000);
+    const minutes = this.parseMs(hours.remainder, 60000);
+    const seconds = this.parseMs(minutes.remainder, 1000);
 
-  createInterval() {
-    const intervalId = setInterval(() => {
-      let hours = this.state.time.hours + 1;
-      if (hours > 23) { hours = 0; }
+    // set the sky colors per time of day
+    let sky;
+    if (hours.total === 6) {
+      sky = 'dawn';
+    } else if (hours.total === 18) {
+      sky = 'dusk';
+    } else if (hours.total < 6 || hours.total > 18) {
+      sky = 'night';
+    } else if (hours.total > 6 && hours.total < 18) {
+      sky = 'day';
+    }
 
-      this.setState({
-        rotation: this.state.rotation -= 15,
-        time: {
-          hours,
-          minutes: 0,
-          seconds: 0,
-        },
-      });
+    // set the rotation of the sun and moon
+    const rotation =
+    // get the rotation based on total number of days
+    ((days.total) * -360) +
+    // get the rotation based on total number of hours minus half a day
+    // to get the sun and moon in the right spot
+    ((hours.total * -15) - 180) +
+    // get the little bit of rotation from minutes cause the maths are even enough?
+    (minutes.total * -0.25);
 
-      if (this.state.time.hours === 6) {
-        this.setState({ sky: 'dawn' });
-      } else if (this.state.time.hours === 18) {
-        this.setState({ sky: 'dusk' });
-      } else if (this.state.time.hours < 6 || this.state.time.hours > 18) {
-        this.setState({ sky: 'night' });
-      } else if (this.state.time.hours > 6 && this.state.time.hours < 18) {
-        this.setState({ sky: 'day' });
-      }
-    }, 1500);
-    this.setState({ intervalId });
+    this.setState({
+      ms,
+      days: days.total,
+      hours: hours.total,
+      minutes: minutes.total,
+      seconds: seconds.total,
+      sky,
+      rotation,
+    });
   }
 
   render() {
     return (
       <div>
         <TimeKeeper
-          day={this.state.day}
-          time={this.state.time}
+          day={this.state.days + 1}
+          time={{
+            hours: this.state.hours,
+            minutes: this.state.minutes,
+            seconds: this.state.seconds,
+          }}
           sky={this.state.sky}
           rotation={this.state.rotation}
-          controls={this.state.controls}
+          increment={this.increment}
+          initialMs={this.state.ms}
         />
-        <hr />
       </div>
     );
   }

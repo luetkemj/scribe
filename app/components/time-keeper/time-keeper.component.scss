@@ -2,6 +2,14 @@
 @import '../../theme/typography';
 @import '../../theme/variables';
 
+$transition-sky: 500ms;
+$transition-sun-moon: 300ms;
+$size: 400;
+$scaled-small: $size * ($small * 0.01);
+$scaled-very-small: $size * ($very-small * 0.01);
+$scaled-medium: $size * ($medium * 0.01);
+$scaled-medium-large: $size * ($medium-large * 0.01);
+
 .timeKeeper {
   display: flex;
   flex-direction: column;
@@ -11,42 +19,42 @@
 
 .dayCount {
   text-align: center;
-  @include font($sans-serif, $small, $bold);
-  margin-bottom: 10px;
+  @include font($sans-serif, $scaled-small, $bold);
+  margin-bottom: $size * 0.1px;
 }
 
 .sundial {
-  height: 74px;
-  width: 138px;
+  height: $size * 0.74px;
+  width: $size * 1.38px;
   overflow: hidden;
-  margin-bottom: 5px;
+  margin-bottom: $size * 0.05px;
   background-image: url('../../theme/assets/images/sundial-frame.svg');
   background-repeat: no-repeat;
   position: relative;
 }
 
 .sky {
-  height: 64px;
-  width: 128px;
-  border-radius: 128px 128px 0 0;
+  height: $size * 0.64px;
+  width: $size * 1.28px;
+  border-radius: $size * 1.28px $size * 1.28px 0 0;
   position: absolute;
   z-index: -10;
-  top: 4px;
-  left: 5px;
+  top: $size * 0.04px;
+  left: $size * 0.05px;
   overflow: hidden;
-  transition: background 1000ms linear;
+  transition: background $transition-sky linear;
 
   @mixin dusk-till-dawn {
     content: '';
-    height: 64px;
-    width: 128px;
-    border-radius: 128px 128px 0 0;
+    height: $size * 0.64px;
+    width: $size * 1.28px;
+    border-radius: $size * 1.28px $size * 1.28px 0 0;
     position: absolute;
     top: 0;
     left: 0;
     overflow: hidden;
     opacity: 0;
-    transition: opacity 1000ms linear;
+    transition: opacity $transition-sky linear;
   }
 
   // dusk
@@ -105,20 +113,21 @@
 }
 
 .stars {
-  height: 58px;
-  width: 110px;
+  height: $size * 0.64px;
+  width: $size * 1.28px;
   background-image: url('../../theme/assets/images/sundial-stars.svg');
   background-repeat: no-repeat;
   position: absolute;
-  top: 7px;
-  left: 9px;
+  top: $size * 0.07px;
+  left: $size * 0.09px;
 }
 
 .cloudA,
 .cloudB {
   color: $swatch04;
   position: absolute;
-  transition: color 1000ms linear;
+  transition: color $transition-sky linear;
+  font-size: $scaled-medium;
 
   &::before {
     @include icon('cloud', 'scribe-weather');
@@ -126,69 +135,70 @@
 }
 
 .cloudA {
-  top: 29px;
-  left: 20px;
+  top: $size * 0.29px;
+  left: $size * 0.2px;
 }
 
 .cloudB {
-  top: 39px;
-  right: 25px;
+  top: $size * 0.39px;
+  right: $size * 0.25px;
 }
 
 .sunMoon {
-  width: 100px;
-  height: 100px;
+  width: $size * 1px;
+  height: $size * 1px;
   position: absolute;
-  left: 14px;
-  top: 14px;
+  left: $size * 0.14px;
+  top: $size * 0.14px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  transition: transform 1000ms linear;
+  transition: transform $transition-sun-moon linear;
 }
 
 .sun {
   color: $swatch22;
-  transition: transform 1000ms linear;
+  transition: transform $transition-sun-moon linear;
 
   &::before {
     @include icon('sun', 'scribe-weather');
     margin-right: 0;
-    font-size: 20px;
+    font-size: $scaled-medium-large;
   }
 }
 
 .moon {
   color: $swatch23;
-  transition: transform 1000ms linear;
+  transition: transform $transition-sun-moon linear;
 
   &::before {
     @include icon('moon', 'scribe-weather');
     margin-right: 0;
+    font-size: $scaled-medium-large;
   }
 }
 
 .time {
-  @include font($sans-serif, $medium-large);
-  margin-bottom: 20px;
+  @include font($sans-serif, $scaled-medium-large);
+  margin-bottom: $size * 0.2px;
 }
 
 .colon {
-  margin: 0 10px;
+  margin: 0 $size * 0.1px;
 }
 
 .button {
   background: $swatch01;
   color: $swatch02;
-  width: 30px;
-  height: 30px;
+  width: $size * 0.3px;
+  height: $size * 0.3px;
   border-radius: 100%;
   border: 0;
-  @include font($sans-serif, $very-small);
+  @include font($sans-serif, $scaled-very-small);
   text-align: center;
   padding: 0;
-  margin-right: 5px;
+  margin-right: $size * 0.05px;
   cursor: pointer;
   transition: background-color 300ms ease;
 
