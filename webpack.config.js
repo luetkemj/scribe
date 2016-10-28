@@ -132,9 +132,9 @@ module.exports = {
   debug: !IS_PRODUCTION,
   cache: !IS_PRODUCTION,
 
+  // anything but 'source-map breaks Chrome dev tools so we use source-map'
   // more info: https://webpack.github.io/docs/build-performance.html#sourcemaps
-  // more info: https://webpack.github.io/docs/configuration.html#devtool
-  devtool: IS_PRODUCTION ? 'source-map' : 'cheap-module-source-map',
+  devtool: 'source-map',
 
   // set to false to see a list of every file being bundled.
   noInfo: true,
