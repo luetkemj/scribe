@@ -7,8 +7,8 @@ const logger = require('./lib/logger')();
 
 // don't load the database when running the test app
 if (!process.env.TEST_APP) {
-  const mongoUrl = `${config.mongo.protocol}${config.mongo.username}:` +
-    `${config.mongo.password}${config.mongo.host}:${config.mongo.port}/${config.mongo.database}`;
+  const mongoUrl =
+  `${config.mongo.protocol}${config.mongo.host}:${config.mongo.port}/${config.mongo.database}`;
 
   mongoose.connect(mongoUrl, (err) => {
     if (err) {
