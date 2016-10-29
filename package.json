@@ -27,20 +27,14 @@
     "test-app": "TEST_APP=true NODE_ENV=development ./node_modules/.bin/babel-node ./server/index.js"
   },
   "dependencies": {
-    "async": "2.1.2",
-    "bcrypt": "0.8.7",
     "body-parser": "1.15.2",
     "connect-history-api-fallback": "1.3.0",
-    "cookie-session": "1.2.0",
     "debug-caller": "2.1.0",
     "express": "4.14.0",
     "glob": "7.1.1",
-    "isomorphic-fetch": "2.2.1",
     "lodash": "4.16.4",
     "mongoose": "4.6.5",
     "normalize.css": "5.0.0",
-    "passport": "0.3.2",
-    "passport-local": "1.0.0",
     "react": "15.3.2",
     "react-addons-create-fragment": "15.3.2",
     "react-dom": "15.3.2",
@@ -50,9 +44,7 @@
     "redux": "3.6.0",
     "redux-actions": "0.12.0",
     "redux-logger": "2.7.2",
-    "redux-thunk": "2.1.0",
-    "request": "2.76.0",
-    "slug": "0.9.1"
+    "redux-thunk": "2.1.0"
   },
   "devDependencies": {
     "babel-cli": "6.18.0",
@@ -74,10 +66,8 @@
     "mocha": "3.1.2",
     "node-sass": "3.10.1",
     "nodemon": "1.11.0",
-    "proxyquire": "1.7.10",
     "react-hot-loader": "3.0.0-beta.0",
     "redux-mock-store": "1.2.1",
-    "rewire": "2.5.2",
     "rimraf": "2.5.4",
     "sass-lint": "1.9.1",
     "sass-loader": "4.0.2",
