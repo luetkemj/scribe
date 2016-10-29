@@ -137,7 +137,7 @@ export function loadItems() {
       .then(checkHttpStatus)
       .then(response => response.json())
       .then(items => dispatch(loadingItemsSuccess(items)))
-      .catch((error) => handleHttpError(dispatch, error, loadingItemsError));
+      .catch(error => handleHttpError(dispatch, error, loadingItemsError));
   };
 }
 
@@ -154,12 +154,12 @@ export function loadItem(id) {
       .then(checkHttpStatus)
       .then(response => response.json())
       .then(item => dispatch(loadingItemSuccess(item)))
-      .catch((error) => handleHttpError(dispatch, error, loadingItemError));
+      .catch(error => handleHttpError(dispatch, error, loadingItemError));
   };
 }
 
 export function createItem(item) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(creatingItemInitiated());
 
     const uri = getCreateItemUrl();
@@ -173,13 +173,13 @@ export function createItem(item) {
     return fetch(uri, options)
      .then(checkHttpStatus)
      .then(response => response.json())
-     .then((newItem) => dispatch(creatingItemSuccess(newItem)))
-     .catch((error) => handleHttpError(dispatch, error, creatingItemError));
+     .then(newItem => dispatch(creatingItemSuccess(newItem)))
+     .catch(error => handleHttpError(dispatch, error, creatingItemError));
   };
 }
 
 export function saveItem(item) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(savingItemInitiated());
 
     const uri = getItemUrl(item._id);
@@ -193,7 +193,7 @@ export function saveItem(item) {
     return fetch(uri, options)
       .then(checkHttpStatus)
       .then(() => dispatch(savingItemSuccess()))
-      .catch((error) => handleHttpError(dispatch, error, savingItemError));
+      .catch(error => handleHttpError(dispatch, error, savingItemError));
   };
 }
 
@@ -210,6 +210,6 @@ export function deleteItem(id) {
       .then(checkHttpStatus)
       .then(response => response.json())
       .then(item => dispatch(deletingItemSuccess(item)))
-      .catch((error) => handleHttpError(dispatch, error, deletingItemError));
+      .catch(error => handleHttpError(dispatch, error, deletingItemError));
   };
 }

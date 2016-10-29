@@ -13,7 +13,7 @@ export default function Sidebar({ location, links }) {
       currentLink = null;
     }
     return (
-      <li className={style.listItem} key={key++}>
+      <li className={style.listItem} key={key += 1}>
         <Link to={`/${link.path}`} className={`${style.link} ${currentLink}`}>{link.name}</Link>
       </li>
     );

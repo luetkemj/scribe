@@ -31,7 +31,7 @@ if (!IS_PRODUCTION) {
     rewrites: [
       {
         from: /^\/api\/.*$/,
-        to: (context) => context.parsedUrl.pathname,
+        to: context => context.parsedUrl.pathname,
       },
     ],
   }));

@@ -1,5 +1,6 @@
 // We need to 'use strict' here because this file isn't compiled with babel
 /* eslint strict:0 */
+
 'use strict';
 
 const webpack = require('webpack');

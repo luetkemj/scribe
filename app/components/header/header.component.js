@@ -49,6 +49,6 @@ export default function Header({ navItems, navOrder }) {
 }
 
 Header.propTypes = {
-  navItems: PropTypes.object,
-  navOrder: PropTypes.array,
+  navItems: PropTypes.shape({}),
+  navOrder: PropTypes.arrayOf(PropTypes.string),
 };
