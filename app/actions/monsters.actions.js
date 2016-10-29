@@ -66,7 +66,7 @@ export function loadMonsters() {
       .then(checkHttpStatus)
       .then(response => response.json())
       .then(monsters => dispatch(loadingMonstersSuccess(monsters)))
-      .catch((error) => handleHttpError(dispatch, error, loadingMonstersError));
+      .catch(error => handleHttpError(dispatch, error, loadingMonstersError));
   };
 }
 
@@ -83,6 +83,6 @@ export function loadMonster(id) {
       .then(checkHttpStatus)
       .then(response => response.json())
       .then(monsters => dispatch(loadingMonsterSuccess(monsters)))
-      .catch((error) => handleHttpError(dispatch, error, loadingMonsterError));
+      .catch(error => handleHttpError(dispatch, error, loadingMonsterError));
   };
 }

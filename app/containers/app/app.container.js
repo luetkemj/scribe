@@ -30,5 +30,5 @@ export default function App({ children, location }) {
 
 App.propTypes = {
   children: PropTypes.any,
-  location: PropTypes.object.isRequired,
+  location: PropTypes.shape({}),
 };

@@ -13,9 +13,7 @@ import { isArray, map, isUndefined } from 'lodash';
  */
 function createDefinitionValueFragments(value) {
   if (isArray(value)) {
-    return value.map((val) =>
-      (<dd>{val}</dd>)
-    );
+    return value.map(val => (<dd>{val}</dd>));
   }
 
   return (<dd>{value}</dd>);
@@ -50,6 +48,6 @@ export function createDefinitionFragment(label, value) {
 
 export function createDefinitionList(actions) {
   return (<dl>
-    {map(actions, (action) => createDefinitionFragment(action.name, action.desc))}
+    {map(actions, action => createDefinitionFragment(action.name, action.desc))}
   </dl>);
 }

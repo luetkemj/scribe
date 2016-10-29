@@ -94,7 +94,7 @@ export function subUnits(coppers) {
     change %= denominations[coin].copperValue;
 
     // move cursor to next denomination
-    cursor--;
+    cursor -= 1;
   } while (cursor > -1);
 
   return purse;

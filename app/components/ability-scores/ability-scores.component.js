@@ -7,7 +7,7 @@ export default function AbilityScores(props) {
   if (props.ability_scores) {
     let key = 0;
     abilityScoresToRender = props.ability_scores.map(abilityScore =>
-      (<div key={key++} className={style.ability}>
+      (<div key={key += 1} className={style.ability}>
         <span className={style.abilityName}>{abilityScore.abrv}</span>
         <span className={style.abilityScore}>{abilityScore.score}({abilityScore.modifier})</span>
       </div>)
@@ -22,5 +22,7 @@ export default function AbilityScores(props) {
 }
 
 AbilityScores.propTypes = {
-  ability_scores: PropTypes.array.isRequired,
+  ability_scores: PropTypes.arrayOf(
+    PropTypes.shape({}).isRequired
+  ).isRequired,
 };

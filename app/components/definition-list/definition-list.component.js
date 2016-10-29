@@ -9,7 +9,7 @@ function createActionsDefinitionList(definitions, dd, dt, verbose) {
     ? `${style.definitions} ${style.verbose}`
     : `${style.definitions}`;
   return (<dl className={definitionsStyle}>
-    {map(definitions, (definition) => createDefinitionFragment(definition[dt], definition[dd]))}
+    {map(definitions, definition => createDefinitionFragment(definition[dt], definition[dd]))}
   </dl>);
 }
 
@@ -28,7 +28,7 @@ export default function DefinitionList(props) {
 }
 
 DefinitionList.propTypes = {
-  definitions: PropTypes.array.isRequired,
+  definitions: PropTypes.arrayOf({}).isRequired,
   dd: PropTypes.string.isRequired,
   dt: PropTypes.string.isRequired,
   verbose: PropTypes.bool,

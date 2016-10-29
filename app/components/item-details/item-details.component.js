@@ -62,5 +62,14 @@ export default function ItemDetails({ data }) {
 }
 
 ItemDetails.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.shape({
+    _id: PropTypes.string,
+    value: PropTypes.num,
+    value_unit: PropTypes.string,
+    weight: PropTypes.num,
+    weight_unit: PropTypes.string,
+    length: PropTypes.num,
+    length_unit: PropTypes.string,
+    description: PropTypes.string,
+  }).isRequired,
 };

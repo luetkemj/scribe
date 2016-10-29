@@ -6,7 +6,7 @@ import Spinner from '../spinner/spinner.component';
 export default function List({ data, ListItemContainer, loading }) {
   let key = 0;
   const listItemsToRender = data.map(listItem =>
-    <ListItemContainer key={key++} data={listItem} />
+    <ListItemContainer key={key += 1} data={listItem} />
   );
 
   let spinner;
@@ -24,7 +24,7 @@ export default function List({ data, ListItemContainer, loading }) {
 }
 
 List.propTypes = {
-  data: PropTypes.array,
+  data: PropTypes.arrayOf(PropTypes.shape({})),
   ListItemContainer: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
 };
