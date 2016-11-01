@@ -10,44 +10,75 @@ const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
 describe('monsterActions', () => {
-  let store;
   const GET_MONSTERS_URL = '/api/monsters?limit=400&skip=0';
   const GET_MONSTER_URL = '/api/monsters/1';
+  let store;
+
+  afterEach(() => {
+    fetchMock.restore();
+  });
 
   it('should exist', () => {
     should.exist(monsterActions);
   });
 
-  describe('loadMonsters', () => {
+  describe('loadMonstersIfNeeded', () => {
     describe('when status is 200', () => {
       beforeEach(() => {
-        store = mockStore();
         fetchMock.mock(GET_MONSTERS_URL, {
           status: 200,
-          body: [{ a: 1 }],
+          body: [{ id: 1 }],
         });
       });
 
-      afterEach(() => {
-        fetchMock.restore();
+      describe('when monsters exist', () => {
+        beforeEach(() => {
+          store = mockStore({
+            monstersState: {
+              monsters: [{ id: 1 }],
+            },
+          });
+        });
+
+        it('should dispatch properly', () => {
+          store.dispatch(monsterActions.loadMonstersIfNeeded());
+          const actions = store.getActions();
+          should(actions.length).equal(1);
+          should(actions[0].type).equal(types.MONSTERS_ALREADY_LOADED);
+        });
       });
 
-      it('should dispatch properly', (done) => {
-        store.dispatch(monsterActions.loadMonsters())
-          .then(() => {
-            const actions = store.getActions();
-            should(actions.length).equal(2);
-            should(actions[0].type).equal(types.LOADING_MONSTERS_INITIATED);
-            should(actions[1].type).equal(types.LOADING_MONSTERS_SUCCESS);
-          })
-          .then(done)
-          .catch(done);
+      describe('when monsters do not exist', () => {
+        beforeEach(() => {
+          store = mockStore({
+            monstersState: {
+              monsters: [],
+            },
+          });
+        });
+
+        it('should dispatch properly', (done) => {
+          store.dispatch(monsterActions.loadMonstersIfNeeded())
+            .then(() => {
+              const actions = store.getActions();
+              should(actions.length).equal(2);
+              should(actions[0].type).equal(types.LOADING_MONSTERS_INITIATED);
+              should(actions[1].type).equal(types.LOADING_MONSTERS_SUCCESS);
+              should(actions[1].monsters).deepEqual([{ id: 1 }]);
+            })
+            .then(done)
+            .catch(done);
+        });
       });
     });
 
     describe('when status is 500', () => {
       beforeEach(() => {
-        store = mockStore();
+        store = mockStore({
+          monstersState: {
+            monsters: [],
+          },
+        });
         fetchMock.mock(GET_MONSTERS_URL, 500);
       });
 
@@ -56,7 +87,7 @@ describe('monsterActions', () => {
       });
 
       it('should dispatch properly', (done) => {
-        store.dispatch(monsterActions.loadMonsters())
+        store.dispatch(monsterActions.loadMonstersIfNeeded())
           .then(() => {
             const actions = store.getActions();
             should(actions.length).equal(2);
@@ -69,36 +100,64 @@ describe('monsterActions', () => {
     });
   });
 
-  describe('loadMonster', () => {
+
+  describe('loadMonsterIfNeeded', () => {
     describe('when status is 200', () => {
       beforeEach(() => {
-        store = mockStore();
         fetchMock.mock(GET_MONSTER_URL, {
           status: 200,
-          body: [{ a: 1 }],
+          body: [{ id: 1 }],
         });
       });
 
-      afterEach(() => {
-        fetchMock.restore();
+      describe('when monster exists', () => {
+        beforeEach(() => {
+          store = mockStore({
+            monstersState: {
+              monster: { _id: 1 },
+            },
+          });
+        });
+
+        it('should dispatch properly', () => {
+          store.dispatch(monsterActions.loadMonsterIfNeeded(1));
+          const actions = store.getActions();
+          should(actions.length).equal(1);
+          should(actions[0].type).equal(types.MONSTER_ALREADY_LOADED);
+        });
       });
 
-      it('should dispatch properly', (done) => {
-        store.dispatch(monsterActions.loadMonster(1))
-          .then(() => {
-            const actions = store.getActions();
-            should(actions.length).equal(2);
-            should(actions[0].type).equal(types.LOADING_MONSTER_INITIATED);
-            should(actions[1].type).equal(types.LOADING_MONSTER_SUCCESS);
-          })
-          .then(done)
-          .catch(done);
+      describe('when monster does not exist', () => {
+        beforeEach(() => {
+          store = mockStore({
+            monstersState: {
+              monster: {},
+            },
+          });
+        });
+
+        it('should dispatch properly', (done) => {
+          store.dispatch(monsterActions.loadMonsterIfNeeded(1))
+            .then(() => {
+              const actions = store.getActions();
+              should(actions.length).equal(2);
+              should(actions[0].type).equal(types.LOADING_MONSTER_INITIATED);
+              should(actions[1].type).equal(types.LOADING_MONSTER_SUCCESS);
+              should(actions[1].monster).deepEqual([{ id: 1 }]);
+            })
+            .then(done)
+            .catch(done);
+        });
       });
     });
 
     describe('when status is 500', () => {
       beforeEach(() => {
-        store = mockStore();
+        store = mockStore({
+          monstersState: {
+            monster: {},
+          },
+        });
         fetchMock.mock(GET_MONSTER_URL, 500);
       });
 
@@ -107,7 +166,7 @@ describe('monsterActions', () => {
       });
 
       it('should dispatch properly', (done) => {
-        store.dispatch(monsterActions.loadMonster(1))
+        store.dispatch(monsterActions.loadMonsterIfNeeded(1))
           .then(() => {
             const actions = store.getActions();
             should(actions.length).equal(2);
