@@ -1,5 +1,4 @@
-# Scribe [![Build Status](https://travis-ci.org/luetkemj/scribe.svg?branch=master)](https://travis-ci.org/luetkemj/scribe) [![scribe HuBoard](https://img.shields.io/github/issues/luetkemj/scribe.svg?label=issues%20%28HuBoard%29)](https://huboard.com/luetkemj/scribe)
-
+# Scribe [![Build Status](https://travis-ci.org/luetkemj/scribe.svg?branch=master)](https://travis-ci.org/luetkemj/scribe)
 
 Scribe is my collection of DM tools.
 
@@ -30,7 +29,7 @@ If no environment is specified, it will default to `development`.
 
 To start the application (in development mode), execute the following command:
 
-`$ MONGO_USERNAME=<username> MONGO_PASSWORD=<password> npm start`
+`$ npm start`
 
 This script will call `babel-node` to run the server side code in an "esnext"
 environment. This compiles all the server side source code into ES5 to run
@@ -82,8 +81,11 @@ file. Some of these values can be specified via environment variables. Below is
 a list of those variables:
 
 * Node Server
-    * `PORT` : The port for the node application server, defaults to `3000` in
-    all environments.
+    * `PORT` : The port for the node application server, defaults to `3000` in all environments.
+    * `MONGO_PROTOCOL` : Mongo database protocol, defaults to `mongodb://` in all environments.
+    * `MONGO_HOST` : Mongo database host, defaults to `localhost` in all environments.
+    * `MONGO_PORT` : Mongo database port, defaults to `27017` in all environments
+    * `MONGO_DB` : Mongo database name, defaults to `scribe` in all environments
 
 ## Tests ##
 
