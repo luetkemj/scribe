@@ -2,14 +2,12 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import MonstersContainer from '../monsters/monsters.container';
-import MonsterDetails from '../../components/monster-details/monster-details.component';
-import { loadMonster } from '../../actions/monsters.actions.js';
-import style from './monster-details.scss';
+import MonsterDetails from '../../../components/monster-details/monster-details.component';
+import { loadMonsterIfNeeded } from '../../../actions/monsters.actions.js';
 
 class MonsterDetailsContainer extends Component {
   componentWillMount() {
-    this.props.loadMonster(this.props.params.id);
+    this.props.loadMonsterIfNeeded(this.props.params.id);
   }
 
   render() {
@@ -17,19 +15,12 @@ class MonsterDetailsContainer extends Component {
     let monsterToRender;
     if (monster) {
       monsterToRender = (
-        <MonsterDetails className={style.monsterDetails} data={monster} />
+        <MonsterDetails data={monster} />
       );
     }
     return (
-      <div className={style.monsterDetailsContainer}>
-        <div className={style.colOne}>
-          <MonstersContainer />
-        </div>
-        <div className={style.colTwo}>
-          <div>
-            {monsterToRender}
-          </div>
-        </div>
+      <div>
+        {monsterToRender}
       </div>
     );
   }
@@ -37,7 +28,7 @@ class MonsterDetailsContainer extends Component {
 
 MonsterDetailsContainer.propTypes = {
   monstersState: PropTypes.object.isRequired,
-  loadMonster: PropTypes.func.isRequired,
+  loadMonsterIfNeeded: PropTypes.func.isRequired,
   params: PropTypes.object.isRequired,
 };
 
@@ -48,7 +39,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ loadMonster }, dispatch);
+  return bindActionCreators({ loadMonsterIfNeeded }, dispatch);
 }
 
 export default connect(
