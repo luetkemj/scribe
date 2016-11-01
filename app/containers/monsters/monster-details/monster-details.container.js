@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import MonsterDetails from '../../../components/monster-details/monster-details.component';
+import Spinner from '../../../components/spinner/spinner.component';
 import { loadMonsterIfNeeded } from '../../../actions/monsters.actions.js';
 
 class MonsterDetailsContainer extends Component {
@@ -11,8 +12,16 @@ class MonsterDetailsContainer extends Component {
   }
 
   render() {
-    const { monster } = this.props.monstersState;
+    const { monster, loadingMonster } = this.props.monstersState;
     let monsterToRender;
+    let spinnerToRender;
+
+    if (loadingMonster) {
+      spinnerToRender = (
+        <Spinner />
+      );
+    }
+
     if (monster) {
       monsterToRender = (
         <MonsterDetails data={monster} />
@@ -20,6 +29,7 @@ class MonsterDetailsContainer extends Component {
     }
     return (
       <div>
+        {spinnerToRender}
         {monsterToRender}
       </div>
     );

@@ -46,6 +46,17 @@ export default function MonsterDetails({ data }) {
     },
   ];
 
+  if (data) {
+    header = (
+      <header>
+        <h1 className={style.name}>{data.name}</h1>
+        <h2 className={style.sizeTypeAlignment}>
+          {data.size} {type} {data.alignment}
+        </h2>
+      </header>
+    );
+  }
+
   if (data.subtype) {
     type = (
       <span>
@@ -107,12 +118,7 @@ export default function MonsterDetails({ data }) {
   return (
     <section className={style.monsterDetails}>
       <article>
-        <header>
-          <h1 className={style.name}>{data.name}</h1>
-          <h2 className={style.sizeTypeAlignment}>
-            {data.size} {type} {data.alignment}
-          </h2>
-        </header>
+        {header}
         {abilityScores}
         {primaryStats}
         {secondaryStats}
