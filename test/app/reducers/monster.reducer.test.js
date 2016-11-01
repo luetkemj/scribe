@@ -10,9 +10,7 @@ describe('monsters reducer', () => {
   it('should have correct initial state', () => {
     should(reducer(undefined, {})).deepEqual({
       loadingMonsters: false,
-      monstersLoaded: false,
       loadingMonster: false,
-      monsterLoaded: false,
       monsters: [],
       monster: {},
       error: null,
@@ -32,9 +30,7 @@ describe('monsters reducer', () => {
         })
       ).deepEqual({
         loadingMonsters: true,
-        monstersLoaded: false,
         loadingMonster: false,
-        monsterLoaded: false,
         monsters: [],
         monster: {},
         error: null,
@@ -49,9 +45,7 @@ describe('monsters reducer', () => {
         })
       ).deepEqual({
         loadingMonsters: false,
-        monstersLoaded: true,
         loadingMonster: false,
-        monsterLoaded: false,
         monsters: [{ a: 1 }],
         monster: {},
         error: null,
@@ -66,9 +60,7 @@ describe('monsters reducer', () => {
         })
       ).deepEqual({
         loadingMonsters: false,
-        monstersLoaded: false,
         loadingMonster: false,
-        monsterLoaded: false,
         monsters: [],
         monster: {},
         error: 'KHANNNN!',
@@ -82,9 +74,7 @@ describe('monsters reducer', () => {
         })
       ).deepEqual({
         loadingMonsters: false,
-        monstersLoaded: false,
         loadingMonster: true,
-        monsterLoaded: false,
         monsters: [],
         monster: {},
         error: null,
@@ -99,9 +89,7 @@ describe('monsters reducer', () => {
         })
       ).deepEqual({
         loadingMonsters: false,
-        monstersLoaded: false,
         loadingMonster: false,
-        monsterLoaded: true,
         monsters: [],
         monster: { a: 1 },
         error: null,
@@ -116,9 +104,7 @@ describe('monsters reducer', () => {
         })
       ).deepEqual({
         loadingMonsters: false,
-        monstersLoaded: false,
         loadingMonster: false,
-        monsterLoaded: false,
         monsters: [],
         monster: {},
         error: 'KHANNNN!!',
