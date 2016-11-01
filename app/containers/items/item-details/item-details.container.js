@@ -2,32 +2,35 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import ItemsContainer from '../items.container';
 import ItemDetails from '../../../components/item-details/item-details.component';
-import { loadItem } from '../../../actions/items.actions.js';
-import style from './item-details.scss';
+import Spinner from '../../../components/spinner/spinner.component';
+import { loadItemIfNeeded } from '../../../actions/items.actions.js';
 
 class ItemDetailsContainer extends Component {
   componentWillMount() {
-    this.props.loadItem(this.props.params.id);
+    this.props.loadItemIfNeeded(this.props.params.id);
   }
 
   render() {
-    const { item } = this.props.itemsState;
+    const { item, loadingItem } = this.props.itemsState;
     let itemToRender;
+    let spinnerToRender;
+
+    if (loadingItem) {
+      spinnerToRender = (
+        <Spinner />
+      );
+    }
+
     if (item) {
       itemToRender = (
-        <ItemDetails className={style.itemDetails} data={item} />
+        <ItemDetails data={item} />
       );
     }
     return (
-      <div className={style.itemDetailsContainer}>
-        <div className={style.colOne}>
-          <ItemsContainer />
-        </div>
-        <div className={style.colTwo}>
-          {itemToRender}
-        </div>
+      <div>
+        {spinnerToRender}
+        {itemToRender}
       </div>
     );
   }
@@ -35,8 +38,8 @@ class ItemDetailsContainer extends Component {
 
 ItemDetailsContainer.propTypes = {
   itemsState: PropTypes.object.isRequired,
-  loadItem: PropTypes.func.isRequired,
-  params: PropTypes.object.isRequired,
+  loadItemIfNeeded: PropTypes.func.isRequired,
+  params: PropTypes.object,
 };
 
 function mapStateToProps(state) {
@@ -46,7 +49,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ loadItem }, dispatch);
+  return bindActionCreators({ loadItemIfNeeded }, dispatch);
 }
 
 export default connect(

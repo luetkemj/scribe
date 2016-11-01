@@ -10,16 +10,19 @@ const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
 describe('itemActions', () => {
-  let store;
   const GET_ITEMS_URL = '/api/items?limit=400&skip=0';
   const GET_ITEM_URL = '/api/items/1';
-  const GET_CREATE_ITEM_URL = '/api/items';
+  let store;
+
+  afterEach(() => {
+    fetchMock.restore();
+  });
 
   it('should exist', () => {
     should.exist(itemActions);
   });
 
-  describe('loadItems', () => {
+  describe('loadItemsIfNeeded', () => {
     describe('when status is 200', () => {
       beforeEach(() => {
         store = mockStore();
@@ -29,77 +32,129 @@ describe('itemActions', () => {
         });
       });
 
-      afterEach(() => {
-        fetchMock.restore();
+      describe('when items exist', () => {
+        beforeEach(() => {
+          store = mockStore({
+            itemsState: {
+              items: [{ id: 1 }],
+            },
+          });
+        });
+
+        it('should dispatch properly', () => {
+          store.dispatch(itemActions.loadItemsIfNeeded());
+          const actions = store.getActions();
+          should(actions.length).equal(1);
+          should(actions[0].type).equal(types.ITEMS_ALREADY_LOADED);
+        });
       });
 
-      it('should dispatch properly', (done) => {
-        store.dispatch(itemActions.loadItems())
+      describe('when items do not exist', () => {
+        beforeEach(() => {
+          store = mockStore({
+            itemsState: {
+              items: [],
+            },
+          });
+        });
+
+        it('should dispatch properly', (done) => {
+          store.dispatch(itemActions.loadItemsIfNeeded())
           .then(() => {
             const actions = store.getActions();
             should(actions.length).equal(2);
             should(actions[0].type).equal(types.LOADING_ITEMS_INITIATED);
             should(actions[1].type).equal(types.LOADING_ITEMS_SUCCESS);
+            should(actions[1].items).deepEqual([{ a: 1 }]);
           })
           .then(done)
           .catch(done);
+        });
       });
     });
 
     describe('when status is 500', () => {
       beforeEach(() => {
-        store = mockStore();
+        store = mockStore({
+          itemsState: {
+            items: [],
+          },
+        });
         fetchMock.mock(GET_ITEMS_URL, 500);
       });
 
-      afterEach(() => {
-        fetchMock.restore();
-      });
-
       it('should dispatch properly', (done) => {
-        store.dispatch(itemActions.loadItems())
-          .then(() => {
-            const actions = store.getActions();
-            should(actions.length).equal(2);
-            should(actions[0].type).equal(types.LOADING_ITEMS_INITIATED);
-            should(actions[1].type).equal(types.LOADING_ITEMS_ERROR);
-          })
-          .then(done)
-          .catch(done);
+        store.dispatch(itemActions.loadItemsIfNeeded())
+        .then(() => {
+          const actions = store.getActions();
+          should(actions.length).equal(2);
+          should(actions[0].type).equal(types.LOADING_ITEMS_INITIATED);
+          should(actions[1].type).equal(types.LOADING_ITEMS_ERROR);
+        })
+        .then(done)
+        .catch(done);
       });
     });
   });
 
-  describe('loadItem', () => {
+  describe('loadItemIfNeeded', () => {
     describe('when status is 200', () => {
       beforeEach(() => {
         store = mockStore();
         fetchMock.mock(GET_ITEM_URL, {
           status: 200,
-          body: [{ a: 1 }],
+          body: { id: 1 },
         });
       });
 
-      afterEach(() => {
-        fetchMock.restore();
+      describe('when item exists', () => {
+        beforeEach(() => {
+          store = mockStore({
+            itemsState: {
+              item: { _id: 1 },
+            },
+          });
+        });
+
+        it('should dispatch properly', () => {
+          store.dispatch(itemActions.loadItemIfNeeded(1));
+          const actions = store.getActions();
+          should(actions.length).equal(1);
+          should(actions[0].type).equal(types.ITEM_ALREADY_LOADED);
+        });
       });
 
-      it('should dispatch properly', (done) => {
-        store.dispatch(itemActions.loadItem(1))
+      describe('when item does not exist', () => {
+        beforeEach(() => {
+          store = mockStore({
+            itemsState: {
+              item: {},
+            },
+          });
+        });
+
+        it('should dispatch properly', (done) => {
+          store.dispatch(itemActions.loadItemIfNeeded(1))
           .then(() => {
             const actions = store.getActions();
             should(actions.length).equal(2);
             should(actions[0].type).equal(types.LOADING_ITEM_INITIATED);
             should(actions[1].type).equal(types.LOADING_ITEM_SUCCESS);
+            should(actions[1].item).deepEqual({ id: 1 });
           })
           .then(done)
           .catch(done);
+        });
       });
     });
 
     describe('when status is 500', () => {
       beforeEach(() => {
-        store = mockStore();
+        store = mockStore({
+          itemsState: {
+            item: {},
+          },
+        });
         fetchMock.mock(GET_ITEM_URL, 500);
       });
 
@@ -108,114 +163,12 @@ describe('itemActions', () => {
       });
 
       it('should dispatch properly', (done) => {
-        store.dispatch(itemActions.loadItem(1))
+        store.dispatch(itemActions.loadItemIfNeeded(1))
           .then(() => {
             const actions = store.getActions();
             should(actions.length).equal(2);
             should(actions[0].type).equal(types.LOADING_ITEM_INITIATED);
             should(actions[1].type).equal(types.LOADING_ITEM_ERROR);
-          })
-          .then(done)
-          .catch(done);
-      });
-    });
-  });
-
-  describe('createItem', () => {
-    describe('when status is 200', () => {
-      beforeEach(() => {
-        store = mockStore();
-        fetchMock.mock(GET_CREATE_ITEM_URL, {
-          status: 200,
-          method: 'POST',
-          body: [{ a: 1 }],
-        });
-      });
-
-      afterEach(() => {
-        fetchMock.restore();
-      });
-
-      it('should dispatch properly', (done) => {
-        store.dispatch(itemActions.createItem({ name: 'test' }))
-          .then(() => {
-            const actions = store.getActions();
-            should(actions.length).equal(2);
-            should(actions[0].type).equal(types.CREATING_ITEM_INITIATED);
-            should(actions[1].type).equal(types.CREATING_ITEM_SUCCESS);
-          })
-          .then(done)
-          .catch(done);
-      });
-    });
-
-    describe('when status is 500', () => {
-      beforeEach(() => {
-        store = mockStore();
-        fetchMock.mock(GET_CREATE_ITEM_URL, 500);
-      });
-
-      afterEach(() => {
-        fetchMock.restore();
-      });
-
-      it('should dispatch properly', (done) => {
-        store.dispatch(itemActions.createItem())
-          .then(() => {
-            const actions = store.getActions();
-            should(actions.length).equal(2);
-            should(actions[0].type).equal(types.CREATING_ITEM_INITIATED);
-            should(actions[1].type).equal(types.CREATING_ITEM_ERROR);
-            should(actions[1].error.response.statusText).equal('Internal Server Error');
-          })
-          .then(done)
-          .catch(done);
-      });
-    });
-  });
-
-  describe('saveItem', () => {
-    describe('when status is 200', () => {
-      beforeEach(() => {
-        store = mockStore();
-        fetchMock.mock(GET_ITEM_URL, 200);
-      });
-
-      afterEach(() => {
-        fetchMock.restore();
-      });
-
-      it('should dispatch properly', (done) => {
-        store.dispatch(itemActions.saveItem({ _id: 1, name: 'test' }))
-          .then(() => {
-            const actions = store.getActions();
-            should(actions.length).equal(2);
-            should(actions[0].type).equal(types.SAVING_ITEM_INITIATED);
-            should(actions[1].type).equal(types.SAVING_ITEM_SUCCESS);
-          })
-          .then(done)
-          .catch(done);
-      });
-    });
-
-    describe('when status is 500', () => {
-      beforeEach(() => {
-        store = mockStore();
-        fetchMock.mock(GET_ITEM_URL, 500);
-      });
-
-      afterEach(() => {
-        fetchMock.restore();
-      });
-
-      it('should dispatch properly', (done) => {
-        store.dispatch(itemActions.saveItem({ _id: 1, name: 'test' }))
-          .then(() => {
-            const actions = store.getActions();
-            should(actions.length).equal(2);
-            should(actions[0].type).equal(types.SAVING_ITEM_INITIATED);
-            should(actions[1].type).equal(types.SAVING_ITEM_ERROR);
-            should(actions[1].error.response.statusText).equal('Internal Server Error');
           })
           .then(done)
           .catch(done);

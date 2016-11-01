@@ -19,8 +19,9 @@ render(
   <Provider store={store}>
     <Router history={history}>
       <Route path="/" component={App} >
-        <Route path="items" component={ItemsContainer} />
-        <Route path="items/:id" component={ItemDetailsContainer} />
+        <Route path="items" component={ItemsContainer}>
+          <Route path=":id" component={ItemDetailsContainer} />
+        </Route>
         <Route path="monsters" component={MonstersContainer}>
           <Route path=":id" component={MonsterDetailsContainer} />
         </Route>
