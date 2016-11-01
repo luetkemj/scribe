@@ -4,31 +4,28 @@ import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 
 import ListItem from '../../../components/list-item/list-item.component';
-import { loadItem, deleteItem } from '../../../actions/items.actions';
+import { loadItemIfNeeded } from '../../../actions/items.actions';
 
 function ItemListItemContainer(props) {
   function onClickCallback() {
     browserHistory.push(`/items/${props.data._id}`);
-    return props.loadItem(props.data._id);
+    return props.loadItemIfNeeded(props.data._id);
   }
 
   const active = props.itemsState.item._id === props.data._id;
 
   return (
-    <div>
-      <ListItem
-        active={active}
-        name={props.data.name}
-        onClick={onClickCallback}
-      />
-    </div>
+    <ListItem
+      active={active}
+      name={props.data.name}
+      onClick={onClickCallback}
+    />
   );
 }
 
 ItemListItemContainer.propTypes = {
   data: PropTypes.object.isRequired,
-  loadItem: PropTypes.func.isRequired,
-  deleteItem: PropTypes.func.isRequired,
+  loadItemIfNeeded: PropTypes.func.isRequired,
   itemsState: PropTypes.object.isRequired,
 };
 
@@ -39,7 +36,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ loadItem, deleteItem }, dispatch);
+  return bindActionCreators({ loadItemIfNeeded }, dispatch);
 }
 
 export default connect(

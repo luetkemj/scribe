@@ -106,7 +106,7 @@ describe('monsterActions', () => {
       beforeEach(() => {
         fetchMock.mock(GET_MONSTER_URL, {
           status: 200,
-          body: [{ id: 1 }],
+          body: { id: 1 },
         });
       });
 
@@ -143,7 +143,7 @@ describe('monsterActions', () => {
               should(actions.length).equal(2);
               should(actions[0].type).equal(types.LOADING_MONSTER_INITIATED);
               should(actions[1].type).equal(types.LOADING_MONSTER_SUCCESS);
-              should(actions[1].monster).deepEqual([{ id: 1 }]);
+              should(actions[1].monster).deepEqual({ id: 1 });
             })
             .then(done)
             .catch(done);
