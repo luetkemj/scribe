@@ -9,6 +9,7 @@ const config = {
   api: {
     monsters: '/api/monsters',
     items: '/api/items',
+    logs: '/api/logs',
   },
 };
 
