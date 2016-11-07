@@ -35,6 +35,9 @@ export default function TestHomeContainer() {
         <li className={style.listItem}>
           <Link to="/time-keeper">Time Keeper</Link>
         </li>
+        <li className={style.listItem}>
+          <Link to="/weather-tracker">Weather Tracker</Link>
+        </li>
       </ul>
     </div>
   );

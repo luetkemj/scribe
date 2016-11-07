@@ -18,8 +18,6 @@
 
   display: inline-block;
   text-decoration: inherit;
-  width: 1em;
-  margin-right: .2em;
   text-align: center;
 
   // For safety - reset parent styles, that can break glyph codes
@@ -49,7 +47,7 @@
       content: '\e803';
     } @else if $icon == 'heavyRain' {
       content: '\e804';
-    } @else if $icon == 'lightRain' {
+    } @else if $icon == 'rain' {
       content: '\e805';
     } @else if $icon == 'moon' {
       content: '\e806';
@@ -67,9 +65,9 @@
       content: '\e80d';
     } @else if $icon == 'thunder' {
       content: '\e80e';
-    } @else if $icon == 'wind-cloud' {
+    } @else if $icon == 'windCloud' {
       content: '\e80f';
-    } @else if $icon == 'wind-rain' {
+    } @else if $icon == 'windRain' {
       content: '\e810';
     } @else if $icon == 'wind' {
       content: '\e811';

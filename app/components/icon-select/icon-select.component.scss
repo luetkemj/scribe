@@ -1,0 +1,114 @@
+@import '../../theme/icons';
+
+.iconSelect {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.icon {
+  font-size: 24px;
+  margin: 0 20px 20px 0;
+}
+
+.blizzard {
+  &::before {
+    @include icon('blizzard', 'scribe-weather');
+  }
+}
+
+.cloud {
+  &::before {
+    @include icon('cloud', 'scribe-weather');
+  }
+}
+
+.flurry {
+  &::before {
+    @include icon('flurry', 'scribe-weather');
+  }
+}
+
+.hail {
+  &::before {
+    @include icon('hail', 'scribe-weather');
+  }
+}
+
+.heavyRain {
+  &::before {
+    @include icon('heavyRain', 'scribe-weather');
+  }
+}
+
+.rain {
+  &::before {
+    @include icon('rain', 'scribe-weather');
+  }
+}
+
+.moon {
+  &::before {
+    @include icon('moon', 'scribe-weather');
+  }
+}
+
+.partlyMoon {
+  &::before {
+    @include icon('partlyMoon', 'scribe-weather');
+  }
+}
+
+.partlySun {
+  &::before {
+    @include icon('partlySun', 'scribe-weather');
+  }
+}
+
+.sleet {
+  &::before {
+    @include icon('sleet', 'scribe-weather');
+  }
+}
+
+.snow {
+  &::before {
+    @include icon('snow', 'scribe-weather');
+  }
+}
+
+.sundial {
+  &::before {
+    @include icon('sundial', 'scribe-weather');
+  }
+}
+
+.sun {
+  &::before {
+    @include icon('sun', 'scribe-weather');
+  }
+}
+
+.thunder {
+  &::before {
+    @include icon('thunder', 'scribe-weather');
+  }
+}
+
+.windCloud {
+  &::before {
+    @include icon('windCloud', 'scribe-weather');
+  }
+}
+
+.windRain {
+  &::before {
+    @include icon('windRain', 'scribe-weather');
+  }
+}
+
+.wind {
+  &::before {
+    @include icon('wind', 'scribe-weather');
+  }
+}

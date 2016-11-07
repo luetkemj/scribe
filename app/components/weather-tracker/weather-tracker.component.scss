@@ -1,0 +1,161 @@
+@import '../../theme/icons';
+@import '../../theme/typography';
+@import '../../theme/variables';
+
+.weatherTracker {
+  display: flex;
+  position: relative;
+  justify-content: center;
+
+  &.activeControls {
+    .current {
+      opacity: .1;
+    }
+
+    .controls {
+      opacity: 1;
+      z-index: 1;
+    }
+  }
+}
+
+.current {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: $swatch01;
+  opacity: 1;
+  transition: opacity 300ms ease;
+}
+
+.season {
+  margin: 0;
+  text-transform: uppercase;
+  @include font($sans-serif, $very-small, $light);
+}
+
+.relativeTemp {
+  margin: 0;
+  @include font($sans-serif, $very-small, $light);
+}
+
+.weatherIcon {
+  margin: 12px 0;
+
+  &::before {
+    margin-right: 0;
+    font-size: 48px;
+    line-height: 1;
+  }
+}
+
+.controls {
+  position: absolute;
+  display: flex;
+  flex-wrap: wrap;
+  opacity: 0;
+  z-index: 0;
+  transition: opacity 300ms ease;
+
+  .icon {
+    padding: 10px;
+    text-align: center;
+  }
+}
+
+.blizzard {
+  &::before {
+    @include icon('blizzard', 'scribe-weather');
+  }
+}
+
+.cloud {
+  &::before {
+    @include icon('cloud', 'scribe-weather');
+  }
+}
+
+.flurry {
+  &::before {
+    @include icon('flurry', 'scribe-weather');
+  }
+}
+
+.hail {
+  &::before {
+    @include icon('hail', 'scribe-weather');
+  }
+}
+
+.heavyRain {
+  &::before {
+    @include icon('heavyRain', 'scribe-weather');
+  }
+}
+
+.rain {
+  &::before {
+    @include icon('rain', 'scribe-weather');
+  }
+}
+
+.moon {
+  &::before {
+    @include icon('moon', 'scribe-weather');
+  }
+}
+
+.partlyMoon {
+  &::before {
+    @include icon('partlyMoon', 'scribe-weather');
+  }
+}
+
+.partlySun {
+  &::before {
+    @include icon('partlySun', 'scribe-weather');
+  }
+}
+
+.sleet {
+  &::before {
+    @include icon('sleet', 'scribe-weather');
+  }
+}
+
+.snow {
+  &::before {
+    @include icon('snow', 'scribe-weather');
+  }
+}
+
+.sun {
+  &::before {
+    @include icon('sun', 'scribe-weather');
+  }
+}
+
+.thunder {
+  &::before {
+    @include icon('thunder', 'scribe-weather');
+  }
+}
+
+.windCloud {
+  &::before {
+    @include icon('windCloud', 'scribe-weather');
+  }
+}
+
+.windRain {
+  &::before {
+    @include icon('windRain', 'scribe-weather');
+  }
+}
+
+.wind {
+  &::before {
+    @include icon('wind', 'scribe-weather');
+  }
+}
