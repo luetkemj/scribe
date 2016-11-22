@@ -11,8 +11,8 @@ export function getItems(req, res) {
 
   Item
   .find({})
-  .skip(skip || 0)
-  .limit(limit || 10)
+  .skip(Number(skip) || 0)
+  .limit(Number(limit) || 10)
   .sort('name')
   .lean()
   .exec((err, items) => {

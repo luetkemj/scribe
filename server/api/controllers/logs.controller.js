@@ -11,8 +11,8 @@ export function getLogs(req, res) {
 
   Log
   .find({})
-  .skip(skip || 0)
-  .limit(limit || 10)
+  .skip(Number(skip) || 0)
+  .limit(Number(limit) || 10)
   .sort('time')
   .lean()
   .exec((err, logs) => {
