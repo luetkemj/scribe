@@ -25,8 +25,8 @@ export function getMonsters(req, res) {
 
   Monster
   .find({})
-  .skip(skip || 0)
-  .limit(limit || 10)
+  .skip(Number(skip) || 0)
+  .limit(Number(limit) || 10)
   .sort('name')
   .lean()
   .exec((err, monsters) => {

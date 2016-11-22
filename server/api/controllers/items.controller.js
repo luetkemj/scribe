@@ -8,11 +8,12 @@ const Item = mongoose.model('Item');
 
 export function getItems(req, res) {
   const { limit, skip } = req.query;
+  logger.log(typeof skip);
 
   Item
   .find({})
-  .skip(skip || 0)
-  .limit(limit || 10)
+  .skip(Number(skip) || 0)
+  .limit(Number(limit) || 10)
   .sort('name')
   .lean()
   .exec((err, items) => {
