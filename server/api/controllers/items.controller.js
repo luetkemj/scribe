@@ -8,7 +8,6 @@ const Item = mongoose.model('Item');
 
 export function getItems(req, res) {
   const { limit, skip } = req.query;
-  logger.log(typeof skip);
 
   Item
   .find({})
