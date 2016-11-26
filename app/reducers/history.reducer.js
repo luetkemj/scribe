@@ -10,12 +10,18 @@ import {
   LOG_ALREADY_LOADED,
   LOADING_LOG_SUCCESS,
   LOADING_LOG_ERROR,
-  SAVING_LOG_INITIATED,
-  SAVING_LOG_SUCCESS,
-  SAVING_LOG_ERROR,
-  SAVING_NOTE_INITIATED,
-  SAVING_NOTE_SUCCESS,
-  SAVING_NOTE_ERROR,
+  UPDATING_LOG_INITIATED,
+  UPDATING_LOG_SUCCESS,
+  UPDATING_LOG_ERROR,
+  CREATING_LOG_INITIATED,
+  CREATING_LOG_SUCCESS,
+  CREATING_LOG_ERROR,
+  DELETING_LOG_INITIATED,
+  DELETING_LOG_SUCCESS,
+  DELETING_LOG_ERROR,
+  CREATE_NOTE,
+  UPDATE_NOTE,
+  DELETE_NOTE,
 } from '../constants/action-types';
 
 const logger = require('../../server/lib/logger')();
@@ -54,12 +60,18 @@ export default function historyReducer(state = initialState, action) {
     case LOG_ALREADY_LOADED:
     case LOADING_LOG_SUCCESS:
     case LOADING_LOG_ERROR:
-    case SAVING_LOG_INITIATED:
-    case SAVING_LOG_SUCCESS:
-    case SAVING_LOG_ERROR:
-    case SAVING_NOTE_INITIATED:
-    case SAVING_NOTE_SUCCESS:
-    case SAVING_NOTE_ERROR: {
+    case UPDATING_LOG_INITIATED:
+    case UPDATING_LOG_SUCCESS:
+    case UPDATING_LOG_ERROR:
+    case CREATING_LOG_INITIATED:
+    case CREATING_LOG_SUCCESS:
+    case CREATING_LOG_ERROR:
+    case DELETING_LOG_INITIATED:
+    case DELETING_LOG_SUCCESS:
+    case DELETING_LOG_ERROR:
+    case CREATE_NOTE:
+    case UPDATE_NOTE:
+    case DELETE_NOTE: {
       const updatedState = cloneDeep(state);
       const { logId } = action;
 

@@ -71,10 +71,10 @@ describe('the log reducer', () => {
       });
     });
 
-    it('should handle SAVING_LOG_INITIATED correctly', () => {
+    it('should handle UPDATING_LOG_INITIATED correctly', () => {
       should(
         reducer(state, {
-          type: types.SAVING_LOG_INITIATED,
+          type: types.UPDATING_LOG_INITIATED,
           error: null,
         })
       ).deepEqual({
@@ -83,10 +83,10 @@ describe('the log reducer', () => {
       });
     });
 
-    it('should handle SAVING_LOG_SUCCESS correctly', () => {
+    it('should handle UPDATING_LOG_SUCCESS correctly', () => {
       should(
         reducer(state, {
-          type: types.SAVING_LOG_SUCCESS,
+          type: types.UPDATING_LOG_SUCCESS,
           log: {
             _id: 1,
             name: 'the log',
@@ -100,10 +100,87 @@ describe('the log reducer', () => {
       });
     });
 
-    it('should handle SAVING_LOG_ERROR correctly', () => {
+    it('should handle UPDATING_LOG_ERROR correctly', () => {
       should(
         reducer(state, {
-          type: types.SAVING_LOG_ERROR,
+          type: types.UPDATING_LOG_ERROR,
+          error: 'terrible things!',
+        })
+      ).deepEqual({
+        loading: false,
+        error: 'terrible things!',
+      });
+    });
+
+    it('should handle CREATING_LOG_INITIATED correctly', () => {
+      should(
+        reducer(state, {
+          type: types.CREATING_LOG_INITIATED,
+          error: null,
+        })
+      ).deepEqual({
+        loading: true,
+        error: null,
+      });
+    });
+
+    it('should handle CREATING_LOG_SUCCESS correctly', () => {
+      should(
+        reducer(state, {
+          type: types.CREATING_LOG_SUCCESS,
+          log: {
+            _id: 1,
+            name: 'the log',
+          },
+        })
+      ).deepEqual({
+        loading: false,
+        error: null,
+        _id: 1,
+        name: 'the log',
+      });
+    });
+
+    it('should handle CREATING_LOG_ERROR correctly', () => {
+      should(
+        reducer(state, {
+          type: types.CREATING_LOG_ERROR,
+          error: 'terrible things!',
+        })
+      ).deepEqual({
+        loading: false,
+        error: 'terrible things!',
+      });
+    });
+
+    it('should handle DELETING_LOG_INITIATED correctly', () => {
+      should(
+        reducer(state, {
+          type: types.DELETING_LOG_INITIATED,
+          error: null,
+        })
+      ).deepEqual({
+        loading: true,
+        error: null,
+      });
+    });
+
+    it('should handle DELETING_LOG_SUCCESS correctly', () => {
+      should(
+        reducer(state, {
+          type: types.DELETING_LOG_SUCCESS,
+          log: null,
+        })
+      ).deepEqual({
+        loading: false,
+        error: null,
+      });
+    });
+
+    it('should handle DELETING_LOG_ERROR correctly', () => {
+      should(
+        reducer(state, {
+          type: types.DELETING_LOG_ERROR,
           error: 'terrible things!',
         })
       ).deepEqual({

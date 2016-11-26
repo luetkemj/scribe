@@ -9,6 +9,13 @@ export function getLogsUrl(limit = 0, skip = 0) {
   return url;
 }
 
+export function getLogUrl(id) {
+  const url = `${config.api.logs}/${id}`;
+
+  logger.log(`getLogUrl: url: ${url}`);
+  return url;
+}
+
 export function getCreateLogUrl() {
   const url = `${config.api.logs}`;
 
@@ -16,10 +23,17 @@ export function getCreateLogUrl() {
   return url;
 }
 
-export function getLogUrl(id) {
+export function getUpdateLogUrl(id) {
   const url = `${config.api.logs}/${id}`;
 
-  logger.log(`getLogUrl: url: ${url}`);
+  logger.log(`getUpdateLogsUrl: url: ${url}`);
+  return url;
+}
+
+export function getDeleteLogUrl(id) {
+  const url = `${config.api.logs}/${id}`;
+
+  logger.log(`getUpdateLogsUrl: url: ${url}`);
   return url;
 }
 
