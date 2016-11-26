@@ -8,48 +8,38 @@ describe('the note reducer', () => {
   });
 
   it('should have correct initial state', () => {
-    should(reducer(undefined, {})).deepEqual({
-      error: null,
-    });
+    should(reducer(undefined, {})).deepEqual({});
   });
 
   describe('in the initial state', () => {
     let state;
+    let fullState;
     beforeEach(() => {
       state = reducer(undefined, {});
+      fullState = reducer(state, { id: 1 });
     });
 
-    it('should handle SAVING_NOTE_INITIATED correctly', () => {
+    it('should handle CREATE_NOTE correctly', () => {
       should(
         reducer(state, {
-          type: types.SAVING_NOTE_INITIATED,
+          type: types.CREATE_NOTE,
+          note: { id: 1 },
         })
-      ).deepEqual({
-        error: null,
-      });
+      ).deepEqual({ id: 1 });
     });
 
-    it('should handle SAVING_NOTE_SUCCESS correctly', () => {
-      should(reducer(state, {
-        type: types.SAVING_NOTE_SUCCESS,
-        note: {
-          _id: 1,
-          name: 'best note',
-        },
-      })).deepEqual({
-        error: null,
-        _id: 1,
-        name: 'best note',
-      });
+    it('should handle UPDATE_NOTE correctly', () => {
+      should(reducer(fullState, {
+        type: types.UPDATE_NOTE,
+        note: { id: 2 },
+      })).deepEqual({ id: 2 });
     });
 
-    it('should handle SAVING_NOTE_ERROR correctly', () => {
+    it('should handle DELETE_NOTE correctly', () => {
       should(reducer(state, {
-        type: types.SAVING_NOTE_ERROR,
-        error: 'terrible things!',
-      })).deepEqual({
-        error: 'terrible things!',
-      });
+        type: types.DELETE_NOTE,
+        note: null,
+      })).deepEqual({});
     });
   });
 });

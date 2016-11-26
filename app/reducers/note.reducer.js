@@ -1,27 +1,24 @@
 import {
-  SAVING_NOTE_INITIATED,
-  SAVING_NOTE_SUCCESS,
-  SAVING_NOTE_ERROR,
+  CREATE_NOTE,
+  UPDATE_NOTE,
+  DELETE_NOTE,
 } from '../constants/action-types';
 
-const initialState = {
-  error: null,
-};
+const initialState = {};
 
 export default function noteReducer(state = initialState, action) {
   switch (action.type) {
-    case SAVING_NOTE_INITIATED:
+    case CREATE_NOTE:
       return Object.assign({}, state, {
-        error: null,
-      });
-    case SAVING_NOTE_SUCCESS:
-      return Object.assign({}, state, {
-        error: null,
         ...action.note,
       });
-    case SAVING_NOTE_ERROR:
+    case UPDATE_NOTE:
       return Object.assign({}, state, {
-        error: action.error,
+        ...action.note,
+      });
+    case DELETE_NOTE:
+      return Object.assign({}, state, {
+        ...action.note,
       });
     default:
       return state;
