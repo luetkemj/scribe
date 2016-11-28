@@ -1,0 +1,75 @@
+@import '../../theme/variables';
+@import '../../theme/typography';
+@import '../../theme/icons';
+@import '../../theme/buttons';
+
+$typography: '../../theme/typography.scss';
+$buttons: '../../theme/buttons.scss';
+
+.note {
+  composes: sansSerifSmallLight from $typography;
+  margin: 0 0 10px;
+}
+
+.heading {
+  font-weight: $bold;
+}
+
+.form {
+  position: relative;
+}
+
+.input {
+  height: 24px;
+  width: 100%;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  border: 0;
+  background: $swatch03;
+  color: $swatch01;
+  @include font($sans-serif, $small, $light);
+  outline: none;
+  transition: color 300ms ease, background 300ms ease;
+}
+
+.submit {
+  @include button(do);
+  float: right;
+}
+
+.cancel {
+  @include button(undo);
+}
+
+.delete {
+  @include button(delete)
+  position: absolute;
+  top: -8px;
+  right: -13px;
+}
+
+.deleting {
+  color: $swatch09;
+
+  .heading {
+    text-decoration: line-through;
+  }
+
+  .input {
+    color: $swatch02;
+    background: $swatch09;
+  }
+
+  .delete {
+    &::before {
+      color: $swatch09;
+    }
+
+    &:hover {
+      &::before {
+        color: $swatch03;
+      }
+    }
+  }
+}
