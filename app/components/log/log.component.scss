@@ -1,0 +1,73 @@
+@import '../../theme/variables';
+@import '../../theme/typography';
+@import '../../theme/buttons';
+
+.heading {
+  @include font($serif, $large);
+  border-bottom: 1px solid $swatch01;
+  padding-bottom: 30px;
+}
+
+.log {
+  @include font($sans-serif, $small);
+  padding-top: 5px;
+  border-bottom: 1px solid $swatch03;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+}
+
+//buttons
+.addNote {
+  @include button(do);
+}
+
+.save {
+  @include button(do);
+}
+
+.edit {
+  @include button(do);
+}
+
+.cancel {
+  @include button(undo);
+}
+
+.logHeading {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+
+  div {
+    line-height: 18px;
+
+    &:last-child {
+      text-align: right;
+    }
+  }
+}
+
+.day {
+  text-transform: uppercase;
+}
+
+.time {
+  font-weight: $bold;
+}
+
+.season {
+  font-weight: $light;
+  text-transform: uppercase;
+}
+
+.temp {
+  font-weight: $light;
+}
+
+.input {
+  min-height: 20px;
+  background: $swatch02;
+}

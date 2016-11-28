@@ -24,7 +24,10 @@ export default function TestHomeContainer() {
           <Link to="/list-item">List Item</Link>
         </li>
         <li className={style.listItem}>
-          <Link to="/monster-details">Monster Details</Link>
+          <Link to="/log">Log</Link>
+        </li>
+        <li className={style.listItem}>
+          <Link to="/note">Note</Link>
         </li>
         <li className={style.listItem}>
           <Link to="/sidebar">Sidebar</Link>

@@ -9,6 +9,8 @@ import AbilityScoresTestContainer from './containers/test/ability-scores-test.co
 import DefinitionListTestContainer from './containers/test/definition-list-test.container';
 import HeaderTestContainer from './containers/test/header-test.container';
 import ListItemTestContainer from './containers/test/list-item-test.container';
+import LogTestContainer from './containers/test/log-test.container';
+import NoteTestContainer from './containers/test/note-test.container';
 import SidebarTestContainer from './containers/test/sidebar-test.container';
 import SpinnerTestContainer from './containers/test/spinner-test.container';
 import TimeKeeperTestContainer from './containers/test/time-keeper-test.container';
@@ -23,6 +25,8 @@ render(
       <Route path="definition-list" component={DefinitionListTestContainer} />
       <Route path="header" component={HeaderTestContainer} />
       <Route path="list-item" component={ListItemTestContainer} />
+      <Route path="log" component={LogTestContainer} />
+      <Route path="note" component={NoteTestContainer} />
       <Route path="sidebar" component={SidebarTestContainer} />
       <Route path="spinner" component={SpinnerTestContainer} />
       <Route path="time-keeper" component={TimeKeeperTestContainer} />

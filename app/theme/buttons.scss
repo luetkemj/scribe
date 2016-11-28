@@ -1,0 +1,46 @@
+@import '/variables';
+@import '/typography';
+@import '/icons';
+
+@mixin button($style) {
+  @include font($sans-serif, $small, $bold);
+  color: $swatch03;
+  background: transparent;
+  padding: 0;
+  border: 0;
+  outline: none;
+  cursor: pointer;
+  transition: color 300ms ease;
+
+  &:disabled {
+    color: $swatch02;
+    cursor: default;
+  }
+
+  @if $style == 'undo' {
+    &:hover {
+      color: $swatch09;
+    }
+  }
+
+  @if $style == 'do' {
+    &:hover {
+      color: $swatch06;
+    }
+  }
+
+  @if $style == 'delete' {
+    &::before {
+      color: $swatch03;
+      @include icon(cross);
+      transition: color 300ms ease;
+      font-size: 8px;
+    }
+
+    &:hover {
+      &::before {
+        color: $swatch09;
+      }
+    }
+  }
+}
