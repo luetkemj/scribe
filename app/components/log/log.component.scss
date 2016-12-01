@@ -14,27 +14,33 @@
   border-bottom: 1px solid $swatch03;
 
   &:hover {
-    .controls,
-    .addNote {
+    .topControls,
+    .bottomControls {
       opacity: 1;
     }
   }
 }
 
-.controls {
-  display: flex;
-  justify-content: space-between;
+.topControls {
   opacity: 0;
   transition: opacity 300ms ease;
-
   height: 21px;
+
+  > div {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.bottomControls {
+  opacity: 0;
+  transition: opacity 300ms ease;
+  height: 76px;
 }
 
 //buttons
 .addNote {
   @include button(do);
-  opacity: 0;
-  transition: opacity 300ms ease;
 }
 
 .save {

@@ -2,14 +2,16 @@
 
 .campaignContainer {
   @include column-container;
+  align-items: stretch;
+  width: 100%;
 }
 
 .workTable {
-  flex-grow: 2;
+  flex: 2;
 }
 
 .history {
-  flex-grow: 1;
   padding: 0 20px;
-  overflow: scroll;
+  overflow-y: scroll;
+  flex: 1;
 }
