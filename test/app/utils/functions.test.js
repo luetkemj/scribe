@@ -28,4 +28,30 @@ describe('utils/functions', () => {
       should(expected).equal(actual);
     });
   });
+
+  describe('parseMs', () => {
+    it('should work', () => {
+      const expected = {
+        total: 10,
+        remainder: 1,
+      };
+      const actual = functions.parseMs(101, 10);
+
+      should(expected).deepEqual(actual);
+    });
+  });
+
+  describe('buildTimeUI', () => {
+    it('should work', () => {
+      const expected = {
+        days: 1,
+        hours: 1,
+        minutes: 1,
+        seconds: 1,
+      };
+      const actual = functions.buildTimeUI(90061000);
+
+      should(expected).deepEqual(actual);
+    });
+  });
 });

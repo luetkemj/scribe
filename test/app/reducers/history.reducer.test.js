@@ -45,15 +45,15 @@ describe('the history reducer', () => {
       should(reducer(state, {
         type: types.LOADING_LOGS_SUCCESS,
         logs: [
-          { id: 1 },
-          { id: 2 },
+          { id: 1, notes: [] },
+          { id: 2, notes: [] },
         ],
       })).deepEqual({
         loading: false,
         error: null,
         logs: [
-          { id: 1 },
-          { id: 2 },
+          { id: 1, notes: [] },
+          { id: 2, notes: [] },
         ],
       });
     });

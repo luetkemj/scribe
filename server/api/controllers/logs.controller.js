@@ -61,12 +61,11 @@ export function createLog(req, res) {
 export function updateLog(req, res) {
   const { id } = req.params;
 
-  Log.findByIdAndUpdate(id, { $set: req.body }, (err, log) => {
+  Log.findByIdAndUpdate(id, req.body, { new: true }, (err, log) => {
     if (err) {
       logger.log(`Error: ${err}`);
       return res.send(err);
     }
-
     logger.log('updateLog: %j', log);
     return res.send(log);
   });

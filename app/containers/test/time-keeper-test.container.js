@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import TimeKeeper from '../../components/time-keeper/time-keeper.component';
+import { parseMs } from '../../utils/functions';
 
 export default class TimeKeeperTestContainer extends Component {
   state = {
@@ -13,23 +14,13 @@ export default class TimeKeeperTestContainer extends Component {
     rotation: -180,
   }
 
-  parseMs(milliseconds, divisor) {
-    this.total = Math.trunc(milliseconds / divisor);
-    this.remainder = milliseconds % divisor;
-
-    return {
-      total: this.total,
-      remainder: this.remainder,
-    };
-  }
-
   increment = (initialMs, milliseconds) => {
     // add milliseconds to current time parsing it into days, hours, minutes, seconds
     const ms = initialMs + milliseconds;
-    const days = this.parseMs(ms, 86400000);
-    const hours = this.parseMs(days.remainder, 3600000);
-    const minutes = this.parseMs(hours.remainder, 60000);
-    const seconds = this.parseMs(minutes.remainder, 1000);
+    const days = parseMs(ms, 86400000);
+    const hours = parseMs(days.remainder, 3600000);
+    const minutes = parseMs(hours.remainder, 60000);
+    const seconds = parseMs(minutes.remainder, 1000);
 
     // set the sky colors per time of day
     let sky;

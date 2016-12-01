@@ -51,8 +51,11 @@ function loadingLogError(error) {
   };
 }
 
-function updatingLogInitiated() {
-  return { type: UPDATING_LOG_INITIATED };
+function updatingLogInitiated(log) {
+  return {
+    type: UPDATING_LOG_INITIATED,
+    log,
+  };
 }
 
 function updatingLogSuccess(log) {
@@ -135,12 +138,12 @@ export function loadLogIfNeeded(id) {
 
 export function updateLog(log) {
   return (dispatch) => {
-    dispatch(updatingLogInitiated());
+    dispatch(updatingLogInitiated(log));
 
     const uri = getUpdateLogUrl(log._id);
     const options = Object.assign({}, FETCH_DEFAULT_OPTIONS, {
-      method: 'POST',
-      body: log,
+      method: 'PATCH',
+      body: JSON.stringify(log),
     });
 
     return fetch(uri, options)

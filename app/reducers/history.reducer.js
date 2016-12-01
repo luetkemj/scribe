@@ -44,12 +44,31 @@ export default function historyReducer(state = initialState, action) {
         loading: false,
         error: null,
       });
-    case LOADING_LOGS_SUCCESS:
+    case LOADING_LOGS_SUCCESS: {
+      // we need to add some state to our notes. Since they are deep in state we do some
+      // child-reducer-fu iterating over all of our logs and their notes.
+      const updatedLogs = cloneDeep(action.logs);
+      let index = 0;
+      for (let log of updatedLogs) {
+        // here we send the same action.type we started with but pass notes on the action to our
+        // logReducer
+        log = logReducer(log, {
+          type: action.type,
+          notes: log.notes,
+        });
+
+        // update the logs after all that reducer-fu
+        updatedLogs[index] = log;
+
+        index += 1;
+      }
+
       return Object.assign({}, state, {
         loading: false,
         error: null,
-        logs: action.logs,
+        logs: updatedLogs,
       });
+    }
     case LOADING_LOGS_ERROR:
       return Object.assign({}, state, {
         loading: false,
@@ -73,10 +92,10 @@ export default function historyReducer(state = initialState, action) {
     case UPDATE_NOTE:
     case DELETE_NOTE: {
       const updatedState = cloneDeep(state);
-      const { logId } = action;
+      const { log: initialLog } = action;
 
       // grab the log which we will modify
-      let log = find(updatedState.logs, ['_id', logId]);
+      let log = find(updatedState.logs, ['_id', initialLog._id]);
 
       // if we can't find a log, bail!
       if (!log) {

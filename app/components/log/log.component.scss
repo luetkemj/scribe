@@ -12,16 +12,29 @@
   @include font($sans-serif, $small);
   padding-top: 5px;
   border-bottom: 1px solid $swatch03;
+
+  &:hover {
+    .controls,
+    .addNote {
+      opacity: 1;
+    }
+  }
 }
 
 .controls {
   display: flex;
   justify-content: space-between;
+  opacity: 0;
+  transition: opacity 300ms ease;
+
+  height: 21px;
 }
 
 //buttons
 .addNote {
   @include button(do);
+  opacity: 0;
+  transition: opacity 300ms ease;
 }
 
 .save {

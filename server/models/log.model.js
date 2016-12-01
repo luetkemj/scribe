@@ -17,7 +17,12 @@ const LogSchema = new Schema({
   },
   weather: String,
   notes: [{
-    type: String,
+    heading: {
+      type: String,
+    },
+    content: {
+      type: String,
+    },
   }],
 });
 

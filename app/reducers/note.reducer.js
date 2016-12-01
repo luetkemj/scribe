@@ -1,4 +1,5 @@
 import {
+  LOADING_LOGS_SUCCESS,
   CREATE_NOTE,
   UPDATE_NOTE,
   DELETE_NOTE,
@@ -8,6 +9,13 @@ const initialState = {};
 
 export default function noteReducer(state = initialState, action) {
   switch (action.type) {
+    case LOADING_LOGS_SUCCESS: {
+      return Object.assign({}, state, {
+        creating: false,
+        editing: false,
+        deleting: false,
+      });
+    }
     case CREATE_NOTE:
       return Object.assign({}, state, {
         ...action.note,
