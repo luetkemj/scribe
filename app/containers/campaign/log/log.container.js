@@ -1,27 +1,24 @@
-import React, { Component } from 'react';
-import { cloneDeep, remove, find } from 'lodash';
-import Log from '../../components/log/log.component';
+import React, { Component, PropTypes } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { cloneDeep, find, remove } from 'lodash';
 
-export default class LogTestContainer extends Component {
-  // setup initial state that we can use to mock our store.
+import Log from '../../../components/log/log.component';
+
+import { updateLog } from '../../../actions/log.actions';
+import { buildTimeUI, leadingZero } from '../../../utils/functions';
+
+class LogContainer extends Component {
   state = {
     tempNotes: [],
-    notes: [
-      {
-        _id: 0,
-        heading: 'Note',
-        content: 'My last Note!',
-        creating: false,
-        deleting: false,
-      },
-    ],
     editingNotes: false,
+    creatingNote: false,
   }
 
   editNotes = () => {
     // in order to support cancelation of edits we need to clone our inital notes as temp notes so
     // we can revert to the initial notes on cancel - or set inital notes = temp notes on save.
-    const tempNotes = cloneDeep(this.state.notes);
+    const tempNotes = cloneDeep(this.props.log.notes);
     this.setState({
       tempNotes,
       editingNotes: true,
@@ -56,18 +53,19 @@ export default class LogTestContainer extends Component {
     const notes = cloneDeep(this.state.tempNotes);
 
     this.setState({
-      notes,
       tempNotes: [],
       editingNotes: false,
     });
+
+    const log = Object.assign({}, this.props.log, { notes });
+
+    this.props.updateLog(log);
   }
 
   addNote = () => {
-    const tempNotes = this.state.notes;
-    const id = tempNotes.length;
+    const tempNotes = cloneDeep(this.props.log.notes);
 
     tempNotes.push({
-      _id: id,
       heading: 'Note',
       content: '',
       creating: true,
@@ -77,7 +75,7 @@ export default class LogTestContainer extends Component {
 
     this.setState({
       tempNotes,
-      creatingNotes: true,
+      creatingNote: true,
     });
   }
 
@@ -88,17 +86,6 @@ export default class LogTestContainer extends Component {
     });
   }
 
-  // submitAddNote = (content) => {
-  //   const notes = this.state.notes;
-  //   // save the new note contents to the existing note in our notes array.
-  //   notes[Number(id)].content = content;
-  //   notes[Number(id)].creating = false;
-  //
-  //   this.setState({
-  //     notes,
-  //   });
-  // }
-
   submitAddNote = (content) => {
     const tempNotes = this.state.tempNotes;
     const index = [tempNotes.length - 1];
@@ -108,11 +95,11 @@ export default class LogTestContainer extends Component {
 
     // assign tempNotes back to our notes so we can save them on the log
     const notes = tempNotes;
-    // const log = Object.assign({}, this.props.log, { notes });
-    // this.props.updateLog(log);
+    const log = Object.assign({}, this.props.log, { notes });
+
+    this.props.updateLog(log);
 
     this.setState({
-      notes,
       tempNotes: [],
       creatingNote: false,
     });
@@ -131,27 +118,27 @@ export default class LogTestContainer extends Component {
   }
 
   render() {
+    const { log } = this.props;
+    const timeUI = buildTimeUI(log.time);
+    const time =
+      `${leadingZero(timeUI.hours)}:${leadingZero(timeUI.minutes)}:${leadingZero(timeUI.seconds)}`;
+
     let notes;
     // if we are editing or creating use our tempNotes for props
     if (this.state.editingNotes || this.state.creatingNote) {
       notes = this.state.tempNotes;
     // if we are not editing use our notes on props
     } else {
-      notes = this.state.notes;
+      notes = this.props.log.notes;
     }
 
     return (
-      <div
-        style={{
-          width: '300px',
-          margin: '0 auto',
-        }}
-      >
+      <div>
         <Log
-          day={1}
-          time={'00:00:00'}
-          season={'Winter'}
-          weather={'Rainy and cold'}
+          day={timeUI.days}
+          time={time}
+          season={log.season}
+          weather={log.weather}
           notes={notes}
           save={this.saveNotes}
           addNote={this.addNote}
@@ -162,11 +149,21 @@ export default class LogTestContainer extends Component {
           cancelEditNotes={this.cancelEditNotes}
           toggleNoteDeletion={this.toggleNoteDeletion}
         />
-
-        <pre>
-          {JSON.stringify(this.state, null, 2)}
-        </pre>
       </div>
     );
   }
 }
+
+LogContainer.propTypes = {
+  log: PropTypes.shape(),
+  updateLog: PropTypes.func.isRequired,
+};
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ updateLog }, dispatch);
+}
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(LogContainer);

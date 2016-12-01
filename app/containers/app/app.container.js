@@ -8,6 +8,10 @@ import style from './app.container.scss';
 export default function App({ children, location }) {
   const sidebarLinks = [
     {
+      name: 'campaign',
+      path: 'campaign',
+    },
+    {
       name: 'monsters',
       path: 'monsters',
     },

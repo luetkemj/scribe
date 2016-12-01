@@ -1,0 +1,15 @@
+@import '../../theme/layout';
+
+.campaignContainer {
+  @include column-container;
+}
+
+.workTable {
+  flex-grow: 2;
+}
+
+.history {
+  flex-grow: 1;
+  padding: 0 20px;
+  overflow: scroll;
+}

@@ -64,7 +64,7 @@ export default class Log extends Component {
     this.props.cancelAddNote();
   }
 
-  submitAddNote = (event, id, content) => {
+  submitAddNote = (event, content) => {
     this.setState({
       addingNote: false,
     });
@@ -72,7 +72,7 @@ export default class Log extends Component {
     event.currentTarget.blur();
     event.preventDefault();
 
-    this.props.submitAddNote(id, content);
+    this.props.submitAddNote(content);
   }
 
   updateTempNotes = (id, content) => {
@@ -92,6 +92,10 @@ export default class Log extends Component {
           <button className={style.cancel} onClick={this.cancel}>CANCEL</button>
           <button className={style.save} onClick={this.save}>SAVE</button>
         </div>
+      );
+    } else if (this.state.addingNote) {
+      controlsToRender = (
+        <div className={style.controls} />
       );
     } else {
       controlsToRender = (
@@ -116,7 +120,7 @@ export default class Log extends Component {
       notesToRender = notes.map((note, index) => (
         <Note
           key={index}
-          id={index.toString()}
+          id={note._id}
           heading={note.heading}
           content={note.content}
           creating={note.creating}

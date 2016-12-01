@@ -27,8 +27,7 @@ export default class Note extends Component {
     event.preventDefault();
 
     const content = this.state.content;
-    const id = this.props.id;
-    this.props.submitAddNote(event, id, content);
+    this.props.submitAddNote(event, content);
   }
 
   cancel = (event) => {
@@ -127,11 +126,11 @@ export default class Note extends Component {
 
 Note.propTypes = {
   id: PropTypes.string,
-  heading: PropTypes.string,
-  content: PropTypes.string,
-  creating: PropTypes.bool.isRequired,
-  editing: PropTypes.bool.isRequired,
-  deleting: PropTypes.bool.isRequired,
+  heading: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  creating: PropTypes.bool,
+  editing: PropTypes.bool,
+  deleting: PropTypes.bool,
 
   submitAddNote: PropTypes.func.isRequired,
   cancelAddNote: PropTypes.func.isRequired,
