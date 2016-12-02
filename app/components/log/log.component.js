@@ -83,36 +83,39 @@ export default class Log extends Component {
     const { day, time, weather, season, notes } = this.props;
 
     let controlsToRender;
-    let addNoteButton;
+    let bottomControlsToRender;
+    let addNoteButtonToRender;
     let notesToRender;
 
     if (this.state.editing) {
       controlsToRender = (
-        <div className={style.controls}>
+        <div>
           <button className={style.cancel} onClick={this.cancel}>CANCEL</button>
           <button className={style.save} onClick={this.save}>SAVE</button>
         </div>
       );
-    } else if (this.state.addingNote) {
+    } else if (!this.state.addingNote) {
       controlsToRender = (
-        <div className={style.controls} />
-      );
-    } else {
-      controlsToRender = (
-        <div className={style.controls}>
-          <button className={style.edit} onClick={this.edit}>EDIT</button>
-        </div>
+        <button className={style.edit} onClick={this.edit}>EDIT</button>
       );
     }
 
     if (!this.state.addingNote && !this.state.editing) {
-      addNoteButton = (
+      addNoteButtonToRender = (
         <button
           className={style.addNote}
           onClick={this.addNote}
         >
           ADD NOTE
         </button>
+      );
+    }
+
+    if (!this.state.addingNote) {
+      bottomControlsToRender = (
+        <div className={style.bottomControls}>
+          {addNoteButtonToRender}
+        </div>
       );
     }
 
@@ -136,7 +139,9 @@ export default class Log extends Component {
 
     return (
       <div className={style.log}>
-        {controlsToRender}
+        <div className={style.topControls}>
+          {controlsToRender}
+        </div>
         <div className={style.logHeading}>
           <div>
             <div className={style.day}>Day {day}</div>
@@ -148,7 +153,7 @@ export default class Log extends Component {
           </div>
         </div>
         {notesToRender}
-        {addNoteButton}
+        {bottomControlsToRender}
       </div>
     );
   }
