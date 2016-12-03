@@ -13,12 +13,12 @@ export function getLogs(req, res) {
   .find({})
   .skip(Number(skip) || 0)
   .limit(Number(limit) || 10)
-  .sort('time')
+  .sort({ time: -1 })
   .lean()
   .exec((err, logs) => {
     if (!err) {
+      logger.log(`getLogs: logs.length: ${logs.length}`);
       const logsUI = _.map(logs, log => buildLogUI(log));
-      logger.log('getLogs: %j', logsUI);
       return res.send(logsUI);
     }
     logger.log('getLogs Error: %j', err);

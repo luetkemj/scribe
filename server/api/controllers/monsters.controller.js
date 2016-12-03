@@ -31,8 +31,8 @@ export function getMonsters(req, res) {
   .lean()
   .exec((err, monsters) => {
     if (!err) {
+      logger.log(`getMonsters: monsters.length ${monsters.length}`);
       const monstersUI = _.map(monsters, monster => buildMonsterUI(monster));
-      logger.log('getMonsters: %j', monstersUI);
       return res.send(monstersUI);
     }
     logger.log('getMonsters Error: %j', err);

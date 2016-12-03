@@ -200,7 +200,7 @@ describe('logActions', () => {
         fetchMock.mock(DELETE_LOG_URL, {
           method: 'DELETE',
           status: 200,
-          body: { log: null },
+          body: { _id: 1 },
         });
       });
 
@@ -211,7 +211,7 @@ describe('logActions', () => {
           should(actions.length).equal(2);
           should(actions[0].type).equal(types.DELETING_LOG_INITIATED);
           should(actions[1].type).equal(types.DELETING_LOG_SUCCESS);
-          should(actions[1].log).equal(null);
+          should(actions[1].log).deepEqual({ _id: 1 });
         })
         .then(done)
         .catch(done);

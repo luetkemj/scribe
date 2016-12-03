@@ -1,11 +1,10 @@
-import { cloneDeep, find, indexOf } from 'lodash';
+import { cloneDeep, find, pullAllWith, isEqual, indexOf } from 'lodash';
 import logReducer from './log.reducer.js';
 import {
   LOADING_LOGS_INITIATED,
   LOGS_ALREADY_LOADED,
   LOADING_LOGS_SUCCESS,
   LOADING_LOGS_ERROR,
-
   LOADING_LOG_INITIATED,
   LOG_ALREADY_LOADED,
   LOADING_LOG_SUCCESS,
@@ -75,6 +74,41 @@ export default function historyReducer(state = initialState, action) {
         error: action.error,
         logs: [],
       });
+    case CREATING_LOG_INITIATED:
+      return Object.assign({}, state, {
+        loading: true,
+      });
+    case CREATING_LOG_SUCCESS: {
+      const tempLogs = [];
+      const logs = tempLogs.concat(action.log, state.logs);
+
+      return Object.assign({}, state, {
+        loading: false,
+        logs,
+      });
+    }
+    case CREATING_LOG_ERROR:
+      return Object.assign({}, state, {
+        error: action.error,
+      });
+    case DELETING_LOG_INITIATED:
+      return Object.assign({}, state, {
+        loading: true,
+      });
+    case DELETING_LOG_SUCCESS: {
+      const logs = state.logs;
+      pullAllWith(logs, [action.log], isEqual);
+
+      return Object.assign({}, state, {
+        loading: false,
+        logs,
+      });
+    }
+    case DELETING_LOG_ERROR:
+      return Object.assign({}, state, {
+        loading: false,
+        error: action.error,
+      });
     case LOADING_LOG_INITIATED:
     case LOG_ALREADY_LOADED:
     case LOADING_LOG_SUCCESS:
@@ -82,12 +116,6 @@ export default function historyReducer(state = initialState, action) {
     case UPDATING_LOG_INITIATED:
     case UPDATING_LOG_SUCCESS:
     case UPDATING_LOG_ERROR:
-    case CREATING_LOG_INITIATED:
-    case CREATING_LOG_SUCCESS:
-    case CREATING_LOG_ERROR:
-    case DELETING_LOG_INITIATED:
-    case DELETING_LOG_SUCCESS:
-    case DELETING_LOG_ERROR:
     case CREATE_NOTE:
     case UPDATE_NOTE:
     case DELETE_NOTE: {
