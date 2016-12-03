@@ -161,7 +161,7 @@ export function createLog(log) {
     const uri = getCreateLogUrl();
     const options = Object.assign({}, FETCH_DEFAULT_OPTIONS, {
       method: 'POST',
-      body: log,
+      body: JSON.stringify(log),
     });
 
     return fetch(uri, options)
@@ -184,7 +184,7 @@ export function deleteLog(log) {
     return fetch(uri, options)
       .then(checkHttpStatus)
       .then(response => response.json())
-      .then(dispatch(deletingLogSuccess(null)))
+      .then(dispatch(deletingLogSuccess(log)))
       .catch(error => handleHttpError(dispatch, error, deletingLogError));
   };
 }

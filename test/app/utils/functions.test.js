@@ -48,6 +48,9 @@ describe('utils/functions', () => {
         hours: 1,
         minutes: 1,
         seconds: 1,
+        ms: 90061000,
+        rotation: -555.25,
+        sky: 'night',
       };
       const actual = functions.buildTimeUI(90061000);
 

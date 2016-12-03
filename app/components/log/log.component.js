@@ -8,6 +8,13 @@ export default class Log extends Component {
     addingNote: false,
   }
 
+  delete = (event) => {
+    event.currentTarget.blur();
+    event.preventDefault();
+
+    this.props.delete(this.props.log);
+  }
+
   edit = (event) => {
     this.setState({
       editing: true,
@@ -154,6 +161,12 @@ export default class Log extends Component {
         </div>
         {notesToRender}
         {bottomControlsToRender}
+        <button
+          className={style.delete}
+          onClick={this.delete}
+        >
+          DELETE
+        </button>
       </div>
     );
   }
@@ -161,6 +174,7 @@ export default class Log extends Component {
 
 Log.propTypes = {
   save: PropTypes.func.isRequired,
+  delete: PropTypes.func.isRequired,
   addNote: PropTypes.func.isRequired,
   cancelAddNote: PropTypes.func.isRequired,
   submitAddNote: PropTypes.func.isRequired,
@@ -169,6 +183,7 @@ Log.propTypes = {
   updateTempNotes: PropTypes.func.isRequired,
   toggleNoteDeletion: PropTypes.func.isRequired,
 
+  log: PropTypes.shape().isRequired,
   day: PropTypes.number.isRequired,
   time: PropTypes.string.isRequired,
   season: PropTypes.string.isRequired,

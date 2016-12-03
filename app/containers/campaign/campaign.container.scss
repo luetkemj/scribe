@@ -1,5 +1,7 @@
 @import '../../theme/layout';
+@import '../../theme/typography';
 
+// layout
 .campaignContainer {
   @include column-container;
   align-items: stretch;
@@ -7,11 +9,32 @@
 }
 
 .workTable {
-  flex: 2;
+  flex-grow: 1;
 }
 
 .history {
-  padding: 0 20px;
+  padding: 0 18px;
+  margin: 20px 0;
   overflow-y: scroll;
-  flex: 1;
+  border-left: 1px solid $swatch01;
+  max-width: 320px;
+}
+
+.current {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.weather {
+  border-left: 1px solid $swatch01;
+  padding-left: 20px;
+}
+
+// styles
+.heading {
+  @include font($serif, $large);
+  border-bottom: 1px solid $swatch01;
+  padding-bottom: 30px;
 }
