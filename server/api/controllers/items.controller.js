@@ -17,8 +17,8 @@ export function getItems(req, res) {
   .lean()
   .exec((err, items) => {
     if (!err) {
+      logger.log(`getItems: items.length: ${items.length}`);
       const itemsUI = _.map(items, item => buildItemUI(item));
-      logger.log('getItems: %j', itemsUI);
       return res.send(itemsUI);
     }
     logger.log('getItems Error: %j', err);
