@@ -126,5 +126,16 @@ describe('the history reducer', () => {
         logs: [{ _id: 1 }, { _id: 3 }],
       });
     });
+
+    it('should handle DELETING_LOG_ERROR correctly', () => {
+      should(reducer(state, {
+        type: types.DELETING_LOG_ERROR,
+        error: 'bad things!',
+      })).deepEqual({
+        loading: false,
+        error: 'bad things!',
+        logs: [],
+      });
+    });
   });
 });
