@@ -36,10 +36,16 @@ class CampaignContainer extends Component {
   }
 
   render() {
-    const { logs } = this.props.historyState;
-
+    const { logs, error } = this.props.historyState;
+    let errorToRender;
     let logsToRender;
     let timeKeeperToRender;
+
+    if (error) {
+      errorToRender = (
+        'ERROR!'
+      );
+    }
 
     if (logs.length) {
       logsToRender = logs.map(log => (
@@ -119,7 +125,7 @@ class CampaignContainer extends Component {
           </div>
 
           <div className={style.heading}>Campaign History</div>
-
+          {errorToRender}
           {logsToRender}
         </div>
       </div>
