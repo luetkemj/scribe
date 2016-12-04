@@ -88,41 +88,34 @@ export default class Log extends Component {
 
   render() {
     const { day, time, weather, season, notes } = this.props;
-
-    let controlsToRender;
-    let bottomControlsToRender;
+    let editButtonToRender;
+    let cancelButtonToRender;
+    let saveButtonToRender;
     let addNoteButtonToRender;
+    let deleteButtonToRender;
     let notesToRender;
 
     if (this.state.editing) {
-      controlsToRender = (
-        <div>
-          <button className={style.cancel} onClick={this.cancel}>CANCEL</button>
-          <button className={style.save} onClick={this.save}>SAVE</button>
-        </div>
+      cancelButtonToRender = (
+        <button className={style.cancel} onClick={this.cancel}>CANCEL</button>
       );
-    } else if (!this.state.addingNote) {
-      controlsToRender = (
-        <button className={style.edit} onClick={this.edit}>EDIT</button>
+
+      saveButtonToRender = (
+        <button className={style.save} onClick={this.save}>SAVE</button>
+      );
+
+      deleteButtonToRender = (
+        <button className={style.delete} onClick={this.delete}>DELETE</button>
       );
     }
 
     if (!this.state.addingNote && !this.state.editing) {
       addNoteButtonToRender = (
-        <button
-          className={style.addNote}
-          onClick={this.addNote}
-        >
-          ADD NOTE
-        </button>
+        <button className={style.addNote} onClick={this.addNote}>ADD NOTE</button>
       );
-    }
 
-    if (!this.state.addingNote) {
-      bottomControlsToRender = (
-        <div className={style.bottomControls}>
-          {addNoteButtonToRender}
-        </div>
+      editButtonToRender = (
+        <button className={style.edit} onClick={this.edit}>EDIT</button>
       );
     }
 
@@ -147,7 +140,9 @@ export default class Log extends Component {
     return (
       <div className={style.log}>
         <div className={style.topControls}>
-          {controlsToRender}
+          {editButtonToRender}
+          {cancelButtonToRender}
+          {saveButtonToRender}
         </div>
         <div className={style.logHeading}>
           <div>
@@ -160,13 +155,10 @@ export default class Log extends Component {
           </div>
         </div>
         {notesToRender}
-        {bottomControlsToRender}
-        <button
-          className={style.delete}
-          onClick={this.delete}
-        >
-          DELETE
-        </button>
+        <div className={style.bottomControls}>
+          {addNoteButtonToRender}
+          {deleteButtonToRender}
+        </div>
       </div>
     );
   }

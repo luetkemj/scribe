@@ -14,45 +14,48 @@
   border-bottom: 1px solid $swatch03;
 
   &:hover {
-    .topControls,
-    .bottomControls {
+    .edit,
+    .addNote {
       opacity: 1;
     }
   }
 }
 
 .topControls {
-  opacity: 0;
-  transition: opacity 300ms ease;
   height: 21px;
-
-  > div {
-    display: flex;
-    justify-content: space-between;
-  }
-}
-
-.bottomControls {
-  opacity: 0;
-  transition: opacity 300ms ease;
-  height: 76px;
+  display: flex;
+  justify-content: space-between;
 }
 
 //buttons
 .addNote {
   @include button(do);
-}
-
-.save {
-  @include button(do);
+  opacity: 0;
+  transition: opacity 300ms ease, color 300ms ease;
 }
 
 .edit {
   @include button(do);
+  opacity: 0;
+  transition: opacity 300ms ease, color 300ms ease;
+}
+
+.save {
+  @include button(do);
+  opacity: 1;
+  transition: opacity 300ms ease, color 300ms ease;
+}
+
+.delete {
+  @include button(undo);
+  opacity: 1;
+  transition: opacity 300ms ease, color 300ms ease;
 }
 
 .cancel {
   @include button(undo);
+  opacity: 1;
+  transition: opacity 300ms ease, color 300ms ease;
 }
 
 .logHeading {
