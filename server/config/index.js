@@ -10,6 +10,7 @@ const config = {
     monsters: '/api/monsters',
     items: '/api/items',
     logs: '/api/logs',
+    charts: '/api/charts',
   },
 };
 
