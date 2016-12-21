@@ -10,7 +10,8 @@ import {
   backFill,
   stormOverFlow,
   fillStormGaps,
-  trackStorm } from '../../lib/generators';
+  trackStorm,
+  topOff } from '../../lib/generators';
 import { ZONE_VARIANCE, STORM_TYPE_TABLE } from '../../config/constants/weather.constants';
 
 const logger = require('../../lib/logger')();
@@ -44,7 +45,6 @@ export function generateWeather(req, res) {
       for (let i = 0; i < 24; i += 1) {
         temps.push({ temp: getRandomInt(low, high) });
       }
-      logger.log('generateWeather: temps: %j', temps);
 
       let stormType = 'none';
       if (weatherClass) {
@@ -58,15 +58,13 @@ export function generateWeather(req, res) {
         shimmy(_.chain(temps).orderBy('temp').reverse().value()),
         initialMs
       );
-      logger.log('generateWeather: hourlyTemps: %j', hourlyTemps);
 
       // if storm track and map to hourlyTemps
       // otherwise just return hourlyTemps
       let hourlyWeather = hourlyTemps;
 
       const storm = generateStorm(stormType);
-      logger.log('stormType', stormType);
-      logger.log('storm', storm);
+
       if (stormType) {
         const stormWindow = getStormWindow(hourlyWeather, storm);
         const stormStart = getRandomInt(stormWindow.start, stormWindow.end);
@@ -75,20 +73,44 @@ export function generateWeather(req, res) {
         const hourlyWeatherWithStorms = _.orderBy(hourlyWeather.concat(trackedStorm.cells), 'time');
 
         // set temps on each index - if none exists on current index use temp from previous.
-        hourlyWeather = fillStormGaps(
-          stormOverFlow(backFill(_.orderBy(hourlyWeatherWithStorms, 'time'), 'temp')));
+        // hourlyWeather = topOff(
+        //   fillStormGaps(
+        //   stormOverFlow(backFill(_.orderBy(hourlyWeatherWithStorms, 'time'), 'temp'))));
+
+        // order weather array with storms by time
+        hourlyWeather = _.orderBy(hourlyWeatherWithStorms, 'time');
+
+        // storms cells are not generated with a current temp
+        // Now that our storms are ordered with our hourly temps we can look back to the previous
+        // record and grab that temp in order to add to oour storm cells
+        hourlyWeather = backFill(hourlyWeather, 'temp');
+
+        // Sometimes a storm cells duration does not end before the next record begins.
+        // Here we handle that problem by overflowing the conditons of the storm cell into
+        // the next record.
+        hourlyWeather = stormOverFlow(hourlyWeather);
+
+        // Sometimes a storm cells record will end before the next record begins. Here we fill in
+        // the gap with a new record.
+        hourlyWeather = fillStormGaps(hourlyWeather);
+
+        // Sometimes a storm begins after the 11pm and ends before midnight. In this instance we
+        // do not have a record from the end of the storm to midnight.
+        // Here we test for this case and add a record if need be.
+        hourlyWeather = topOff(hourlyWeather);
       }
 
       const currentWeather = {
-        temp: {
-          forecast: {
-            low,
-            high,
-            stormType,
-          },
-          hourlyWeather,
+        forecast: {
+          low,
+          high,
+          stormType,
+// add rough estimate for storm start - what a sailor would say when they look at the sky.
         },
+        hourlyWeather,
       };
+
+      logger.log('generateWeather: currentWeather: %j', currentWeather);
 
       return res.send(currentWeather);
     }
