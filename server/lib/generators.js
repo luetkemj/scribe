@@ -20,8 +20,8 @@ export function d30() {
 }
 
 // convert minutes to milliseconds
-export function toMs(min) {
-  return min * 60000;
+export function toMs(minutes) {
+  return minutes * 60000;
 }
 
 // alternates pushing and shifting elements from candidate onto new array.
@@ -40,9 +40,6 @@ export function shimmy(array) {
   return newArray;
 }
 
-/*
- * @TODO: test this bugger!
- */
 export function assignTime(array, initialMs) {
   return array.map((item, index) => ({
     ...item,
@@ -51,43 +48,100 @@ export function assignTime(array, initialMs) {
   }));
 }
 
-/*
- * @TODO: test this bugger!
- * will need to break it into smaller bits and get the random func out of there.
- */
-export function trackStorm(hourly, storm) {
-  logger.log('trackStorm: storm: %j', storm);
-  const startOfDay = hourly[0].time;
-  // get endofday
+export function getStormWindow(hourlyWeather, storm) {
+  const startOfDay = hourlyWeather[0].time;
   const endOfDay = startOfDay + 86400000;
-  // subtract storm duration
-  const endOfStormWindow = endOfDay - storm.duration;
-  // get random time from start of day to last possible start of storm
-  const stormStartTime = getRandomInt(startOfDay, endOfStormWindow);
+
+  return {
+    start: startOfDay,
+    end: endOfDay - storm.duration,
+  };
+}
+
+/**
+ * Add start and end times to each storm cell
+ * @param  {object} storm          [object that represents our storm with an array of cells]
+ * @param  {number} stormStartTime [milliseconds from start of gameTime when storm begins]
+ * @return {object}                [new object that represents our storm with tracked cells]
+ */
+export function trackStorm(storm, stormStartTime) {
   let time = stormStartTime;
-  logger.log('trackStorm: time: %s', time);
-  logger.log('trackStorm: stormStartTime: %s', stormStartTime);
+  const trackedStorm = storm;
 
-  for (let i = 0; i < storm.cells.length; i += 1) {
-    hourly.push({
-      time,
-      cell: storm.cells[i],
-    });
+  for (let i = 0; i < trackedStorm.cells.length; i += 1) {
+    trackedStorm.cells[i].time = time;
+    trackedStorm.cells[i].endTime = time + trackedStorm.cells[i].duration;
 
-    time += storm.cells[i].duration + storm.cells[i].delay;
-    logger.log('trackStorm: time: %s', time);
+    time += trackedStorm.cells[i].duration + trackedStorm.cells[i].delay;
   }
 
-  const newArray = _.orderBy(hourly, 'time');
+  return trackedStorm;
+}
 
+/**
+ * checks each array index for a property setting property = to the value of the property
+ * at previous index in array if proprty at current index is undefined.
+ * @param  {array}  array    [Array of objects to back fill]
+ * @param  {[type]} property [Property to look for at each index]
+ * @return {array}           [New backfilled array]
+ */
+export function backFill(array, property) {
+  const newArray = array;
   for (let i = 0; i < newArray.length; i += 1) {
-    if (_.isUndefined(newArray[i].temp)) {
-      newArray[i].temp = newArray[i - 1].temp;
+    if (_.isUndefined(newArray[i][property])) {
+      newArray[i][property] = newArray[i - 1][property];
+    }
+  }
+  return newArray;
+}
+
+
+export function stormOverFlow(array) {
+  const newArray = array;
+  for (let i = 0; i < newArray.length; i += 1) {
+    if (newArray[i + 1]) {
+      const next = newArray[i + 1];
+      const current = newArray[i];
+      if (current.endTime > next.time) {
+        newArray[i + 1] = {
+          duration: current.duration,
+          effect: current.effect,
+          delay: current.delay,
+          time: next.time,
+          endTime: current.endTime,
+          temp: current.temp,
+          overFlow: true,
+        };
+      }
     }
   }
 
   return newArray;
 }
+
+export function fillStormGaps(array) {
+  const newArray = array;
+  const tempArray = [];
+
+  for (let i = 0; i < newArray.length; i += 1) {
+    if (newArray[i + 1]) {
+      logger.log('checking storm drains');
+      const next = newArray[i + 1];
+      const current = newArray[i];
+      if (current.endTime < next.time) {
+        logger.log('filling storm drains');
+        tempArray.push({
+          time: current.endTime + 1,
+          temp: current.temp,
+          filler: true,
+        });
+      }
+    }
+  }
+
+  return _.orderBy(newArray.concat(tempArray), 'time');
+}
+
 
 /*
  * @TODO: test this bugger!
@@ -111,7 +165,7 @@ export function generateMultiCell(table, cluster) {
   let totalDuration = 0;
 
   for (let i = 0; i < d6() + 2; i += 1) {
-    let delay;
+    let delay = 0;
     if (cluster) {
       delay = Math.ceil(d30() / 2);
       totalDuration += toMs(delay);

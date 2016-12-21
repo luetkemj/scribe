@@ -6,6 +6,10 @@ import {
   d30,
   generateStorm,
   assignTime,
+  getStormWindow,
+  backFill,
+  stormOverFlow,
+  fillStormGaps,
   trackStorm } from '../../lib/generators';
 import { ZONE_VARIANCE, STORM_TYPE_TABLE } from '../../config/constants/weather.constants';
 
@@ -25,46 +29,54 @@ export function generateWeather(req, res) {
   .lean()
   .exec((err, gen) => {
     if (!err) {
-      logger.log(`generateWeather: ${gen[0].name}`);
-
       const { generator } = gen[0];
       const { temp: baseTemp } = generator[zone][terrain][season][month];
       const { high: seasonalHigh } = generator[zone].seasonalVariance[season];
       const { low: seasonalLow } = generator[zone].seasonalVariance[season];
       const { weatherClass } = generator[zone][terrain][season][month];
-      logger.log('generateWeather: weatherClass %s', weatherClass);
 
       const mean = baseTemp + getRandomInt(0, _.sample(ZONE_VARIANCE));
       const high = mean + getRandomInt(0, seasonalHigh);
       const low = mean + getRandomInt(0, seasonalLow);
 
       const temps = [];
-      // create an array of temps within our range of high and low
+      // create an array of temps within our range of high and low for one day
       for (let i = 0; i < 24; i += 1) {
         temps.push({ temp: getRandomInt(low, high) });
       }
+      logger.log('generateWeather: temps: %j', temps);
 
       let stormType = 'none';
       if (weatherClass) {
         const roll = d30();
-        logger.log('stormType: weatherClass: %s', weatherClass);
-        logger.log('stormType: roll: %s', roll);
         stormType = STORM_TYPE_TABLE[weatherClass][roll];
-        logger.log('stormType: %s', stormType);
       }
 
-      // reverse order temps and shimmy into an ordered set of observed temps by hour of the day
-      const observedTempsByHour = assignTime(
+      // reverse order temps and shimmy into an ordered set of hourlyTemps
+      // with each hour of the day
+      const hourlyTemps = assignTime(
         shimmy(_.chain(temps).orderBy('temp').reverse().value()),
         initialMs
       );
+      logger.log('generateWeather: hourlyTemps: %j', hourlyTemps);
 
-      // if storm track and map to observedTempsByHour
-      // otherwise just return observedTempsByHour
-      let observed = observedTempsByHour;
-      logger.log('stormType: %s', stormType);
-      if (stormType !== 'none') {
-        observed = trackStorm(observedTempsByHour, generateStorm(stormType));
+      // if storm track and map to hourlyTemps
+      // otherwise just return hourlyTemps
+      let hourlyWeather = hourlyTemps;
+
+      const storm = generateStorm(stormType);
+      logger.log('stormType', stormType);
+      logger.log('storm', storm);
+      if (stormType) {
+        const stormWindow = getStormWindow(hourlyWeather, storm);
+        const stormStart = getRandomInt(stormWindow.start, stormWindow.end);
+
+        const trackedStorm = trackStorm(storm, stormStart);
+        const hourlyWeatherWithStorms = _.orderBy(hourlyWeather.concat(trackedStorm.cells), 'time');
+
+        // set temps on each index - if none exists on current index use temp from previous.
+        hourlyWeather = fillStormGaps(
+          stormOverFlow(backFill(_.orderBy(hourlyWeatherWithStorms, 'time'), 'temp')));
       }
 
       const currentWeather = {
@@ -74,7 +86,7 @@ export function generateWeather(req, res) {
             high,
             stormType,
           },
-          observed,
+          hourlyWeather,
         },
       };
 
