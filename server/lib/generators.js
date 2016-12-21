@@ -1,4 +1,6 @@
 import * as _ from 'lodash';
+
+import { parseMs } from '../../app/utils/functions';
 import { NS_CELL_TABLE, S_CELL_TABLE } from '../config/constants/weather.constants';
 
 // const logger = require('./logger')();
@@ -111,7 +113,10 @@ export function stormOverFlow(array) {
       if (current.endTime > next.time) {
         newArray[i + 1] = {
           duration: current.endTime - next.time,
-          effect: current.effect,
+          wind: current.wind,
+          precip: current.precip,
+          solid: current.solid,
+          hook: current.hook,
           delay: current.delay,
           time: next.time,
           endTime: current.endTime,
@@ -123,7 +128,6 @@ export function stormOverFlow(array) {
 
   return newArray;
 }
-
 
 /**
  * Adds a record between two records when the formers end time is less than the latters start time.
@@ -169,6 +173,85 @@ export function topOff(array) {
   return newArray;
 }
 
+export function temporalEstimation(milliseconds) {
+  const days = parseMs(milliseconds, 86400000);
+  const hours = parseMs(days.remainder, 3600000);
+
+  if (_.inRange(hours.raw, 0, 0.25)) {
+    return 'midnight';
+  }
+
+  if (_.inRange(hours.raw, 0, 6)) {
+    return 'early morning';
+  }
+
+  if (_.inRange(hours.raw, 6, 7)) {
+    return 'dawn';
+  }
+
+  if (_.inRange(hours.raw, 7, 11.75)) {
+    return 'morning';
+  }
+
+  if (_.inRange(hours.raw, 11.75, 12.25)) {
+    return 'noon';
+  }
+
+  if (_.inRange(hours.raw, 12.25, 17)) {
+    return 'afternoon';
+  }
+
+  if (_.inRange(hours.raw, 17, 18)) {
+    return 'evening';
+  }
+
+  if (_.inRange(hours.raw, 18, 19)) {
+    return 'dusk';
+  }
+
+  if (_.inRange(hours.raw, 19, 23.75)) {
+    return 'night';
+  }
+
+  if (_.inRange(hours.raw, 23.75, 24)) {
+    return 'midnight';
+  }
+
+  return 'sometime today';
+}
+
+function whipWind(wind) {
+  const whip = d10();
+
+  if (_.inRange(whip, 0, 6)) {
+    return wind;
+  }
+
+  if (_.inRange(whip, 6, 9)) {
+    return wind * 2;
+  }
+
+  if (_.inRange(whip, 9, 10)) {
+    return wind * 3;
+  }
+
+  return wind;
+}
+
+function generateStormCell(table, duration) {
+  const { precip, wind, solid, hook } = table[d30()];
+
+  const whippedWind = whipWind(wind);
+
+  return {
+    duration,
+    wind: whippedWind,
+    precip,
+    solid,
+    hook,
+  };
+}
+
 
 /*
  * @TODO: test this bugger!
@@ -177,10 +260,7 @@ export function generateSingleCell() {
   const duration = toMs(d10() + 20);
   return {
     duration,
-    cells: [{
-      duration,
-      effect: NS_CELL_TABLE[d30()],
-    }],
+    cells: [generateStormCell(NS_CELL_TABLE, duration)],
   };
 }
 
@@ -201,9 +281,11 @@ export function generateMultiCell(table, cluster) {
     const duration = toMs(d10() + 20);
     totalDuration += duration;
 
+    const cell = generateStormCell(table, duration);
+
     cells.push({
+      ...cell,
       duration,
-      effect: table[d30()],
       delay: toMs(delay),
     });
   }

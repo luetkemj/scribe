@@ -11,7 +11,8 @@ import {
   stormOverFlow,
   fillStormGaps,
   trackStorm,
-  topOff } from '../../lib/generators';
+  topOff,
+  temporalEstimation } from '../../lib/generators';
 import { ZONE_VARIANCE, STORM_TYPE_TABLE } from '../../config/constants/weather.constants';
 
 const logger = require('../../lib/logger')();
@@ -64,18 +65,16 @@ export function generateWeather(req, res) {
       let hourlyWeather = hourlyTemps;
 
       const storm = generateStorm(stormType);
+      let stormStartEstimate;
 
       if (stormType) {
         const stormWindow = getStormWindow(hourlyWeather, storm);
         const stormStart = getRandomInt(stormWindow.start, stormWindow.end);
 
+        stormStartEstimate = temporalEstimation(stormStart);
+
         const trackedStorm = trackStorm(storm, stormStart);
         const hourlyWeatherWithStorms = _.orderBy(hourlyWeather.concat(trackedStorm.cells), 'time');
-
-        // set temps on each index - if none exists on current index use temp from previous.
-        // hourlyWeather = topOff(
-        //   fillStormGaps(
-        //   stormOverFlow(backFill(_.orderBy(hourlyWeatherWithStorms, 'time'), 'temp'))));
 
         // order weather array with storms by time
         hourlyWeather = _.orderBy(hourlyWeatherWithStorms, 'time');
@@ -98,6 +97,8 @@ export function generateWeather(req, res) {
         // do not have a record from the end of the storm to midnight.
         // Here we test for this case and add a record if need be.
         hourlyWeather = topOff(hourlyWeather);
+
+        hourlyWeather = _.flattenDeep(hourlyWeather);
       }
 
       const currentWeather = {
@@ -105,6 +106,7 @@ export function generateWeather(req, res) {
           low,
           high,
           stormType,
+          stormStartEstimate,
 // add rough estimate for storm start - what a sailor would say when they look at the sky.
         },
         hourlyWeather,
