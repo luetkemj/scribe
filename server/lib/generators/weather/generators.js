@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import { d6, d10, d30, toMs, whipWind } from './utils';
 import { NS_CELL_TABLE, S_CELL_TABLE } from '../../../config/constants/weather.constants';
 
@@ -9,11 +10,11 @@ function generateStormCell(table, duration) {
   const whippedWind = whipWind(wind);
 
   return {
-    duration,
     wind: whippedWind,
-    precip,
-    solid,
-    hook,
+    cell_duration: duration,
+    cell_precipitation_rate: precip,
+    cell_solid: solid,
+    cell_hook: hook,
   };
 }
 
@@ -50,8 +51,8 @@ function generateMultiCell(table, cluster) {
 
     cells.push({
       ...cell,
-      duration,
-      delay: toMs(delay),
+      cell_duration: duration,
+      cell_delay: toMs(delay),
     });
   }
   return {
@@ -61,7 +62,7 @@ function generateMultiCell(table, cluster) {
 }
 
 /*
- * @TODO: test this bugger!
+ * @TODO: test this bugger CAUSE IT DON'T WORK!!
  */
 function generateSuperCell() {
   const duration = 60 + (d30() * 10);
@@ -130,4 +131,11 @@ export function generateStorm(stormType) {
   return {
     ...storm,
   };
+}
+
+export function generateWind(average) {
+  const min = _.clamp(average - 5, 0, 20);
+  const max = average + 5;
+
+  return _.random(min, max);
 }

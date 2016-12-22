@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 import * as _ from 'lodash';
 import {
-  getRandomInt,
   d30,
   shimmy,
   assignTime,
@@ -11,7 +10,9 @@ import {
   fillStormGaps,
   trackStorm,
   topOff,
-  temporalEstimation } from '../../../lib/generators/weather/utils';
+  addWind,
+} from '../../../lib/generators/weather/utils';
+import { temporalEstimation } from '../../../lib/generators/weather/dictionary';
 import { generateStorm } from '../../../lib/generators/weather/generators';
 import { ZONE_VARIANCE, STORM_TYPE_TABLE } from '../../../config/constants/weather.constants';
 
@@ -37,14 +38,14 @@ export function generateWeather(req, res) {
       const { low: seasonalLow } = generator[zone].seasonalVariance[season];
       const { weatherClass } = generator[zone][terrain][season][month];
 
-      const mean = baseTemp + getRandomInt(0, _.sample(ZONE_VARIANCE));
-      const high = mean + getRandomInt(0, seasonalHigh);
-      const low = mean + getRandomInt(0, seasonalLow);
+      const mean = baseTemp + _.random(0, _.sample(ZONE_VARIANCE));
+      const high = mean + _.random(0, seasonalHigh);
+      const low = mean + _.random(0, seasonalLow);
 
       const temps = [];
       // create an array of temps within our range of high and low for one day
       for (let i = 0; i < 24; i += 1) {
-        temps.push({ temp: getRandomInt(low, high) });
+        temps.push({ temp: _.random(low, high) });
       }
 
       let stormType = 'none';
@@ -69,7 +70,7 @@ export function generateWeather(req, res) {
 
       if (stormType) {
         const stormWindow = getStormWindow(hourlyWeather, storm);
-        const stormStart = getRandomInt(stormWindow.start, stormWindow.end);
+        const stormStart = _.random(stormWindow.start, stormWindow.end);
 
         stormStartEstimate = temporalEstimation(stormStart);
 
@@ -97,9 +98,11 @@ export function generateWeather(req, res) {
         // do not have a record from the end of the storm to midnight.
         // Here we test for this case and add a record if need be.
         hourlyWeather = topOff(hourlyWeather);
-
-        hourlyWeather = _.flattenDeep(hourlyWeather);
       }
+
+      // now that we have our entire list it's time to start filling missing data!
+      // Here we add wind to any records that are missing it.
+      hourlyWeather = addWind(hourlyWeather, _.random(20));
 
       const currentWeather = {
         forecast: {
@@ -107,7 +110,6 @@ export function generateWeather(req, res) {
           high,
           stormType,
           stormStartEstimate,
-// add rough estimate for storm start - what a sailor would say when they look at the sky.
         },
         hourlyWeather,
       };

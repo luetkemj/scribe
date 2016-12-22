@@ -1,20 +1,17 @@
 import * as _ from 'lodash';
-import { parseMs } from '../../../../app/utils/functions';
-
-export function getRandomInt(min, max) {
-  return Math.floor(Math.random() * ((max - min) + 1)) + min;
-}
+import { generateWind } from '../../generators/weather/generators';
+import { beaufortScale } from '../../generators/weather/dictionary';
 
 export function d6() {
-  return getRandomInt(1, 6);
+  return _.random(1, 6);
 }
 
 export function d10() {
-  return getRandomInt(1, 10);
+  return _.random(1, 10);
 }
 
 export function d30() {
-  return getRandomInt(1, 30);
+  return _.random(1, 30);
 }
 
 // convert minutes to milliseconds
@@ -38,6 +35,12 @@ export function shimmy(array) {
   return newArray;
 }
 
+/**
+ * Add time proprty to each item in array incrementing each by one hour in milliseconds
+ * @param  {array}  array     [description]
+ * @param  {number} initialMs [time to begin incrementing from in milliseconds]
+ * @return {array}            [new array]
+ */
 export function assignTime(array, initialMs) {
   return array.map((item, index) => ({
     ...item,
@@ -46,6 +49,12 @@ export function assignTime(array, initialMs) {
   }));
 }
 
+/**
+ * generates window of time within 24 hour period a given storm can fit.
+ * @param  {array}    hourlyWeather  [description]
+ * @param  {object}   storm          [description]
+ * @return {object}                  [object containing the start and end of the storm window]
+ */
 export function getStormWindow(hourlyWeather, storm) {
   const startOfDay = hourlyWeather[0].time;
   const endOfDay = startOfDay + 86400000;
@@ -68,9 +77,9 @@ export function trackStorm(storm, stormStartTime) {
 
   for (let i = 0; i < trackedStorm.cells.length; i += 1) {
     trackedStorm.cells[i].time = time;
-    trackedStorm.cells[i].endTime = time + trackedStorm.cells[i].duration;
+    trackedStorm.cells[i].cell_endTime = time + trackedStorm.cells[i].cell_duration;
 
-    time += trackedStorm.cells[i].duration + trackedStorm.cells[i].delay;
+    time += trackedStorm.cells[i].cell_duration + trackedStorm.cells[i].cell_delay;
   }
 
   return trackedStorm;
@@ -106,17 +115,11 @@ export function stormOverFlow(array) {
     if (newArray[i + 1]) {
       const next = newArray[i + 1];
       const current = newArray[i];
-      if (current.endTime > next.time) {
+      if (current.cell_endTime > next.time) {
         newArray[i + 1] = {
-          duration: current.endTime - next.time,
-          wind: current.wind,
-          precip: current.precip,
-          solid: current.solid,
-          hook: current.hook,
-          delay: current.delay,
+          ...current,
           time: next.time,
-          endTime: current.endTime,
-          temp: current.temp,
+          duration: current.cell_endTime - next.time,
         };
       }
     }
@@ -169,67 +172,41 @@ export function topOff(array) {
   return newArray;
 }
 
-export function temporalEstimation(milliseconds) {
-  const days = parseMs(milliseconds, 86400000);
-  const hours = parseMs(days.remainder, 3600000);
-
-  if (_.inRange(hours.raw, 0, 0.25)) {
-    return 'midnight';
-  }
-
-  if (_.inRange(hours.raw, 0, 6)) {
-    return 'early morning';
-  }
-
-  if (_.inRange(hours.raw, 6, 7)) {
-    return 'dawn';
-  }
-
-  if (_.inRange(hours.raw, 7, 11.75)) {
-    return 'morning';
-  }
-
-  if (_.inRange(hours.raw, 11.75, 12.25)) {
-    return 'noon';
-  }
-
-  if (_.inRange(hours.raw, 12.25, 17)) {
-    return 'afternoon';
-  }
-
-  if (_.inRange(hours.raw, 17, 18)) {
-    return 'evening';
-  }
-
-  if (_.inRange(hours.raw, 18, 19)) {
-    return 'dusk';
-  }
-
-  if (_.inRange(hours.raw, 19, 23.75)) {
-    return 'night';
-  }
-
-  if (_.inRange(hours.raw, 23.75, 24)) {
-    return 'midnight';
-  }
-
-  return 'sometime today';
-}
-
 export function whipWind(wind) {
   const whip = d10();
 
-  if (_.inRange(whip, 0, 6)) {
+  if (_.inRange(whip, 0, 7)) {
     return wind;
   }
 
-  if (_.inRange(whip, 6, 9)) {
+  if (_.inRange(whip, 7, 10)) {
     return wind * 2;
   }
 
-  if (_.inRange(whip, 9, 10)) {
+  if (whip === 10) {
     return wind * 3;
   }
 
   return wind;
+}
+
+export function addWind(array, average) {
+  const newArray = [];
+  _.each(array, (val) => {
+    if (!val.wind) {
+      const wind = generateWind(average);
+      newArray.push({
+        ...val,
+        wind,
+        beaufort_scale: beaufortScale(wind),
+      });
+    } else {
+      newArray.push({
+        ...val,
+        beaufort_scale: beaufortScale(val.wind),
+      });
+    }
+  });
+
+  return newArray;
 }

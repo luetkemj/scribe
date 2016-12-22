@@ -534,3 +534,149 @@ export const S_CELL_TABLE = {
     hook: 30,
   },
 };
+
+export const BEAUFORT_SCALE = {
+  0: {
+    number: 0,
+    windSpeed: {
+      min: 0,
+      max: 1,
+    },
+    description: 'Calm',
+    waveHeight: 0,
+    what_the_sea_looks_like: 'Flat. Calm.',
+    what_it_looks_like_on_land: 'Smoke rises vertically.',
+  },
+  1: {
+    number: 1,
+    windSpeed: {
+      min: 1,
+      max: 3,
+    },
+    description: 'Light air',
+    waveHeight: 0.33,
+    what_the_sea_looks_like: 'Ripples without crests.',
+    what_it_looks_like_on_land: 'Wind motion visible in smoke.',
+  },
+  2: {
+    number: 2,
+    windSpeed: {
+      min: 3,
+      max: 7,
+    },
+    description: 'Light breeze',
+    waveHeight: 0.66,
+    what_the_sea_looks_like: 'Small wavelets. Crests of glassy appearance, not breaking',
+    what_it_looks_like_on_land: 'Wind felt on exposed skin. Leaves rustle.',
+  },
+  3: {
+    number: 3,
+    windSpeed: {
+      min: 8,
+      max: 12,
+    },
+    description: 'Gentle breeze',
+    waveHeight: 2,
+    what_the_sea_looks_like: 'Large wavelets. Crests begin to break; scattered whitecaps',
+    what_it_looks_like_on_land: 'Leaves and smaller twigs in constant motion.',
+  },
+  4: {
+    number: 4,
+    windSpeed: {
+      min: 13,
+      max: 17,
+    },
+    description: 'Moderate breeze',
+    waveHeight: 3.3,
+    what_the_sea_looks_like: 'Small waves.',
+    what_it_looks_like_on_land: 'Dust and loose paper raised. Small branches begin to move.',
+  },
+  5: {
+    number: 5,
+    windSpeed: {
+      min: 18,
+      max: 24,
+    },
+    description: 'Fresh breeze',
+    waveHeight: 6.6,
+    what_the_sea_looks_like: 'Moderate (1.2 m) longer waves. Some foam and spray.',
+    what_it_looks_like_on_land: 'Branches of a moderate size move. Small trees begin to sway.',
+  },
+  6: {
+    number: 6,
+    windSpeed: {
+      min: 25,
+      max: 30,
+    },
+    description: 'Strong breeze',
+    waveHeight: 9.9,
+    what_the_sea_looks_like: 'Large waves with foam crests and some spray.',
+    what_it_looks_like_on_land: 'Large branches in motion. Whistling heard in overhead wires. Umbrella use becomes difficult. Empty plastic garbage cans tip over.',
+  },
+  7: {
+    number: 7,
+    windSpeed: {
+      min: 31,
+      max: 38,
+    },
+    description: 'High wind, Moderate Gale, Near Gale',
+    waveHeight: 13.1,
+    what_the_sea_looks_like: 'Sea heaps up and foam begins to streak.',
+    what_it_looks_like_on_land: 'Whole trees in motion. Effort needed to walk against the wind. Swaying of skyscrapers may be felt, especially by people on upper floors.',
+  },
+  8: {
+    number: 8,
+    windSpeed: {
+      min: 39,
+      max: 46,
+    },
+    description: 'Fresh Gale',
+    waveHeight: 18,
+    what_the_sea_looks_like: 'Moderately high waves with breaking crests forming spindrift. Streaks of foam.',
+    what_it_looks_like_on_land: 'Twigs broken from trees. Cars veer on road.',
+  },
+  9: {
+    number: 9,
+    windSpeed: {
+      min: 47,
+      max: 54,
+    },
+    description: 'Strong Gale',
+    waveHeight: 23,
+    what_the_sea_looks_like: 'High waves (6-7 m) with dense foam. Wave crests start to roll over. Considerable spray.',
+    what_it_looks_like_on_land: 'Larger branches break off trees, and some small trees blow over. Construction/temporary signs and barricades blow over. Damage to circus tents and canopies.',
+  },
+  10: {
+    number: 10,
+    windSpeed: {
+      min: 55,
+      max: 63,
+    },
+    description: 'Whole Gale/Storm',
+    waveHeight: 29.5,
+    what_the_sea_looks_like: 'Very high waves. Large patches of foam from wave crests give the sea a white appearance. Considerable tumbling of waves with heavy impact. Large amounts of airborne spray reduce visibility.',
+    what_it_looks_like_on_land: 'Trees are broken off or uprooted, saplings bent and deformed, poorly attached asphalt shingles and shingles in poor condition peel off roofs.',
+  },
+  11: {
+    number: 11,
+    windSpeed: {
+      min: 64,
+      max: 72,
+    },
+    description: 'Violent storm',
+    waveHeight: 37.7,
+    what_the_sea_looks_like: 'Exceptionally high waves. Very large patches of foam, driven before the wind, cover much of the sea surface. Very large amounts of airborne spray severely reduce visibility.',
+    what_it_looks_like_on_land: 'Widespread vegetation damage. More damage to most roofing surfaces, asphalt tiles that have curled up and/or fractured due to age may break away completely.',
+  },
+  12: {
+    number: 12,
+    windSpeed: {
+      min: 73,
+      max: 10000,
+    },
+    description: 'Hurricane-force',
+    waveHeight: 50,
+    what_the_sea_looks_like: 'Huge waves. Sea is completely white with foam and spray. Air is filled with driving spray, greatly reducing visibility.',
+    what_it_looks_like_on_land: 'Considerable and widespread damage to vegetation, a few windows broken, structural damage to mobile homes and poorly constructed sheds and barns. Debris may be hurled about.',
+  },
+};
