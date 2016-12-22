@@ -1,10 +1,9 @@
 import mongoose from 'mongoose';
 import * as _ from 'lodash';
 import {
-  shimmy,
   getRandomInt,
   d30,
-  generateStorm,
+  shimmy,
   assignTime,
   getStormWindow,
   backFill,
@@ -12,10 +11,11 @@ import {
   fillStormGaps,
   trackStorm,
   topOff,
-  temporalEstimation } from '../../lib/generators';
-import { ZONE_VARIANCE, STORM_TYPE_TABLE } from '../../config/constants/weather.constants';
+  temporalEstimation } from '../../../lib/generators/weather/utils';
+import { generateStorm } from '../../../lib/generators/weather/generators';
+import { ZONE_VARIANCE, STORM_TYPE_TABLE } from '../../../config/constants/weather.constants';
 
-const logger = require('../../lib/logger')();
+const logger = require('../../../lib/logger')();
 
 const Generator = mongoose.model('Generator');
 

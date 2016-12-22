@@ -4,7 +4,7 @@ describe('The generator lib', () => {
   let genLib;
 
   beforeEach(() => {
-    genLib = require('../../../server/lib/generators');
+    genLib = require('../../../../../server/lib/generators/weather/utils');
   });
 
   describe('shimmy', () => {
@@ -12,7 +12,7 @@ describe('The generator lib', () => {
       const expected = [1, 3, 5, 4, 2];
       const actual = genLib.shimmy([5, 4, 3, 2, 1]);
 
-      should(expected).deepEqual(actual);
+      should(actual).deepEqual(expected);
     });
   });
 
@@ -39,7 +39,7 @@ describe('The generator lib', () => {
       }];
       const actual = genLib.assignTime(ARRAY, 100);
 
-      should(expected).deepEqual(actual);
+      should(actual).deepEqual(expected);
     });
   });
 
@@ -51,7 +51,7 @@ describe('The generator lib', () => {
       };
       const actual = genLib.getStormWindow([{ time: 500 }], { duration: 1000 });
 
-      should(expected).deepEqual(actual);
+      should(actual).deepEqual(expected);
     });
   });
 
@@ -61,14 +61,12 @@ describe('The generator lib', () => {
         cells: [
           {
             duration: 100,
-            effect: { precip: 1, wind: 1, solid: 1, hook: 1 },
             delay: 100,
             time: 100,
             endTime: 200,
           },
           {
             duration: 200,
-            effect: { precip: 2, wind: 2, solid: 2, hook: 2 },
             delay: 200,
             time: 300,
             endTime: 500,
@@ -79,18 +77,16 @@ describe('The generator lib', () => {
         cells: [
           {
             duration: 100,
-            effect: { precip: 1, wind: 1, solid: 1, hook: 1 },
             delay: 100,
           },
           {
             duration: 200,
-            effect: { precip: 2, wind: 2, solid: 2, hook: 2 },
             delay: 200,
           },
         ],
       }, 100);
 
-      should(expected).deepEqual(actual);
+      should(actual).deepEqual(expected);
     });
   });
 
@@ -107,7 +103,7 @@ describe('The generator lib', () => {
         { temp: 3, time: 2 },
       ], 'time');
 
-      should(expected).deepEqual(actual);
+      should(actual).deepEqual(expected);
     });
   });
 
@@ -120,7 +116,10 @@ describe('The generator lib', () => {
           endTime: 100,
           delay: 100,
           temp: 95,
-          effect: { precip: 1, wind: 1, solid: 1, hook: 1 },
+          precip: 1,
+          wind: 1,
+          solid: 1,
+          hook: 1,
         },
         {
           time: 50,
@@ -128,7 +127,10 @@ describe('The generator lib', () => {
           endTime: 100,
           delay: 100,
           temp: 95,
-          effect: { precip: 1, wind: 1, solid: 1, hook: 1 },
+          precip: 1,
+          wind: 1,
+          solid: 1,
+          hook: 1,
         },
       ];
       const actual = genLib.stormOverFlow([
@@ -138,12 +140,15 @@ describe('The generator lib', () => {
           endTime: 100,
           delay: 100,
           temp: 95,
-          effect: { precip: 1, wind: 1, solid: 1, hook: 1 },
+          precip: 1,
+          wind: 1,
+          solid: 1,
+          hook: 1,
         },
         { temp: 98, time: 50 },
       ]);
 
-      should(expected).deepEqual(actual);
+      should(actual).deepEqual(expected);
     });
   });
 
@@ -152,11 +157,8 @@ describe('The generator lib', () => {
       const expected = [
         {
           time: 0,
-          duration: 100,
           endTime: 100,
-          delay: 100,
           temp: 95,
-          effect: { precip: 1, wind: 1, solid: 1, hook: 1 },
         },
         {
           time: 101,
@@ -165,32 +167,23 @@ describe('The generator lib', () => {
         },
         {
           time: 150,
-          duration: 50,
           endTime: 200,
-          delay: 100,
           temp: 95,
-          effect: { precip: 1, wind: 1, solid: 1, hook: 1 },
         },
       ];
       const actual = genLib.fillStormGaps([
         {
           time: 0,
-          duration: 100,
           endTime: 100,
-          delay: 100,
           temp: 95,
-          effect: { precip: 1, wind: 1, solid: 1, hook: 1 },
         },
         {
           time: 150,
-          duration: 50,
           endTime: 200,
-          delay: 100,
           temp: 95,
-          effect: { precip: 1, wind: 1, solid: 1, hook: 1 },
         },
       ]);
-      should(expected).deepEqual(actual);
+      should(actual).deepEqual(expected);
     });
   });
 
@@ -199,11 +192,8 @@ describe('The generator lib', () => {
       const expected = [
         {
           time: 150,
-          duration: 50,
           endTime: 200,
-          delay: 100,
           temp: 95,
-          effect: { precip: 1, wind: 1, solid: 1, hook: 1 },
         },
         {
           time: 201,
@@ -214,15 +204,12 @@ describe('The generator lib', () => {
       const actual = genLib.topOff([
         {
           time: 150,
-          duration: 50,
           endTime: 200,
-          delay: 100,
           temp: 95,
-          effect: { precip: 1, wind: 1, solid: 1, hook: 1 },
         },
       ]);
 
-      should(expected).deepEqual(actual);
+      should(actual).deepEqual(expected);
     });
   });
 });
