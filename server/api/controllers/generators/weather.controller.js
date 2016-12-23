@@ -13,7 +13,7 @@ import {
   addWind,
 } from '../../../lib/generators/weather/utils';
 import { temporalEstimation } from '../../../lib/generators/weather/dictionary';
-import { generateStorm } from '../../../lib/generators/weather/generators';
+import { generateStorm, generateConditions } from '../../../lib/generators/weather/generators';
 import { ZONE_VARIANCE, STORM_TYPE_TABLE } from '../../../config/constants/weather.constants';
 
 const logger = require('../../../lib/logger')();
@@ -82,7 +82,7 @@ export function generateWeather(req, res) {
 
         // storms cells are not generated with a current temp
         // Now that our storms are ordered with our hourly temps we can look back to the previous
-        // record and grab that temp in order to add to oour storm cells
+        // record and grab that temp in order to add to our storm cells
         hourlyWeather = backFill(hourlyWeather, 'temp');
 
         // Sometimes a storm cells duration does not end before the next record begins.
@@ -94,15 +94,18 @@ export function generateWeather(req, res) {
         // the gap with a new record.
         hourlyWeather = fillStormGaps(hourlyWeather);
 
-        // Sometimes a storm begins after the 11pm and ends before midnight. In this instance we
+        // Sometimes a storm begins after 11pm and ends before midnight. In this instance we
         // do not have a record from the end of the storm to midnight.
         // Here we test for this case and add a record if need be.
         hourlyWeather = topOff(hourlyWeather);
       }
 
       // now that we have our entire list it's time to start filling missing data!
-      // Here we add wind to any records that are missing it.
+      // Here we add wind and beaufort number to any records that are missing it.
       hourlyWeather = addWind(hourlyWeather, _.random(20));
+
+      // add conditions
+      hourlyWeather = generateConditions(hourlyWeather, season, stormType);
 
       const currentWeather = {
         forecast: {

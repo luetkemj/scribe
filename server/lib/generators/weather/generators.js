@@ -139,3 +139,114 @@ export function generateWind(average) {
 
   return _.random(min, max);
 }
+
+
+// conditions
+function getConditionSolid(record, season) {
+  // if temo is below freezing ignore solid and do snow
+  if (record.temp < 32) {
+    return 'snow';
+  }
+
+  // if winter and in range for sleet - do sleet
+  if (season === 'winter' && _.inRange(record.temp, 32, 41)) {
+    return 'sleet';
+  }
+
+  // if spring and summer and over 40 - do hail
+  if ((season === 'spring' || season === 'summer') && record.temp > 40) {
+    return 'hail';
+  }
+
+  // else we should just do thunderstorm cause we know we are in a storm.
+  return 'thunderstorm';
+}
+
+function getConditionPrecipitation(record, stormType) {
+  // if around freezing do rain-mix
+  if (_.inRange(record.temp, 32, 38)) {
+    return 'rain-mix';
+  }
+
+  // if cold enough to snow - do snow
+  if (record.temp < 32) {
+    return 'snow';
+  }
+
+  // if storm is severe determine intensity and add lightening
+  if (stormType === 'multiCellClusterS' || 'multiCellLineS') {
+    if (record.cell_precipitation_rate < 2) {
+      return 'storm-showers';
+    }
+
+    return 'thunderstorm';
+  }
+
+  // if rain and not severe determine intensity
+  if (record.cell_precipitation_rate < 0.3) {
+    return 'sprinkle';
+  }
+
+  if (record.cell_precipitation_rate < 0.9) {
+    return 'showers';
+  }
+
+  return 'rain';
+}
+
+export function generateConditions(hourlyWeather, season, stormType) {
+  const newArray = [];
+  _.each(hourlyWeather, (record) => {
+    // do hail or sleet
+    if (record.cell_solid) {
+      return newArray.push({
+        ...record,
+        condition: getConditionSolid(record, season),
+      });
+    }
+
+    // do snow, rain, or mix
+    if (record.cell_precipitation_rate && !record.cell_solid) {
+      return newArray.push({
+        ...record,
+        condition: getConditionPrecipitation(record, stormType),
+      });
+    }
+
+    return newArray.push(record);
+  });
+
+  return newArray;
+}
+// day-sunny
+// night-clear
+//
+// day-sunny-overcast // partly-cloudy
+// night-partly-cloudy
+//
+// day-cloudy // mostly cloudy
+// night-cloudy // mostly cloudy
+//
+// cloudy // overcast
+//
+// fog
+// lightning
+// sandstorm
+// dust
+// hot
+// day-haze
+//
+//
+// hail
+// sleet
+//
+// sprinkle
+// showers
+// rain
+//
+// rain-mix
+//
+// snow
+//
+// storm-showers
+// thunderstorm
