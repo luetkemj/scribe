@@ -11,6 +11,7 @@ import {
   trackStorm,
   topOff,
   addWind,
+  addHeatIndex,
 } from '../../../lib/generators/weather/utils';
 import { temporalEstimation } from '../../../lib/generators/weather/dictionary';
 import { generateStorm } from '../../../lib/generators/weather/generators';
@@ -133,6 +134,9 @@ export function generateWeather(req, res) {
       // now that we have our entire list it's time to start filling missing data!
       // Here we add wind and beaufort number to any records that are missing it.
       hourlyWeather = addWind(hourlyWeather, _.random(20));
+
+      // Add a heat index and feelLike temp
+      hourlyWeather = addHeatIndex(hourlyWeather);
 
       // add conditions
       // hourlyWeather = generateConditions(hourlyWeather, season, stormType);

@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import { generateWind } from '../../generators/weather/generators';
-import { beaufortScale } from '../../generators/weather/dictionary';
+import { beaufortScale, feelsLike } from '../../generators/weather/dictionary';
 
 export function d6() {
   return _.random(1, 6);
@@ -201,18 +201,18 @@ export function whipWind(wind) {
 
 export function addWind(array, average) {
   const newArray = [];
-  _.each(array, (val) => {
-    if (!val.wind) {
+  _.each(array, (record) => {
+    if (!record.wind) {
       const wind = generateWind(average);
       newArray.push({
-        ...val,
+        ...record,
         wind,
         beaufort_scale: beaufortScale(wind),
       });
     } else {
       newArray.push({
-        ...val,
-        beaufort_scale: beaufortScale(val.wind),
+        ...record,
+        beaufort_scale: beaufortScale(record.wind),
       });
     }
   });
@@ -243,28 +243,33 @@ export function getHeatIndex(T, R) {
             (C8 * T * Math.pow(R, 2)) +
             (C9 * Math.pow(T, 2) * Math.pow(R, 2)));
 
-  const notes = {};
-
-  // Source: https://en.wikipedia.org/wiki/Heat_index#Effects_of_the_heat_index_.28shade_values.29
-  if (_.inRange(HI, 80, 91)) {
-    notes.warning = 'Caution';
-    notes.description = 'Caution: fatigue is possible with prolonged exposure and activity. Continuing activity could result in heat cramps.';
-  }
-  if (_.inRange(HI, 90, 106)) {
-    notes.warning = 'Extreme Caution';
-    notes.description = 'Extreme caution: heat cramps and heat exhaustion are possible. Continuing activity could result in heat stroke.';
-  }
-  if (_.inRange(HI, 105, 131)) {
-    notes.warning = 'Danger';
-    notes.description = 'Danger: heat cramps and heat exhaustion are likely; heat stroke is probable with continued activity.';
-  }
-  if (HI > 130) {
-    notes.warning = 'Extreme Danger';
-    notes.description = 'Extreme danger: heat stroke is imminent.';
-  }
+  const notes = feelsLike(HI);
 
   return {
-    number: Math.round(HI),
+    feels_like: Math.round(HI),
     ...notes,
   };
+}
+
+/*
+ * @TODO: write a test for this bugger
+ */
+export function addHeatIndex(array) {
+  const newArray = [];
+  _.each(array, (record) => {
+    if (record.temp > 79 && record.rh > 39) {
+      return newArray.push({
+        ...record,
+        ...getHeatIndex(record.temp, record.rh),
+      });
+    }
+
+    return newArray.push({
+      ...record,
+      feels_like: record.temp,
+      ...feelsLike(record.temp),
+    });
+  });
+
+  return newArray;
 }

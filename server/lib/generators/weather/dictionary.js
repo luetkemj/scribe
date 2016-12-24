@@ -91,3 +91,27 @@ export function beaufortScale(wind) {
   }
   return null;
 }
+
+export function feelsLike(T) {
+  const notes = {};
+
+  // Source: https://en.wikipedia.org/wiki/Heat_index#Effects_of_the_heat_index_.28shade_values.29
+  if (_.inRange(T, 80, 91)) {
+    notes.warning = 'Caution';
+    notes.description = 'Caution: fatigue is possible with prolonged exposure and activity. Continuing activity could result in heat cramps.';
+  }
+  if (_.inRange(T, 90, 106)) {
+    notes.warning = 'Extreme Caution';
+    notes.description = 'Extreme caution: heat cramps and heat exhaustion are possible. Continuing activity could result in heat stroke.';
+  }
+  if (_.inRange(T, 105, 131)) {
+    notes.warning = 'Danger';
+    notes.description = 'Danger: heat cramps and heat exhaustion are likely; heat stroke is probable with continued activity.';
+  }
+  if (T > 130) {
+    notes.warning = 'Extreme Danger';
+    notes.description = 'Extreme danger: heat stroke is imminent.';
+  }
+
+  return notes;
+}
