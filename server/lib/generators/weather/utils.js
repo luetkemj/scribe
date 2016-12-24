@@ -86,19 +86,29 @@ export function trackStorm(storm, stormStartTime) {
 }
 
 /**
- * checks each array index for a property; setting property = to the value of that property
- * at previous index in array if proprty at current index is undefined.
+ * checks each array index for each property in properties;
+ * setting property = to the value of that property at previous index in array
+ * if property at current index is undefined.
  * @param  {array}  array    [Array of objects to back fill]
- * @param  {string} property [Property to look for at each index]
+ * @param  {array} property  [Properties to look for at each index]
  * @return {array}           [New backfilled array]
  */
-export function backFill(array, property) {
-  const newArray = array;
-  for (let i = 0; i < newArray.length; i += 1) {
-    if (_.isUndefined(newArray[i][property])) {
-      newArray[i][property] = newArray[i - 1][property];
-    }
-  }
+export function backFill(array, properties) {
+  const newArray = [];
+  _.each(array, (record, index) => {
+    const tempObject = {};
+    _.each(properties, (property) => {
+      if (_.isUndefined(record[property])) {
+        tempObject[property] = array[index - 1][property];
+      }
+    });
+
+    _.assign(record, tempObject);
+
+    return newArray.push({
+      ...record,
+    });
+  });
   return newArray;
 }
 
@@ -119,7 +129,7 @@ export function stormOverFlow(array) {
         newArray[i + 1] = {
           ...current,
           time: next.time,
-          duration: current.cell_endTime - next.time,
+          cell_duration: current.cell_endTime - next.time,
         };
       }
     }
@@ -134,24 +144,23 @@ export function stormOverFlow(array) {
  * @return {[type]}       [new array with gaps filled]
  */
 export function fillStormGaps(array) {
-  const newArray = array;
-  const tempArray = [];
+  const newArray = [];
 
-  for (let i = 0; i < newArray.length; i += 1) {
-    if (newArray[i + 1] || (newArray[i + 1])) {
-      const next = newArray[i + 1];
-      const current = newArray[i];
-      if (current.endTime < next.time) {
-        tempArray.push({
-          time: current.endTime + 1,
-          temp: current.temp,
-          filler: true,
+  _.each(array, (record, index) => {
+    if (array[index + 1]) {
+      const next = array[index + 1];
+
+      if (record.cell_endTime < next.time) {
+        newArray.push({
+          time: record.cell_endTime + 1,
+          temp: record.temp,
+          rh: record.rh,
         });
       }
     }
-  }
+  });
 
-  return _.orderBy(newArray.concat(tempArray), 'time');
+  return _.orderBy(array.concat(newArray), 'time');
 }
 
 /**
@@ -160,16 +169,16 @@ export function fillStormGaps(array) {
  * @return {array}       [new topped off array]
  */
 export function topOff(array) {
-  const newArray = array;
-  const current = newArray[newArray.length - 1];
-  if (current.endTime < newArray[0].time + 86400000) {
+  const newArray = [];
+  const record = array[array.length - 1];
+  if (record.cell_endTime < array[0].time + 86400000) {
     newArray.push({
-      time: current.endTime + 1,
-      temp: current.temp,
-      topOff: true,
+      time: record.cell_endTime + 1,
+      temp: record.temp,
+      rh: record.rh,
     });
   }
-  return newArray;
+  return array.concat(newArray);
 }
 
 export function whipWind(wind) {
@@ -209,4 +218,53 @@ export function addWind(array, average) {
   });
 
   return newArray;
+}
+
+export function getHeatIndex(T, R) {
+  // Source: https://en.wikipedia.org/wiki/Heat_index#Formula
+  const C1 = -42.379;
+  const C2 = 2.04901523;
+  const C3 = 10.14333127;
+  const C4 = -0.22475541;
+  const C5 = -6.83783 * Math.pow(10, -3);
+  const C6 = -5.481717 * Math.pow(10, -2);
+  const C7 = 1.22874 * Math.pow(10, -3);
+  const C8 = 8.5282 * Math.pow(10, -4);
+  const C9 = -1.99 * Math.pow(10, -6);
+
+  const HI = Math.round(
+             C1 +
+            (C2 * T) +
+            (C3 * R) +
+            (C4 * T * R) +
+            (C5 * Math.pow(T, 2)) +
+            (C6 * Math.pow(R, 2)) +
+            (C7 * Math.pow(T, 2) * R) +
+            (C8 * T * Math.pow(R, 2)) +
+            (C9 * Math.pow(T, 2) * Math.pow(R, 2)));
+
+  const notes = {};
+
+  // Source: https://en.wikipedia.org/wiki/Heat_index#Effects_of_the_heat_index_.28shade_values.29
+  if (_.inRange(HI, 80, 91)) {
+    notes.warning = 'Caution';
+    notes.description = 'Caution: fatigue is possible with prolonged exposure and activity. Continuing activity could result in heat cramps.';
+  }
+  if (_.inRange(HI, 90, 106)) {
+    notes.warning = 'Extreme Caution';
+    notes.description = 'Extreme caution: heat cramps and heat exhaustion are possible. Continuing activity could result in heat stroke.';
+  }
+  if (_.inRange(HI, 105, 131)) {
+    notes.warning = 'Danger';
+    notes.description = 'Danger: heat cramps and heat exhaustion are likely; heat stroke is probable with continued activity.';
+  }
+  if (HI > 130) {
+    notes.warning = 'Extreme Danger';
+    notes.description = 'Extreme danger: heat stroke is imminent.';
+  }
+
+  return {
+    number: Math.round(HI),
+    ...notes,
+  };
 }

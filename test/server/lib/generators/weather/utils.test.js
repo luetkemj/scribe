@@ -60,28 +60,28 @@ describe('The generator lib', () => {
       const expected = {
         cells: [
           {
-            duration: 100,
-            delay: 100,
+            cell_duration: 100,
+            cell_delay: 100,
             time: 100,
-            endTime: 200,
+            cell_endTime: 200,
           },
           {
-            duration: 200,
-            delay: 200,
+            cell_duration: 200,
+            cell_delay: 200,
             time: 300,
-            endTime: 500,
+            cell_endTime: 500,
           },
         ],
       };
       const actual = genLib.trackStorm({
         cells: [
           {
-            duration: 100,
-            delay: 100,
+            cell_duration: 100,
+            cell_delay: 100,
           },
           {
-            duration: 200,
-            delay: 200,
+            cell_duration: 200,
+            cell_delay: 200,
           },
         ],
       }, 100);
@@ -93,15 +93,15 @@ describe('The generator lib', () => {
   describe('backFill', () => {
     it('should work', () => {
       const expected = [
-        { temp: 1, time: 1 },
-        { temp: 2, time: 1 },
-        { temp: 3, time: 2 },
+        { temp: 1, time: 1, rh: 3 },
+        { temp: 2, time: 1, rh: 3 },
+        { temp: 3, time: 2, rh: 1 },
       ];
       const actual = genLib.backFill([
-        { temp: 1, time: 1 },
+        { temp: 1, time: 1, rh: 3 },
         { temp: 2 },
-        { temp: 3, time: 2 },
-      ], 'time');
+        { temp: 3, time: 2, rh: 1 },
+      ], ['time', 'rh']);
 
       should(actual).deepEqual(expected);
     });
@@ -112,38 +112,38 @@ describe('The generator lib', () => {
       const expected = [
         {
           time: 0,
-          duration: 100,
-          endTime: 100,
-          delay: 100,
+          cell_duration: 100,
+          cell_endTime: 100,
+          cell_delay: 100,
           temp: 95,
-          precip: 1,
+          cell_precip: 1,
           wind: 1,
-          solid: 1,
-          hook: 1,
+          cell_solid: 1,
+          cell_hook: 1,
         },
         {
           time: 50,
-          duration: 50,
-          endTime: 100,
-          delay: 100,
+          cell_duration: 50,
+          cell_endTime: 100,
+          cell_delay: 100,
           temp: 95,
-          precip: 1,
+          cell_precip: 1,
           wind: 1,
-          solid: 1,
-          hook: 1,
+          cell_solid: 1,
+          cell_hook: 1,
         },
       ];
       const actual = genLib.stormOverFlow([
         {
           time: 0,
-          duration: 100,
-          endTime: 100,
-          delay: 100,
+          cell_duration: 100,
+          cell_endTime: 100,
+          cell_delay: 100,
           temp: 95,
-          precip: 1,
+          cell_precip: 1,
           wind: 1,
-          solid: 1,
-          hook: 1,
+          cell_solid: 1,
+          cell_hook: 1,
         },
         { temp: 98, time: 50 },
       ]);
@@ -157,30 +157,34 @@ describe('The generator lib', () => {
       const expected = [
         {
           time: 0,
-          endTime: 100,
-          temp: 95,
+          cell_endTime: 100,
+          temp: 94,
+          rh: 30,
         },
         {
           time: 101,
-          temp: 95,
-          filler: true,
+          temp: 94,
+          rh: 30,
         },
         {
           time: 150,
-          endTime: 200,
+          cell_endTime: 200,
           temp: 95,
+          rh: 31,
         },
       ];
       const actual = genLib.fillStormGaps([
         {
           time: 0,
-          endTime: 100,
-          temp: 95,
+          cell_endTime: 100,
+          temp: 94,
+          rh: 30,
         },
         {
           time: 150,
-          endTime: 200,
+          cell_endTime: 200,
           temp: 95,
+          rh: 31,
         },
       ]);
       should(actual).deepEqual(expected);
@@ -192,24 +196,51 @@ describe('The generator lib', () => {
       const expected = [
         {
           time: 150,
-          endTime: 200,
+          cell_endTime: 200,
           temp: 95,
+          rh: 30,
         },
         {
           time: 201,
           temp: 95,
-          topOff: true,
+          rh: 30,
         },
       ];
       const actual = genLib.topOff([
         {
           time: 150,
-          endTime: 200,
+          cell_endTime: 200,
           temp: 95,
+          rh: 30,
         },
       ]);
 
       should(actual).deepEqual(expected);
+    });
+  });
+
+  describe('getHeatIndex', () => {
+    it('should work', () => {
+      const caution = genLib.getHeatIndex(80, 40);
+      const extremeCaution = genLib.getHeatIndex(90, 40);
+      const danger = genLib.getHeatIndex(100, 40);
+      const extremeDanger = genLib.getHeatIndex(110, 40);
+
+      should(caution.number).equal(80);
+      should(caution.warning).equal('Caution');
+
+      should(extremeCaution.number).equal(91);
+      should(extremeCaution.warning).equal('Extreme Caution');
+
+      should(danger.number).equal(109);
+      should(danger.warning).equal('Danger');
+
+      should(extremeDanger.number).equal(136);
+      should(extremeDanger.warning).equal('Extreme Danger');
+
+      should(genLib.getHeatIndex(90, 40).number).equal(91);
+      should(genLib.getHeatIndex(100, 40).number).equal(109);
+      should(genLib.getHeatIndex(110, 40).number).equal(136);
     });
   });
 });

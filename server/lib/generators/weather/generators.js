@@ -145,54 +145,83 @@ export function generateWind(average) {
 function getConditionSolid(record, season) {
   // if temo is below freezing ignore solid and do snow
   if (record.temp < 32) {
-    return 'snow';
+    return {
+      name: 'snow',
+    };
   }
 
   // if winter and in range for sleet - do sleet
   if (season === 'winter' && _.inRange(record.temp, 32, 41)) {
-    return 'sleet';
+    return {
+      name: 'sleet',
+    };
   }
 
   // if spring and summer and over 40 - do hail
   if ((season === 'spring' || season === 'summer') && record.temp > 40) {
-    return 'hail';
+    return {
+      name: 'hail',
+    };
   }
 
   // else we should just do thunderstorm cause we know we are in a storm.
-  return 'thunderstorm';
+  return {
+    name: 'thunderstorm',
+  };
 }
 
 function getConditionPrecipitation(record, stormType) {
   // if around freezing do rain-mix
   if (_.inRange(record.temp, 32, 38)) {
-    return 'rain-mix';
+    return {
+      name: 'rain-mix',
+    };
   }
 
   // if cold enough to snow - do snow
   if (record.temp < 32) {
-    return 'snow';
+    return {
+      name: 'snow',
+    };
   }
 
   // if storm is severe determine intensity and add lightening
-  if (stormType === 'multiCellClusterS' || 'multiCellLineS') {
+  if (stormType === 'multiCellClusterS' || stormType === 'multiCellLineS') {
     if (record.cell_precipitation_rate < 2) {
-      return 'storm-showers';
+      return {
+        name: 'storm-showers',
+      };
     }
 
-    return 'thunderstorm';
+    return {
+      name: 'thunderstorm',
+    };
   }
 
   // if rain and not severe determine intensity
   if (record.cell_precipitation_rate < 0.3) {
-    return 'sprinkle';
+    return {
+      name: 'sprinkle',
+    };
   }
 
   if (record.cell_precipitation_rate < 0.9) {
-    return 'showers';
+    return {
+      name: 'showers',
+    };
   }
 
-  return 'rain';
+  return {
+    name: 'rain',
+  };
 }
+
+/*
+ * @TODO this is bogus equation - get it out of here!
+ */
+// function getRelationalCondition(record, previous, next) {
+//   return [record, previous, next];
+// }
 
 export function generateConditions(hourlyWeather, season, stormType) {
   const newArray = [];
@@ -213,7 +242,22 @@ export function generateConditions(hourlyWeather, season, stormType) {
       });
     }
 
-    return newArray.push(record);
+/*
+ * @TODO: nothing happening here! Fix this up!
+ */
+    // no storm so we get a surrounding vibe in order to determine current
+  //   if (!record.cell_duration) {
+  //     const previous = record[index - 1];
+  //     const next = record[index + 1];
+  //
+  //     return newArray.push({
+  //       ...record,
+  //       condition: getRelationalCondition(record, previous, next),
+  //     });
+  //   }
+  //
+  //   return newArray.push(record);
+    return newArray;
   });
 
   return newArray;
