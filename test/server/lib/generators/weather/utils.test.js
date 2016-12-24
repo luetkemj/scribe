@@ -221,26 +221,49 @@ describe('The generator lib', () => {
 
   describe('getHeatIndex', () => {
     it('should work', () => {
-      const caution = genLib.getHeatIndex(80, 40);
-      const extremeCaution = genLib.getHeatIndex(90, 40);
-      const danger = genLib.getHeatIndex(100, 40);
-      const extremeDanger = genLib.getHeatIndex(110, 40);
+      should(genLib.getHeatIndex(80, 40).feels_like).equal(80);
+      should(genLib.getHeatIndex(90, 40).feels_like).equal(91);
+      should(genLib.getHeatIndex(100, 40).feels_like).equal(109);
+      should(genLib.getHeatIndex(110, 40).feels_like).equal(136);
+    });
+  });
 
-      should(caution.number).equal(80);
-      should(caution.warning).equal('Caution');
+  describe('getWindChill', () => {
+    it('should work', () => {
+      should(genLib.getWindChill(15, 60).feels_like).equal(-11);
+      should(genLib.getWindChill(5, 60).feels_like).equal(-26);
+      should(genLib.getWindChill(-5, 60).feels_like).equal(-40);
+      should(genLib.getWindChill(-15, 60).feels_like).equal(-55);
+    });
+  });
 
-      should(extremeCaution.number).equal(91);
-      should(extremeCaution.warning).equal('Extreme Caution');
+  describe('feelsLike', () => {
+    it('should work', () => {
+      const actual = genLib.feelsLike([
+        {
+          temp: 90,
+          rh: 40,
+          wind: 60,
+        },
+        {
+          temp: 70,
+          rh: 40,
+          wind: 60,
+        },
+        {
+          temp: 15,
+          rh: 40,
+          wind: 60,
+        },
+      ]);
+      should.exist(actual[0].heat_index);
+      should.not.exist(actual[0].wind_chill);
 
-      should(danger.number).equal(109);
-      should(danger.warning).equal('Danger');
+      should.not.exist(actual[1].heat_index);
+      should.not.exist(actual[1].wind_chill);
 
-      should(extremeDanger.number).equal(136);
-      should(extremeDanger.warning).equal('Extreme Danger');
-
-      should(genLib.getHeatIndex(90, 40).number).equal(91);
-      should(genLib.getHeatIndex(100, 40).number).equal(109);
-      should(genLib.getHeatIndex(110, 40).number).equal(136);
+      should.not.exist(actual[2].heat_index);
+      should.exist(actual[2].wind_chill);
     });
   });
 });

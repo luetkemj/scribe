@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import { generateWind } from '../../generators/weather/generators';
-import { beaufortScale, feelsLike } from '../../generators/weather/dictionary';
+import { beaufortScale, feelsLikeNotes } from '../../generators/weather/dictionary';
 
 export function d6() {
   return _.random(1, 6);
@@ -181,6 +181,11 @@ export function topOff(array) {
   return array.concat(newArray);
 }
 
+/**
+ * Increase wind speed
+ * @param  {number} wind   current wind Speed
+ * @return {number}        Whipped wind speed
+ */
 export function whipWind(wind) {
   const whip = d10();
 
@@ -199,6 +204,11 @@ export function whipWind(wind) {
   return wind;
 }
 
+/**
+ * Cheks for wind on record - adds wind if missing - uses new or existing wind to add beaufort_scale
+ * @param {array} array   [hourly weather]
+ * @param {type} average  [the average forecasted wind speed]
+ */
 export function addWind(array, average) {
   const newArray = [];
   _.each(array, (record) => {
@@ -220,6 +230,12 @@ export function addWind(array, average) {
   return newArray;
 }
 
+/**
+ * Generate Heat Index based on the formula NOAA uses
+ * @param  {number} T   Temperature
+ * @param  {number} R   Relative humidity
+ * @return {object}     Object containing the feels like temp and notes
+ */
 export function getHeatIndex(T, R) {
   // Source: https://en.wikipedia.org/wiki/Heat_index#Formula
   const C1 = -42.379;
@@ -243,31 +259,65 @@ export function getHeatIndex(T, R) {
             (C8 * T * Math.pow(R, 2)) +
             (C9 * Math.pow(T, 2) * Math.pow(R, 2)));
 
-  const notes = feelsLike(HI);
-
   return {
     feels_like: Math.round(HI),
-    ...notes,
+    ...feelsLikeNotes(HI),
   };
 }
 
-/*
- * @TODO: write a test for this bugger
+/**
+ * Generate Windchill based on the formula NOAA uses
+ * @param  {number} T   Temperature
+ * @param  {number} V   Wind Speed
+ * @return {object}     Object containing the feels like temp and notes
  */
-export function addHeatIndex(array) {
+export function getWindChill(T, V) {
+  const C1 = 35.74;
+  const C2 = 0.6215;
+  const C3 = -35.75 * Math.pow(V, 0.16);
+  const C4 = 0.4275;
+  const WC = Math.round(
+             C1 +
+             (C2 * T) +
+              C3 +
+             (C4 * T * Math.pow(V, 0.16))
+          );
+
+  return {
+    feels_like: Math.round(WC),
+    ...feelsLikeNotes(WC),
+  };
+}
+
+/**
+ * Checks record.temp and adds heat index, wind chill, or neither.
+ * @param  {hourly weather} array
+ * @return {array}
+ */
+export function feelsLike(array) {
   const newArray = [];
   _.each(array, (record) => {
     if (record.temp > 79 && record.rh > 39) {
       return newArray.push({
         ...record,
-        ...getHeatIndex(record.temp, record.rh),
+        heat_index: {
+          ...getHeatIndex(record.temp, record.rh),
+        },
+      });
+    }
+
+    const WC = getWindChill(record.temp, record.wind);
+    if (WC.feels_like < 51) {
+      return newArray.push({
+        ...record,
+        wind_chill: {
+          ...WC,
+        },
       });
     }
 
     return newArray.push({
       ...record,
-      feels_like: record.temp,
-      ...feelsLike(record.temp),
     });
   });
 

@@ -11,7 +11,7 @@ import {
   trackStorm,
   topOff,
   addWind,
-  addHeatIndex,
+  feelsLike,
 } from '../../../lib/generators/weather/utils';
 import { temporalEstimation } from '../../../lib/generators/weather/dictionary';
 import { generateStorm } from '../../../lib/generators/weather/generators';
@@ -135,11 +135,8 @@ export function generateWeather(req, res) {
       // Here we add wind and beaufort number to any records that are missing it.
       hourlyWeather = addWind(hourlyWeather, _.random(20));
 
-      // Add a heat index and feelLike temp
-      hourlyWeather = addHeatIndex(hourlyWeather);
-
-      // add conditions
-      // hourlyWeather = generateConditions(hourlyWeather, season, stormType);
+      // Add heat index and wind chill if necessary
+      hourlyWeather = feelsLike(hourlyWeather);
 
       const currentWeather = {
         forecast: {

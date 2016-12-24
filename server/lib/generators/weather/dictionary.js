@@ -92,25 +92,59 @@ export function beaufortScale(wind) {
   return null;
 }
 
-export function feelsLike(T) {
+export function feelsLikeNotes(T) {
   const notes = {};
 
   // Source: https://en.wikipedia.org/wiki/Heat_index#Effects_of_the_heat_index_.28shade_values.29
-  if (_.inRange(T, 80, 91)) {
-    notes.warning = 'Caution';
-    notes.description = 'Caution: fatigue is possible with prolonged exposure and activity. Continuing activity could result in heat cramps.';
+  if (T > 130) {
+    notes.warning = 'Extreme Danger';
+    notes.description = 'Extreme danger: heat stroke is imminent.';
   }
-  if (_.inRange(T, 90, 106)) {
-    notes.warning = 'Extreme Caution';
-    notes.description = 'Extreme caution: heat cramps and heat exhaustion are possible. Continuing activity could result in heat stroke.';
-  }
+
   if (_.inRange(T, 105, 131)) {
     notes.warning = 'Danger';
     notes.description = 'Danger: heat cramps and heat exhaustion are likely; heat stroke is probable with continued activity.';
   }
-  if (T > 130) {
+
+  if (_.inRange(T, 90, 106)) {
+    notes.warning = 'Extreme Caution';
+    notes.description = 'Extreme caution: heat cramps and heat exhaustion are possible. Continuing activity could result in heat stroke.';
+  }
+
+  if (_.inRange(T, 80, 91)) {
+    notes.warning = 'Caution';
+    notes.description = 'Caution: fatigue is possible with prolonged exposure and activity. Continuing activity could result in heat cramps.';
+  }
+
+  // Source: http://www.math.wichita.edu/~richardson/windchill.html
+  if (_.inRange(T, 30, 51)) {
+    notes.warning = 'Mild Caution';
+    notes.description = 'Chilly. Generally unpleasant. Hypothermia possible but unlikely.';
+  }
+
+  if (_.inRange(T, 15, 30)) {
+    notes.warning = 'Caution';
+    notes.description = 'Cold. Unpleasant. Hypothermia possible.';
+  }
+
+  if (_.inRange(T, 0, 15)) {
+    notes.warning = 'Extreme Caution';
+    notes.description = 'Very cold. Very unpleasant. Hypothermia likely.';
+  }
+
+  if (_.inRange(T, -20, 0)) {
+    notes.warning = 'Mild Danger';
+    notes.description = 'Bitter cold. Frostbite possible.';
+  }
+
+  if (_.inRange(T, -60, -20)) {
+    notes.warning = 'Danger';
+    notes.description = 'Extremely cold. Frostbite likely. Outdoor activty becomes dangerous.';
+  }
+
+  if (T < -60) {
     notes.warning = 'Extreme Danger';
-    notes.description = 'Extreme danger: heat stroke is imminent.';
+    notes.description = 'Frigidly cold. Exposed flesh will freeze within 30 seconds.';
   }
 
   return notes;
