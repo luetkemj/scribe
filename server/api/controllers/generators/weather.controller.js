@@ -14,7 +14,7 @@ import {
   feelsLike,
 } from '../../../lib/generators/weather/utils';
 import { temporalEstimation } from '../../../lib/generators/weather/dictionary';
-import { generateStorm } from '../../../lib/generators/weather/generators';
+import { generateStorm, generateStormConditions, generateSkyConditions } from '../../../lib/generators/weather/generators';
 import { ZONE_VARIANCE, STORM_TYPE_TABLE } from '../../../config/constants/weather.constants';
 
 const logger = require('../../../lib/logger')();
@@ -137,6 +137,9 @@ export function generateWeather(req, res) {
 
       // Add heat index and wind chill if necessary
       hourlyWeather = feelsLike(hourlyWeather);
+
+      hourlyWeather = generateSkyConditions(hourlyWeather, stormType);
+      hourlyWeather = generateStormConditions(hourlyWeather, season, stormType);
 
       const currentWeather = {
         forecast: {

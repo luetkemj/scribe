@@ -142,8 +142,8 @@ export function generateWind(average) {
 
 
 // conditions
-function getConditionSolid(record, season) {
-  // if temo is below freezing ignore solid and do snow
+function getConditionSolidPrecipitation(record, season) {
+  // if temp is below freezing ignore solid and do snow
   if (record.temp < 32) {
     return {
       name: 'snow',
@@ -216,81 +216,126 @@ function getConditionPrecipitation(record, stormType) {
   };
 }
 
-/*
- * @TODO this is bogus equation - get it out of here!
- */
-// function getRelationalCondition(record, previous, next) {
-//   return [record, previous, next];
-// }
+export function generateNextSky(sky) {
+  const SKIES = [
+    'clear',
+    'partly-cloudy',
+    'mostly-cloudy',
+    'overcast',
+  ];
 
-export function generateConditions(hourlyWeather, season, stormType) {
+  // current sky is sticky - so we try here to unstick it.
+  // const D30 = d30();
+  // we have unstuck the sky
+  if (d30() > 10) {
+    // check which way to lean
+    // first we get the index of sky in SKIES
+    let index = SKIES.indexOf(sky);
+    if (d30() % 2) {
+      // so we can move up or down
+      index -= 1;
+    } else {
+      index += 1;
+    }
+
+    // now we return our new sky at the calulated index
+    // making sure to clamp between possible indices
+    return SKIES[_.clamp(index, 0, SKIES.length - 1)];
+  } else {
+    return sky;
+  }
+}
+
+export function generateStormConditions(hourlyWeather, season, stormType) {
   const newArray = [];
   _.each(hourlyWeather, (record) => {
-    // do hail or sleet
-    if (record.cell_solid) {
-      return newArray.push({
-        ...record,
-        condition: getConditionSolid(record, season),
-      });
+    // set storm conditions on records
+    if (stormType) {
+      // try hail or sleet
+      if (record.cell_solid) {
+        return newArray.push({
+          ...record,
+          condition: getConditionSolidPrecipitation(record, season),
+        });
+      }
+
+      // try snow, rain, or mix
+      if (record.cell_precipitation_rate && !record.cell_solid) {
+        return newArray.push({
+          ...record,
+          condition: getConditionPrecipitation(record, stormType),
+        });
+      }
     }
 
-    // do snow, rain, or mix
-    if (record.cell_precipitation_rate && !record.cell_solid) {
-      return newArray.push({
-        ...record,
-        condition: getConditionPrecipitation(record, stormType),
-      });
-    }
-
-/*
- * @TODO: nothing happening here! Fix this up!
- */
-    // no storm so we get a surrounding vibe in order to determine current
-  //   if (!record.cell_duration) {
-  //     const previous = record[index - 1];
-  //     const next = record[index + 1];
-  //
-  //     return newArray.push({
-  //       ...record,
-  //       condition: getRelationalCondition(record, previous, next),
-  //     });
-  //   }
-  //
-  //   return newArray.push(record);
-    return newArray;
+    return newArray.push({
+      ...record,
+    });
   });
 
   return newArray;
 }
-// day-sunny
-// night-clear
-//
-// day-sunny-overcast // partly-cloudy
-// night-partly-cloudy
-//
-// day-cloudy // mostly cloudy
-// night-cloudy // mostly cloudy
-//
-// cloudy // overcast
-//
-// fog
-// lightning
-// sandstorm
-// dust
-// hot
-// day-haze
-//
-//
-// hail
-// sleet
-//
-// sprinkle
-// showers
-// rain
-//
-// rain-mix
-//
-// snow
-//
-// storm-showers
-// thunderstorm
+
+export function generateSkyConditions(hourlyWeather, stormType) {
+  const SKIES = [
+    'clear',
+    'partly-cloudy',
+    'mostly-cloudy',
+    'overcast',
+  ];
+
+  const newArray = [];
+  _.each(hourlyWeather, (record, index) => {
+    // set initial sky
+    if (index === 0) {
+      if (stormType) {
+        // if there is a severe storm today
+        if (stormType === 'multiCellClusterS' || stormType === 'multiCellClusterS') {
+          // The day is more likely to be sunny to partly-cloudy overall
+          if (d30() % 2) {
+            return newArray.push({
+              ...record,
+              condition: generateNextSky('sunny'),
+            });
+          }
+
+          return newArray.push({
+            ...record,
+            condition: generateNextSky('partly-cloudy'),
+          });
+        }
+
+        // if there is a non severe storm today
+        if (stormType === 'multiCellClusterS' || stormType === 'multiCellClusterS') {
+          // The day is more likely to be mostly-cloudy to overcast
+          if (d30() % 2) {
+            return newArray.push({
+              ...record,
+              condition: generateNextSky('mostly-cloudy'),
+            });
+          }
+
+          return newArray.push({
+            ...record,
+            condition: generateNextSky('overcast'),
+          });
+        }
+      }
+      // if no storm than we just take a stab
+      return newArray.push({
+        ...record,
+        condition: generateNextSky(_.sample(SKIES)),
+      });
+    }
+
+    // we set our first sky so now we set each new sky sticky to the previous
+    const prevRecord = newArray[newArray.length - 1];
+
+    return newArray.push({
+      ...record,
+      condition: generateNextSky(prevRecord.condition),
+    });
+  });
+
+  return newArray;
+}
