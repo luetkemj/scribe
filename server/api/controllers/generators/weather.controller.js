@@ -92,6 +92,7 @@ export function generateWeather(req, res) {
       let hourlyWeather = _.merge(hourlyTemps, hourlyRHs);
 
       let stormStartEstimate;
+      let stormStart;
 
       // if stormType run storm generator
       if (stormType) {
@@ -100,7 +101,7 @@ export function generateWeather(req, res) {
         // if we generated a storm track it over hourlyWeather
         if (storm) {
           const stormWindow = getStormWindow(hourlyWeather, storm);
-          const stormStart = _.random(stormWindow.start, stormWindow.end);
+          stormStart = _.random(stormWindow.start, stormWindow.end);
 
           stormStartEstimate = temporalEstimation(stormStart);
 
@@ -133,13 +134,13 @@ export function generateWeather(req, res) {
 
       // now that we have our entire list it's time to start filling missing data!
       // Here we add wind and beaufort number to any records that are missing it.
-      hourlyWeather = addWind(hourlyWeather, _.random(20));
+      hourlyWeather = addWind(hourlyWeather, _.random(25));
 
       // Add heat index and wind chill if necessary
       hourlyWeather = feelsLike(hourlyWeather);
 
-      hourlyWeather = generateSkyConditions(hourlyWeather, stormType);
-      hourlyWeather = generateStormConditions(hourlyWeather, season, stormType);
+      hourlyWeather = generateSkyConditions(hourlyWeather, stormType, terrain);
+      hourlyWeather = generateStormConditions(hourlyWeather, season, stormType, stormStart);
 
       const currentWeather = {
         forecast: {

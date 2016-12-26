@@ -205,7 +205,8 @@ export function whipWind(wind) {
 }
 
 /**
- * Cheks for wind on record - adds wind if missing - uses new or existing wind to add beaufort_scale
+ * Checks for wind on record - adds wind if missing
+ * uses new or existing wind to add beaufort_scale
  * @param {array} array   [hourly weather]
  * @param {type} average  [the average forecasted wind speed]
  */

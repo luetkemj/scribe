@@ -246,11 +246,37 @@ export function generateNextSky(sky) {
   }
 }
 
-export function generateStormConditions(hourlyWeather, season, stormType) {
+export function generateStormConditions(hourlyWeather, season, stormType, stormStart) {
   const newArray = [];
   _.each(hourlyWeather, (record) => {
     // set storm conditions on records
     if (stormType) {
+      // if storm is severe and this is the last record before the first storm cell
+      // add lightning and continue
+      if (stormType === 'multiCellClusterS' || stormType === 'multiCellLineS') {
+        if (record.time === stormStart) {
+          newArray[newArray.length - 1].condition = 'lightning';
+          newArray[newArray.length - 1].outlook = 'distant lightning - loud cracks of thunder';
+        }
+      }
+
+      // if storm is not severe and this is the last record before the first storm cell
+      // try lightning and continue
+      if (stormType === 'multiCellClusterNS' || stormType === 'multiCellLineNS' || stormType === 'singleCell') {
+        if (record.time === stormStart) {
+          if (!d30() % 3) {
+            newArray[newArray.length - 1].condition = 'lightning';
+            newArray[newArray.length - 1].outlook = 'rolling thunder off in the distance';
+          } else {
+            if (record.temp < 32) {
+              newArray[newArray.length - 1].outlook = 'looks like snow';
+            } else {
+              newArray[newArray.length - 1].outlook = 'the smell of rain is in the air';
+            }
+          }
+        }
+      }
+
       // try hail or sleet
       if (record.cell_solid) {
         return newArray.push({
@@ -276,7 +302,7 @@ export function generateStormConditions(hourlyWeather, season, stormType) {
   return newArray;
 }
 
-export function generateSkyConditions(hourlyWeather, stormType) {
+export function generateSkyConditions(hourlyWeather, stormType, terrain) {
   const SKIES = [
     'clear',
     'partly-cloudy',
@@ -290,7 +316,7 @@ export function generateSkyConditions(hourlyWeather, stormType) {
     if (index === 0) {
       if (stormType) {
         // if there is a severe storm today
-        if (stormType === 'multiCellClusterS' || stormType === 'multiCellClusterS') {
+        if (stormType === 'multiCellClusterS' || stormType === 'multiCellLineS') {
           // The day is more likely to be sunny to partly-cloudy overall
           if (d30() % 2) {
             return newArray.push({
@@ -328,8 +354,29 @@ export function generateSkyConditions(hourlyWeather, stormType) {
       });
     }
 
-    // we set our first sky so now we set each new sky sticky to the previous
-    const prevRecord = newArray[newArray.length - 1];
+    // if no storm today we check terrain & wind for dust and sand storms
+    if (terrain === 'desert' && record.wind > 24) {
+      return newArray.push({
+        ...record,
+        condition: 'sandstorm',
+      });
+    }
+
+    if (terrain === 'hills' && record.wind > 24) {
+      return newArray.push({
+        ...record,
+        condition: 'duststorm',
+      });
+    }
+
+    // we have set our first sky so now we set each new sky sticky to the previous
+    // if previous is sandstorm or dustorm look back till we find something to stick with.
+    let lookback = 1;
+    while (newArray[newArray.length - lookback].condition === 'sandstorm' || newArray[newArray.length - lookback].condition === 'dustorm') {
+      lookback += 1;
+    }
+
+    const prevRecord = newArray[newArray.length - lookback];
 
     return newArray.push({
       ...record,
