@@ -76,10 +76,15 @@ export function trackStorm(storm, stormStartTime) {
   const trackedStorm = storm;
 
   for (let i = 0; i < trackedStorm.cells.length; i += 1) {
-    trackedStorm.cells[i].time = time;
-    trackedStorm.cells[i].cell_endTime = time + trackedStorm.cells[i].cell_duration;
+    const cell = trackedStorm.cells[i];
+    cell.time = time;
+    cell.cell_endTime = time + cell.cell_duration;
 
-    time += trackedStorm.cells[i].cell_duration + trackedStorm.cells[i].cell_delay;
+    if (cell.cell_delay) {
+      time += cell.cell_duration + cell.cell_delay;
+    } else {
+      time += cell.cell_duration;
+    }
   }
 
   return trackedStorm;

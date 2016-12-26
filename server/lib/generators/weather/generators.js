@@ -4,8 +4,8 @@ import { NS_CELL_TABLE, S_CELL_TABLE } from '../../../config/constants/weather.c
 
 // const logger = require('./logger')();
 
-function generateStormCell(table, duration) {
-  const { precip, wind, solid, hook } = table[d30()];
+function generateStormCell(table, duration, roll = d30, modifier = 0) {
+  const { precip, wind, solid, hook } = table[roll() + modifier];
 
   const whippedWind = whipWind(wind);
 
@@ -18,10 +18,6 @@ function generateStormCell(table, duration) {
   };
 }
 
-
-/*
- * @TODO: test this bugger!
- */
 function generateSingleCell() {
   const duration = toMs(d10() + 20);
   return {
@@ -30,9 +26,6 @@ function generateSingleCell() {
   };
 }
 
-/*
- * @TODO: test this bugger!
- */
 function generateMultiCell(table, cluster) {
   const cells = [];
   let totalDuration = 0;
@@ -69,31 +62,27 @@ function generateSuperCell() {
   const cells = [];
 
   for (let i = 1; i <= duration / 10; i += 1) {
-    if (i === 1) {
+    if (i === 1 || i === duration / 10) {
+      const cell = generateStormCell(S_CELL_TABLE, toMs(10), d10);
+
       cells.push({
-        duration: toMs(10),
-        effect: S_CELL_TABLE[d10()],
+        ...cell,
       });
     }
 
     if (i === 2) {
-      cells.push({
-        duration: toMs(10),
-        effect: S_CELL_TABLE[d10() + 10],
-      });
-    }
+      const cell = generateStormCell(S_CELL_TABLE, toMs(10), d10, 10);
 
-    if (i === duration) {
       cells.push({
-        duration: toMs(10),
-        effect: S_CELL_TABLE[d10()],
+        ...cell,
       });
     }
 
     if (i > 2 && i < duration) {
+      const cell = generateStormCell(S_CELL_TABLE, toMs(10), d10, 20);
+
       cells.push({
-        duration: toMs(10),
-        effect: S_CELL_TABLE[d10() + 20],
+        ...cell,
       });
     }
   }
@@ -267,12 +256,11 @@ export function generateStormConditions(hourlyWeather, season, stormType, stormS
           if (!d30() % 3) {
             newArray[newArray.length - 1].condition = 'lightning';
             newArray[newArray.length - 1].outlook = 'rolling thunder off in the distance';
+          }
+          if (record.temp < 32) {
+            newArray[newArray.length - 1].outlook = 'looks like snow';
           } else {
-            if (record.temp < 32) {
-              newArray[newArray.length - 1].outlook = 'looks like snow';
-            } else {
-              newArray[newArray.length - 1].outlook = 'the smell of rain is in the air';
-            }
+            newArray[newArray.length - 1].outlook = 'the smell of rain is in the air';
           }
         }
       }
