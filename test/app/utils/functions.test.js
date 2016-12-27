@@ -34,6 +34,7 @@ describe('utils/functions', () => {
       const expected = {
         total: 10,
         remainder: 1,
+        raw: 10.1,
       };
       const actual = functions.parseMs(101, 10);
 

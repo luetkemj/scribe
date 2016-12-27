@@ -15,10 +15,12 @@ export function leadingZero(number) {
 export function parseMs(milliseconds, divisor) {
   const total = Math.trunc(milliseconds / divisor);
   const remainder = milliseconds % divisor;
+  const raw = milliseconds / divisor;
 
   return {
     total,
     remainder,
+    raw,
   };
 }
 
