@@ -1,6 +1,10 @@
 import * as _ from 'lodash';
 import { parseMs } from '../../../../app/utils/functions';
-import { BEAUFORT_SCALE } from '../../../config/constants/weather.constants';
+import {
+  BEAUFORT_SCALE,
+  PRECIP_SIZE_HAIL,
+  PRECIP_SIZE_SNOW,
+  PRECIP_SIZE_RAIN } from '../../../config/constants/weather.constants';
 
 export function temporalEstimation(milliseconds) {
   const days = parseMs(milliseconds, 86400000);
@@ -148,4 +152,20 @@ export function feelsLikeNotes(T) {
   }
 
   return notes;
+}
+
+export function getPrecipSize(precip) {
+  if (precip === 'hail') {
+    return _.sample(PRECIP_SIZE_HAIL);
+  }
+
+  if (precip === 'snow') {
+    return _.sample(PRECIP_SIZE_SNOW);
+  }
+
+  if (precip === 'rain') {
+    return _.sample(PRECIP_SIZE_RAIN);
+  }
+
+  return null;
 }

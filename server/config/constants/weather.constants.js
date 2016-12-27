@@ -1,3 +1,52 @@
+export const PRECIP_SIZE_HAIL = [
+  'pea',
+  'pea',
+  'pea',
+  'pea',
+  'pea',
+  'pea',
+  'pea',
+  'pea',
+  'pea',
+  'pea',
+  'pea',
+  'pea',
+  'pea',
+  'pea',
+  'pea',
+  'marble',
+  'marble',
+  'marble',
+  'marble',
+  'marble',
+  'marble',
+  'marble',
+  'ping pong ball',
+  'ping pong ball',
+  'ping pong ball',
+  'ping pong ball',
+  'tennis ball',
+  'base ball',
+  'soft ball',
+  'basket ball',
+];
+
+export const PRECIP_SIZE_SNOW = [
+  'diamond dust',
+  'tiny',
+  'small',
+  'medium',
+  'large',
+  'huge clumping flakes',
+];
+
+export const PRECIP_SIZE_RAIN = [
+  'mist',
+  'small',
+  'medium',
+  'large',
+];
+
 export const ZONE_VARIANCE = {
   1: -10,
   2: -5,

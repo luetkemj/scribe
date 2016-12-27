@@ -1,5 +1,6 @@
 import * as _ from 'lodash';
 import { d6, d10, d30, toMs, whipWind } from './utils';
+import { getPrecipSize } from './dictionary';
 import { NS_CELL_TABLE, S_CELL_TABLE } from '../../../config/constants/weather.constants';
 
 // const logger = require('./logger')();
@@ -134,75 +135,53 @@ export function generateWind(average) {
 function getConditionSolidPrecipitation(record, season) {
   // if temp is below freezing ignore solid and do snow
   if (record.temp < 32) {
-    return {
-      name: 'snow',
-    };
+    return 'snow';
   }
 
   // if winter and in range for sleet - do sleet
   if (season === 'winter' && _.inRange(record.temp, 32, 41)) {
-    return {
-      name: 'sleet',
-    };
+    return 'sleet';
   }
 
   // if spring and summer and over 40 - do hail
   if ((season === 'spring' || season === 'summer') && record.temp > 40) {
-    return {
-      name: 'hail',
-    };
+    return 'hail';
   }
 
   // else we should just do thunderstorm cause we know we are in a storm.
-  return {
-    name: 'thunderstorm',
-  };
+  return 'thunderstorm';
 }
 
 function getConditionPrecipitation(record, stormType) {
   // if around freezing do rain-mix
   if (_.inRange(record.temp, 32, 38)) {
-    return {
-      name: 'rain-mix',
-    };
+    return 'rain-mix';
   }
 
   // if cold enough to snow - do snow
   if (record.temp < 32) {
-    return {
-      name: 'snow',
-    };
+    return 'snow';
   }
 
   // if storm is severe determine intensity and add lightening
-  if (stormType === 'multiCellClusterS' || stormType === 'multiCellLineS') {
+  if (stormType === 'multiCellClusterS' || stormType === 'multiCellLineS' || stormType === 'superCell') {
     if (record.cell_precipitation_rate < 2) {
-      return {
-        name: 'storm-showers',
-      };
+      return 'storm-showers';
     }
 
-    return {
-      name: 'thunderstorm',
-    };
+    return 'thunderstorm';
   }
 
   // if rain and not severe determine intensity
   if (record.cell_precipitation_rate < 0.3) {
-    return {
-      name: 'sprinkle',
-    };
+    return 'sprinkle';
   }
 
   if (record.cell_precipitation_rate < 0.9) {
-    return {
-      name: 'showers',
-    };
+    return 'showers';
   }
 
-  return {
-    name: 'rain',
-  };
+  return 'rain';
 }
 
 export function generateNextSky(sky) {
@@ -214,7 +193,6 @@ export function generateNextSky(sky) {
   ];
 
   // current sky is sticky - so we try here to unstick it.
-  // const D30 = d30();
   // we have unstuck the sky
   if (d30() > 10) {
     // check which way to lean
@@ -267,6 +245,19 @@ export function generateStormConditions(hourlyWeather, season, stormType, stormS
 
       // try hail or sleet
       if (record.cell_solid) {
+        const precip = getConditionPrecipitation(record, stormType);
+
+        if (precip === 'hail') {
+          const newRecord = _.assign(record, {
+            condition: precip,
+            cell_precipitation_size: getPrecipSize('hail'),
+          });
+
+          return newArray.push({
+            ...newRecord,
+          });
+        }
+
         return newArray.push({
           ...record,
           condition: getConditionSolidPrecipitation(record, season),
@@ -275,6 +266,20 @@ export function generateStormConditions(hourlyWeather, season, stormType, stormS
 
       // try snow, rain, or mix
       if (record.cell_precipitation_rate && !record.cell_solid) {
+        const precip = getConditionPrecipitation(record, stormType);
+
+        if (precip === 'snow') {
+          const newRecord = _.assign(record, {
+            condition: precip,
+            cell_precipitation_rate: record.cell_precipitation_rate * 2,
+            cell_precipitation_size: getPrecipSize('snow'),
+          });
+
+          return newArray.push({
+            ...newRecord,
+          });
+        }
+
         return newArray.push({
           ...record,
           condition: getConditionPrecipitation(record, stormType),
@@ -305,11 +310,11 @@ export function generateSkyConditions(hourlyWeather, stormType, terrain) {
       if (stormType) {
         // if there is a severe storm today
         if (stormType === 'multiCellClusterS' || stormType === 'multiCellLineS') {
-          // The day is more likely to be sunny to partly-cloudy overall
+          // The day is more likely to be clear to partly-cloudy overall
           if (d30() % 2) {
             return newArray.push({
               ...record,
-              condition: generateNextSky('sunny'),
+              condition: generateNextSky('clear'),
             });
           }
 
