@@ -20,6 +20,10 @@ command to install the project dependencies:
 
 `$ npm install`
 
+### Data ###
+
+Currently this project depends on an existing database. If you are interested in running the app - contact me for a mongo dump.
+
 ### Start the App ###
 
 This project is configured to load separate configuration based on the
