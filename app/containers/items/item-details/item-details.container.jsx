@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Spinner from '../../../components/spinner/spinner.component';
 import DefinitionList from '../../../components/definition-list/definition-list.component';
 
-import { loadItemIfNeeded } from '../../../actions/items.actions.js';
+import { loadItemIfNeeded } from '../../../actions/items.actions';
 
 import style from './item-details.container.scss';
 
@@ -90,9 +90,23 @@ class ItemDetailsContainer extends Component {
 }
 
 ItemDetailsContainer.propTypes = {
-  itemsState: PropTypes.object.isRequired,
+  itemsState: PropTypes.shape({
+    item: PropTypes.shape({
+      name: PropTypes.string,
+      description: PropTypes.string,
+      value: PropTypes.number,
+      value_unit: PropTypes.string,
+      weight: PropTypes.number,
+      weight_unit: PropTypes.string,
+      length: PropTypes.number,
+      length_unit: PropTypes.string,
+    }),
+    loadingItem: PropTypes.bool,
+  }).isRequired,
   loadItemIfNeeded: PropTypes.func.isRequired,
-  params: PropTypes.object,
+  params: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+  }),
 };
 
 function mapStateToProps(state) {

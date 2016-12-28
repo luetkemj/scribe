@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import MonsterListItemContainer from './monster-list-item/monster-list-item.container';
 import List from '../../components/list/list.component';
 
-import { loadMonstersIfNeeded } from '../../actions/monsters.actions.js';
+import { loadMonstersIfNeeded } from '../../actions/monsters.actions';
 import style from './monsters.container.scss';
 
 class MonstersContainer extends Component {
@@ -33,9 +33,12 @@ class MonstersContainer extends Component {
 }
 
 MonstersContainer.propTypes = {
-  monstersState: PropTypes.object.isRequired,
+  monstersState: PropTypes.shape({
+    monsters: PropTypes.arrayOf({}),
+    loadingMonsters: PropTypes.bool,
+  }).isRequired,
   loadMonstersIfNeeded: PropTypes.func.isRequired,
-  children: PropTypes.any,
+  children: PropTypes.arrayOf(),
 };
 
 function mapStateToProps(state) {

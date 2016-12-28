@@ -55,7 +55,7 @@ function getPlugins() {
 function getLoaders() {
   const loaders = [
     {
-      test: /\.js$/,
+      test: /\.jsx?$/,
       exclude: /node_modules/,
       loader: 'babel',
       query: {
@@ -96,9 +96,9 @@ function getEntry() {
 
   // if TEST_APP then we build the test application, else the main one
   if (process.env.TEST_APP) {
-    entry.push(path.join(appPath, 'test-app-index.js'));
+    entry.push(path.join(appPath, 'test-app-index.jsx'));
   } else {
-    entry.push(path.join(appPath, 'index.js'));
+    entry.push(path.join(appPath, 'index.jsx'));
   }
 
   return entry;

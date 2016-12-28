@@ -1,6 +1,7 @@
+import should from 'should';
+
 import reducer from '../../../app/reducers/note.reducer';
 import * as types from '../../../app/constants/action-types';
-import should from 'should';
 
 describe('the note reducer', () => {
   it('should exist', () => {
@@ -24,7 +25,7 @@ describe('the note reducer', () => {
         reducer(state, {
           type: types.CREATE_NOTE,
           note: { id: 1 },
-        })
+        }),
       ).deepEqual({ id: 1 });
     });
 

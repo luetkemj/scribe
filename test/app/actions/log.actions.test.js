@@ -1,9 +1,10 @@
+import fetchMock from 'fetch-mock';
+import should from 'should';
+
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import * as logActions from '../../../app/actions/log.actions.js';
+import * as logActions from '../../../app/actions/log.actions';
 import * as types from '../../../app/constants/action-types';
-import should from 'should';
-import fetchMock from 'fetch-mock';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);

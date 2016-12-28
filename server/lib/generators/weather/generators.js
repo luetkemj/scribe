@@ -208,9 +208,9 @@ export function generateNextSky(sky) {
     // now we return our new sky at the calulated index
     // making sure to clamp between possible indices
     return SKIES[_.clamp(index, 0, SKIES.length - 1)];
-  } else {
-    return sky;
   }
+
+  return sky;
 }
 
 export function generateStormConditions(hourlyWeather, season, stormType, stormStart) {

@@ -1,11 +1,11 @@
+import { find } from 'lodash';
+
 import {
   getLogUrl,
   getUpdateLogUrl,
   getCreateLogUrl,
   getDeleteLogUrl,
 } from '../../server/lib/logs';
-
-import { find } from 'lodash';
 
 import {
   FETCH_DEFAULT_OPTIONS,

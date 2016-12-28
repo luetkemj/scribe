@@ -11,19 +11,19 @@ export const FETCH_DEFAULT_OPTIONS = {
 export function checkHttpStatus(response) {
   if (response.status >= 200 && response.status < 300) {
     return response;
-  } else {
-    const error = new Error(response.statusText);
-    error.response = response;
-    throw error;
   }
+
+  const error = new Error(response.statusText);
+  error.response = response;
+  throw error;
 }
 
 function isUnauthorized(error) {
   if (error.response && error.response.status === 401) {
     return true;
-  } else {
-    return false;
   }
+
+  return false;
 }
 
 function sendToLogin(dispatch) {

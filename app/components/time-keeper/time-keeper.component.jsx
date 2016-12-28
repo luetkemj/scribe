@@ -90,7 +90,11 @@ export default function TimeKeeper({ day, time, sky, rotation, initialMs, increm
 
 TimeKeeper.propTypes = {
   day: PropTypes.number.isRequired,
-  time: PropTypes.object.isRequired,
+  time: PropTypes.shape({
+    hours: PropTypes.number.isRequired,
+    minutes: PropTypes.number.isRequired,
+    seconds: PropTypes.number.isRequired,
+  }).isRequired,
   sky: PropTypes.string.isRequired,
   rotation: PropTypes.number.isRequired,
   increment: PropTypes.func.isRequired,

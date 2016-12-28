@@ -1,16 +1,16 @@
 import React, { PropTypes } from 'react';
+import uuid from 'uuid/v1';
 
 import style from './ability-scores.component.scss';
 
 export default function AbilityScores(props) {
   let abilityScoresToRender;
   if (props.ability_scores) {
-    let key = 0;
     abilityScoresToRender = props.ability_scores.map(abilityScore =>
-      (<div key={key += 1} className={style.ability}>
+      (<div key={uuid()} className={style.ability}>
         <span className={style.abilityName}>{abilityScore.abrv}</span>
         <span className={style.abilityScore}>{abilityScore.score}({abilityScore.modifier})</span>
-      </div>)
+      </div>),
     );
   }
 
@@ -23,6 +23,6 @@ export default function AbilityScores(props) {
 
 AbilityScores.propTypes = {
   ability_scores: PropTypes.arrayOf(
-    PropTypes.shape({}).isRequired
+    PropTypes.shape({}).isRequired,
   ).isRequired,
 };

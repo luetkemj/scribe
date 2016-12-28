@@ -11,5 +11,5 @@ export default function TestApp({ children }) {
 }
 
 TestApp.propTypes = {
-  children: PropTypes.any,
+  children: PropTypes.arrayOf(),
 };

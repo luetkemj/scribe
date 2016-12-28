@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import mongoose from 'mongoose';
-import { buildLogUI } from '../../lib/logs.js';
+import { buildLogUI } from '../../lib/logs';
 
 const logger = require('../../lib/logger.js')();
 

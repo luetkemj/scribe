@@ -33,5 +33,5 @@ render(
       <Route path="weather-tracker" component={WeatherTrackerTestContainer} />
     </Route>
   </Router>,
-  document.getElementById('app')
+  document.getElementById('app'),
 );

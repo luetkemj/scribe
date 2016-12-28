@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import uuid from 'uuid/v1';
 import style from './weather-tracker.component.scss';
 
 export default function WeatherTracker({
@@ -16,14 +17,13 @@ export default function WeatherTracker({
     weatherTrackerClassNames += ` ${style.activeControls}`;
   }
 
-  let key = 0;
   const weatherConditionsToRender = weatherConditions.map(weatherCondition =>
     <div
       className={`${style.icon} ${style[weatherCondition]}`}
       onClick={changeWeather}
       data-weather={weatherCondition}
-      key={key += 1}
-    />
+      key={uuid()}
+    />,
   );
 
   return (

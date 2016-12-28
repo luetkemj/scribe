@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import ItemListItemContainer from './item-list-item/item-list-item.container';
 import List from '../../components/list/list.component';
 
-import { loadItemsIfNeeded } from '../../actions/items.actions.js';
+import { loadItemsIfNeeded } from '../../actions/items.actions';
 import style from './items.container.scss';
 
 class ItemsContainer extends Component {
@@ -33,9 +33,12 @@ class ItemsContainer extends Component {
 }
 
 ItemsContainer.propTypes = {
-  itemsState: PropTypes.object.isRequired,
+  itemsState: PropTypes.shape({
+    items: PropTypes.arrayOf({}),
+    loadingItems: PropTypes.bool.isRequired,
+  }).isRequired,
   loadItemsIfNeeded: PropTypes.func.isRequired,
-  children: PropTypes.any,
+  children: PropTypes.arrayOf(),
 };
 
 function mapStateToProps(state) {

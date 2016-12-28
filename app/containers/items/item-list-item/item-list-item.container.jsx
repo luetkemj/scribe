@@ -24,9 +24,14 @@ function ItemListItemContainer(props) {
 }
 
 ItemListItemContainer.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+  }).isRequired,
   loadItemIfNeeded: PropTypes.func.isRequired,
-  itemsState: PropTypes.object.isRequired,
+  itemsState: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 function mapStateToProps(state) {

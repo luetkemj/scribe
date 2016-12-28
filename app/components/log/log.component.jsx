@@ -180,5 +180,13 @@ Log.propTypes = {
   time: PropTypes.string.isRequired,
   season: PropTypes.string.isRequired,
   weather: PropTypes.string.isRequired,
-  notes: PropTypes.array,
+  notes: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string,
+      heading: PropTypes.string,
+      content: PropTypes.string,
+      creating: PropTypes.bool,
+      deleting: PropTypes.bool,
+    }),
+  ),
 };

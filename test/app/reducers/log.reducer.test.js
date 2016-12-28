@@ -1,6 +1,7 @@
+import should from 'should';
+
 import reducer from '../../../app/reducers/log.reducer';
 import * as types from '../../../app/constants/action-types';
-import should from 'should';
 
 describe('the log reducer', () => {
   it('should exist', () => {
@@ -24,7 +25,7 @@ describe('the log reducer', () => {
       should(
         reducer(state, {
           type: types.LOADING_LOG_INITIATED,
-        })
+        }),
       ).deepEqual({
         loading: true,
         error: null,
@@ -35,7 +36,7 @@ describe('the log reducer', () => {
       should(
         reducer(state, {
           type: types.LOG_ALREADY_LOADED,
-        })
+        }),
       ).deepEqual({
         loading: false,
         error: null,
@@ -50,7 +51,7 @@ describe('the log reducer', () => {
             _id: 1,
             weather: 'cold',
           },
-        })
+        }),
       ).deepEqual({
         loading: false,
         error: null,
@@ -64,7 +65,7 @@ describe('the log reducer', () => {
         reducer(state, {
           type: types.LOADING_LOG_ERROR,
           error: 'terrible things!',
-        })
+        }),
       ).deepEqual({
         loading: false,
         error: 'terrible things!',
@@ -76,7 +77,7 @@ describe('the log reducer', () => {
         reducer(state, {
           type: types.UPDATING_LOG_INITIATED,
           error: null,
-        })
+        }),
       ).deepEqual({
         loading: true,
         error: null,
@@ -91,7 +92,7 @@ describe('the log reducer', () => {
             _id: 1,
             name: 'the log',
           },
-        })
+        }),
       ).deepEqual({
         loading: false,
         error: null,
@@ -105,7 +106,7 @@ describe('the log reducer', () => {
         reducer(state, {
           type: types.UPDATING_LOG_ERROR,
           error: 'terrible things!',
-        })
+        }),
       ).deepEqual({
         loading: false,
         error: 'terrible things!',

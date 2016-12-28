@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import mongoose from 'mongoose';
-import { buildChartUI, buildChartSummaryUI } from '../../lib/charts.js';
+import { buildChartUI, buildChartSummaryUI } from '../../lib/charts';
 
 const logger = require('../../lib/logger')();
 

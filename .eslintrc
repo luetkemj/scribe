@@ -1,35 +1,29 @@
-{
-  "parser": "babel-eslint",
-  "extends": "airbnb",
-  "env": {
-    "browser": true,
-    "node": true
-  },
-  "rules": {
-    "no-else-return": 0,
-    "no-global-assign": 0,
-    "global-require": 0,
-    "import/extensions": 0,
-    "import/imports-first": 0,
-    "import/no-extraneous-dependencies": [
-      "error",
-      {
-        "devDependencies": true,
-        "optionalDependencies": false,
-        "peerDependencies": false
-      }
-    ],
-    "import/no-dynamic-require": 0,
-    "import/prefer-default-export": 0,
-    "no-return-assign": 0,
-    "no-underscore-dangle": 0,
-    "no-unsafe-negation": 0,
-    # "react/forbid-prop-types": [2, {'forbid': ['object', 'array']}],
-    "react/jsx-filename-extension": 0,
-    "react/no-unused-prop-types": [0, { skipShapeProps: true }],
+parser: "babel-eslint"
+extends: "airbnb"
+env:
+  browser: true
+rules:
+  # this rule causes problems with initialization, nock, and others
+  global-require: 0
 
-    #turn these off during refactor - will reactivate after.
-    "jsx-a11y/no-static-element-interactions": 0,
-    "react/forbid-prop-types": 0,
-  }
-}
+  # this rule causes problems with actions (single action to export)
+  import/prefer-default-export: 0
+
+  # https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-extraneous-dependencies.md
+  # this rule causes problems with webpack config, nock, and others
+  import/no-extraneous-dependencies: [2, {}]
+
+  # this rule breaks globbing in express
+  import/no-dynamic-require: 0
+
+  # this rule causes problems when dealing with external objects that contain underscores
+  # although since I am in control of external objects this need to be fixed.
+  # setting to warning for now
+  no-underscore-dangle: 1
+
+  # I don't know yet how to use ** properly as it breaks my functions when the linter like it.
+  # Set to warning for now.
+  no-restricted-properties: [1, {
+      object: Math,
+      property: pow
+  }]

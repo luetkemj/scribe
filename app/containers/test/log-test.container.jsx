@@ -88,17 +88,6 @@ export default class LogTestContainer extends Component {
     });
   }
 
-  // submitAddNote = (content) => {
-  //   const notes = this.state.notes;
-  //   // save the new note contents to the existing note in our notes array.
-  //   notes[Number(id)].content = content;
-  //   notes[Number(id)].creating = false;
-  //
-  //   this.setState({
-  //     notes,
-  //   });
-  // }
-
   submitAddNote = (content) => {
     const tempNotes = this.state.tempNotes;
     const index = [tempNotes.length - 1];

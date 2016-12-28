@@ -1,5 +1,5 @@
-import { cloneDeep, find, pullAllWith, isEqual, indexOf } from 'lodash';
-import logReducer from './log.reducer.js';
+import { cloneDeep, find, pullAllWith, isEqual, indexOf, each } from 'lodash';
+import logReducer from './log.reducer';
 import {
   LOADING_LOGS_INITIATED,
   LOGS_ALREADY_LOADED,
@@ -46,21 +46,16 @@ export default function historyReducer(state = initialState, action) {
     case LOADING_LOGS_SUCCESS: {
       // we need to add some state to our notes. Since they are deep in state we do some
       // child-reducer-fu iterating over all of our logs and their notes.
-      const updatedLogs = cloneDeep(action.logs);
-      let index = 0;
-      for (let log of updatedLogs) {
-        // here we send the same action.type we started with but pass notes on the action to our
-        // logReducer
-        log = logReducer(log, {
-          type: action.type,
-          notes: log.notes,
-        });
+      const tempLogs = cloneDeep(action.logs);
+      const updatedLogs = [];
 
-        // update the logs after all that reducer-fu
-        updatedLogs[index] = log;
-
-        index += 1;
-      }
+      each(tempLogs, (log) => {
+        updatedLogs.push(
+          logReducer(log, {
+            type: action.type,
+            notes: log.notes,
+          }));
+      });
 
       return Object.assign({}, state, {
         loading: false,
