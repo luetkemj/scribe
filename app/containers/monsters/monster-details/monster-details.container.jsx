@@ -6,7 +6,7 @@ import Spinner from '../../../components/spinner/spinner.component';
 import DefinitionList from '../../../components/definition-list/definition-list.component';
 import AbilityScores from '../../../components/ability-scores/ability-scores.component';
 
-import { loadMonsterIfNeeded } from '../../../actions/monsters.actions.js';
+import { loadMonsterIfNeeded } from '../../../actions/monsters.actions';
 
 import style from './monster-details.container.scss';
 
@@ -151,9 +151,14 @@ class MonsterDetailsContainer extends Component {
 }
 
 MonsterDetailsContainer.propTypes = {
-  monstersState: PropTypes.object.isRequired,
+  monstersState: PropTypes.shape({
+    monster: PropTypes.shape(),
+    loadingMonster: PropTypes.bool,
+  }).isRequired,
   loadMonsterIfNeeded: PropTypes.func.isRequired,
-  params: PropTypes.object.isRequired,
+  params: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 function mapStateToProps(state) {

@@ -1,6 +1,7 @@
+import should from 'should';
+
 import reducer from '../../../app/reducers/items.reducer';
 import * as types from '../../../app/constants/action-types';
-import should from 'should';
 
 describe('items reducer', () => {
   it('should exist', () => {
@@ -28,7 +29,7 @@ describe('items reducer', () => {
       should(
         reducer(state, {
           type: types.LOADING_ITEMS_INITIATED,
-        })
+        }),
       ).deepEqual({
         loadingItems: true,
         loadingItem: false,
@@ -44,7 +45,7 @@ describe('items reducer', () => {
         reducer(state, {
           type: types.LOADING_ITEMS_SUCCESS,
           items: [{ a: 1 }],
-        })
+        }),
       ).deepEqual({
         loadingItems: false,
         loadingItem: false,
@@ -60,7 +61,7 @@ describe('items reducer', () => {
         reducer(state, {
           type: types.LOADING_ITEMS_ERROR,
           error: 'KHANNNN!',
-        })
+        }),
       ).deepEqual({
         loadingItems: false,
         loadingItem: false,
@@ -75,7 +76,7 @@ describe('items reducer', () => {
       should(
         reducer(state, {
           type: types.LOADING_ITEM_INITIATED,
-        })
+        }),
       ).deepEqual({
         loadingItems: false,
         loadingItem: true,
@@ -91,7 +92,7 @@ describe('items reducer', () => {
         reducer(state, {
           type: types.LOADING_ITEM_SUCCESS,
           item: { a: 1 },
-        })
+        }),
       ).deepEqual({
         loadingItems: false,
         loadingItem: false,
@@ -107,7 +108,7 @@ describe('items reducer', () => {
         reducer(state, {
           type: types.LOADING_ITEM_ERROR,
           error: 'KHANNNN!!',
-        })
+        }),
       ).deepEqual({
         loadingItems: false,
         loadingItem: false,

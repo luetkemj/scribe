@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import mongoose from 'mongoose';
-import { buildItemUI } from '../../lib/items.js';
+import { buildItemUI } from '../../lib/items';
 
 const logger = require('../../lib/logger')();
 

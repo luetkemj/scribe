@@ -1,6 +1,7 @@
+import should from 'should';
+
 import reducer from '../../../app/reducers/history.reducer';
 import * as types from '../../../app/constants/action-types';
-import should from 'should';
 
 describe('the history reducer', () => {
   let state;

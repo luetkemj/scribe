@@ -73,13 +73,13 @@ export function generateWeather(req, res) {
       // with each hour of the day
       const hourlyTemps = assignTime(
         shimmy(_.chain(temps).orderBy('temp').reverse().value()),
-        initialMs
+        initialMs,
       );
 
       // order RHs and shimmy into an ordered set of hourlyRHs with each hour of the day
       const hourlyRHs = assignTime(
         shimmy(_.orderBy(RHs, 'rh')),
-        initialMs
+        initialMs,
       );
 
       let stormType = null;

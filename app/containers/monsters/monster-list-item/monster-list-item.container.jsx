@@ -24,9 +24,16 @@ function MonsterListItemContainer(props) {
 }
 
 MonsterListItemContainer.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.shape({
+    _id: PropTypes.string,
+    name: PropTypes.string,
+  }).isRequired,
   loadMonsterIfNeeded: PropTypes.func.isRequired,
-  monstersState: PropTypes.object.isRequired,
+  monstersState: PropTypes.shape({
+    monster: PropTypes.shape({
+      _id: PropTypes.string,
+    }),
+  }).isRequired,
 };
 
 function mapStateToProps(state) {

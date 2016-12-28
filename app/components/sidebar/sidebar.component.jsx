@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react';
+import uuid from 'uuid/v1';
 import { Link } from 'react-router';
 import style from './sidebar.component.scss';
 
 export default function Sidebar({ location, links }) {
   let currentLink;
-  let key = 0;
 
   const linksToRender = links.map((link) => {
     if (location.pathname === `/${link.path}`) {
@@ -13,7 +13,7 @@ export default function Sidebar({ location, links }) {
       currentLink = null;
     }
     return (
-      <li className={style.listItem} key={key += 1}>
+      <li className={style.listItem} key={uuid()}>
         <Link to={`/${link.path}`} className={`${style.link} ${currentLink}`}>{link.name}</Link>
       </li>
     );
@@ -31,6 +31,13 @@ export default function Sidebar({ location, links }) {
 }
 
 Sidebar.propTypes = {
-  location: PropTypes.object.isRequired,
-  links: PropTypes.array.isRequired,
+  location: PropTypes.shape({
+    location: PropTypes.string.isRequired,
+  }).isRequired,
+  links: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      path: PropTypes.string.isRequired,
+    }).isRequired,
+  ).isRequired,
 };

@@ -1,16 +1,16 @@
 import should from 'should';
 
-describe('The generator lib', () => {
-  let genLib;
+describe('The generators weather utils lib', () => {
+  let utilsLib;
 
   beforeEach(() => {
-    genLib = require('../../../../../server/lib/generators/weather/utils');
+    utilsLib = require('../../../../../server/lib/generators/weather/utils');
   });
 
   describe('shimmy', () => {
     it('should work', () => {
       const expected = [1, 3, 5, 4, 2];
-      const actual = genLib.shimmy([5, 4, 3, 2, 1]);
+      const actual = utilsLib.shimmy([5, 4, 3, 2, 1]);
 
       should(actual).deepEqual(expected);
     });
@@ -37,7 +37,7 @@ describe('The generator lib', () => {
         seven: 'eight',
         time: 3600100,
       }];
-      const actual = genLib.assignTime(ARRAY, 100);
+      const actual = utilsLib.assignTime(ARRAY, 100);
 
       should(actual).deepEqual(expected);
     });
@@ -49,7 +49,7 @@ describe('The generator lib', () => {
         start: 500,
         end: 86399500,
       };
-      const actual = genLib.getStormWindow([{ time: 500 }], { duration: 1000 });
+      const actual = utilsLib.getStormWindow([{ time: 500 }], { duration: 1000 });
 
       should(actual).deepEqual(expected);
     });
@@ -73,7 +73,7 @@ describe('The generator lib', () => {
           },
         ],
       };
-      const actual = genLib.trackStorm({
+      const actual = utilsLib.trackStorm({
         cells: [
           {
             cell_duration: 100,
@@ -97,7 +97,7 @@ describe('The generator lib', () => {
         { temp: 2, time: 1, rh: 3 },
         { temp: 3, time: 2, rh: 1 },
       ];
-      const actual = genLib.backFill([
+      const actual = utilsLib.backFill([
         { temp: 1, time: 1, rh: 3 },
         { temp: 2 },
         { temp: 3, time: 2, rh: 1 },
@@ -133,7 +133,7 @@ describe('The generator lib', () => {
           cell_hook: 1,
         },
       ];
-      const actual = genLib.stormOverFlow([
+      const actual = utilsLib.stormOverFlow([
         {
           time: 0,
           cell_duration: 100,
@@ -173,7 +173,7 @@ describe('The generator lib', () => {
           rh: 31,
         },
       ];
-      const actual = genLib.fillStormGaps([
+      const actual = utilsLib.fillStormGaps([
         {
           time: 0,
           cell_endTime: 100,
@@ -206,7 +206,7 @@ describe('The generator lib', () => {
           rh: 30,
         },
       ];
-      const actual = genLib.topOff([
+      const actual = utilsLib.topOff([
         {
           time: 150,
           cell_endTime: 200,
@@ -221,25 +221,25 @@ describe('The generator lib', () => {
 
   describe('getHeatIndex', () => {
     it('should work', () => {
-      should(genLib.getHeatIndex(80, 40).feels_like).equal(80);
-      should(genLib.getHeatIndex(90, 40).feels_like).equal(91);
-      should(genLib.getHeatIndex(100, 40).feels_like).equal(109);
-      should(genLib.getHeatIndex(110, 40).feels_like).equal(136);
+      should(utilsLib.getHeatIndex(80, 40).feels_like).equal(80);
+      should(utilsLib.getHeatIndex(90, 40).feels_like).equal(91);
+      should(utilsLib.getHeatIndex(100, 40).feels_like).equal(109);
+      should(utilsLib.getHeatIndex(110, 40).feels_like).equal(136);
     });
   });
 
   describe('getWindChill', () => {
     it('should work', () => {
-      should(genLib.getWindChill(15, 60).feels_like).equal(-11);
-      should(genLib.getWindChill(5, 60).feels_like).equal(-26);
-      should(genLib.getWindChill(-5, 60).feels_like).equal(-40);
-      should(genLib.getWindChill(-15, 60).feels_like).equal(-55);
+      should(utilsLib.getWindChill(15, 60).feels_like).equal(-11);
+      should(utilsLib.getWindChill(5, 60).feels_like).equal(-26);
+      should(utilsLib.getWindChill(-5, 60).feels_like).equal(-40);
+      should(utilsLib.getWindChill(-15, 60).feels_like).equal(-55);
     });
   });
 
   describe('feelsLike', () => {
     it('should work', () => {
-      const actual = genLib.feelsLike([
+      const actual = utilsLib.feelsLike([
         {
           temp: 90,
           rh: 40,

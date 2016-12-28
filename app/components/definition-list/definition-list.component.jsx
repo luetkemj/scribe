@@ -28,7 +28,9 @@ export default function DefinitionList(props) {
 }
 
 DefinitionList.propTypes = {
-  definitions: PropTypes.array.isRequired,
+  definitions: PropTypes.arrayOf(
+    PropTypes.shape({}).isRequired,
+  ).isRequired,
   dd: PropTypes.string.isRequired,
   dt: PropTypes.string.isRequired,
   verbose: PropTypes.bool,

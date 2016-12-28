@@ -255,15 +255,15 @@ export function getHeatIndex(T, R) {
   const C9 = -1.99 * Math.pow(10, -6);
 
   const HI = Math.round(
-             C1 +
-            (C2 * T) +
-            (C3 * R) +
-            (C4 * T * R) +
-            (C5 * Math.pow(T, 2)) +
-            (C6 * Math.pow(R, 2)) +
-            (C7 * Math.pow(T, 2) * R) +
-            (C8 * T * Math.pow(R, 2)) +
-            (C9 * Math.pow(T, 2) * Math.pow(R, 2)));
+            C1 +
+           (C2 * T) +
+           (C3 * R) +
+           (C4 * T * R) +
+           (C5 * Math.pow(T, 2)) +
+           (C6 * Math.pow(R, 2)) +
+           (C7 * Math.pow(T, 2) * R) +
+           (C8 * T * Math.pow(R, 2)) +
+           (C9 * Math.pow(T, 2) * Math.pow(R, 2)));
 
   return {
     feels_like: Math.round(HI),
@@ -271,23 +271,23 @@ export function getHeatIndex(T, R) {
   };
 }
 
-/**
- * Generate Windchill based on the formula NOAA uses
- * @param  {number} T   Temperature
- * @param  {number} V   Wind Speed
- * @return {object}     Object containing the feels like temp and notes
- */
+ /**
+  * Generate Windchill based on the formula NOAA uses
+  * @param  {number} T   Temperature
+  * @param  {number} V   Wind Speed
+  * @return {object}     Object containing the feels like temp and notes
+  */
 export function getWindChill(T, V) {
   const C1 = 35.74;
   const C2 = 0.6215;
   const C3 = -35.75 * Math.pow(V, 0.16);
   const C4 = 0.4275;
   const WC = Math.round(
-             C1 +
-             (C2 * T) +
-              C3 +
-             (C4 * T * Math.pow(V, 0.16))
-          );
+            C1 +
+            (C2 * T) +
+             C3 +
+            (C4 * T * Math.pow(V, 0.16)),
+         );
 
   return {
     feels_like: Math.round(WC),

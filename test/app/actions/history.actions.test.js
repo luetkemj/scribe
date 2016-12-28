@@ -1,10 +1,10 @@
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-import * as historyActions from '../../../app/actions/history.actions.js';
-import * as types from '../../../app/constants/action-types';
+import fetchMock from 'fetch-mock';
 import should from 'should';
 
-import fetchMock from 'fetch-mock';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import * as historyActions from '../../../app/actions/history.actions';
+import * as types from '../../../app/constants/action-types';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);

@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import LogContainer from './log/log.container.js';
+import LogContainer from './log/log.container';
 import TimeKeeper from '../../components/time-keeper/time-keeper.component';
 import WeatherTracker from '../../components/weather-tracker/weather-tracker.component';
 
@@ -134,7 +134,10 @@ class CampaignContainer extends Component {
 }
 
 CampaignContainer.propTypes = {
-  historyState: PropTypes.object.isRequired,
+  historyState: PropTypes.shape({
+    logs: PropTypes.arrayOf(),
+    error: PropTypes.string,
+  }).isRequired,
   loadLogsIfNeeded: PropTypes.func.isRequired,
   createLog: PropTypes.func.isRequired,
 };
