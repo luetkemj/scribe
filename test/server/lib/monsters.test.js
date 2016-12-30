@@ -40,10 +40,10 @@ describe('monsters library', () => {
     });
   });
 
-  describe('_getAbilityScoreModifier', () => {
+  describe('getAbilityScoreModifier', () => {
     it('should work', () => {
       const expected = 5;
-      const actual = monstersLib._getAbilityScoreModifier(20);
+      const actual = monstersLib.getAbilityScoreModifier(20);
 
       should(expected).equal(actual);
     });
