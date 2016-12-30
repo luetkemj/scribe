@@ -34,11 +34,11 @@ class MonstersContainer extends Component {
 
 MonstersContainer.propTypes = {
   monstersState: PropTypes.shape({
-    monsters: PropTypes.arrayOf({}),
+    monsters: PropTypes.arrayOf(PropTypes.shape()),
     loadingMonsters: PropTypes.bool,
   }).isRequired,
   loadMonstersIfNeeded: PropTypes.func.isRequired,
-  children: PropTypes.arrayOf(),
+  children: PropTypes.shape(),
 };
 
 function mapStateToProps(state) {

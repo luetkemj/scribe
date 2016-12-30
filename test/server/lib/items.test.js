@@ -62,4 +62,22 @@ describe('items library', () => {
       should(expected).deepEqual(actual);
     });
   });
+
+  describe('numberfy', () => {
+    const ITEMS = {
+      length: '2',
+      value: '3',
+    };
+
+    it('should work', () => {
+      const expected = {
+        length: 2,
+        value: 3,
+      };
+
+      const actual = itemsLib.numberfy(ITEMS, ['length', 'value']);
+
+      should(actual).deepEqual(expected);
+    });
+  });
 });

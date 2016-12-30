@@ -33,6 +33,6 @@ export default function App({ children, location }) {
 }
 
 App.propTypes = {
-  children: PropTypes.arrayOf(),
+  children: PropTypes.shape(),
   location: PropTypes.shape({}),
 };
