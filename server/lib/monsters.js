@@ -16,7 +16,7 @@ export function getMonsterUrl(id) {
   return url;
 }
 
-export function _getAbilityScoreModifier(abilityScore) {
+export function getAbilityScoreModifier(abilityScore) {
   const mod = Math.floor((abilityScore - 10) / 2);
   return mod;
 }
@@ -41,32 +41,32 @@ export function buildMonsterUI(monster) {
       name: 'strength',
       abrv: 'STR',
       score: strength,
-      modifier: _getAbilityScoreModifier(strength),
+      modifier: getAbilityScoreModifier(strength),
     }, {
       name: 'dexterity',
       abrv: 'DEX',
       score: dexterity,
-      modifier: _getAbilityScoreModifier(dexterity),
+      modifier: getAbilityScoreModifier(dexterity),
     }, {
       name: 'constitution',
       abrv: 'CON',
       score: constitution,
-      modifier: _getAbilityScoreModifier(constitution),
+      modifier: getAbilityScoreModifier(constitution),
     }, {
       name: 'intelligence',
       abrv: 'INT',
       score: intelligence,
-      modifier: _getAbilityScoreModifier(intelligence),
+      modifier: getAbilityScoreModifier(intelligence),
     }, {
       name: 'wisdom',
       abrv: 'WIS',
       score: wisdom,
-      modifier: _getAbilityScoreModifier(wisdom),
+      modifier: getAbilityScoreModifier(wisdom),
     }, {
       name: 'charisma',
       abrv: 'CHA',
       score: charisma,
-      modifier: _getAbilityScoreModifier(charisma),
+      modifier: getAbilityScoreModifier(charisma),
     }],
     damage_vulnerabilities,
     damage_resistances,
