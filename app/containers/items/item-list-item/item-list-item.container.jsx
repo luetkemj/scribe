@@ -30,7 +30,7 @@ ItemListItemContainer.propTypes = {
   }).isRequired,
   loadItemIfNeeded: PropTypes.func.isRequired,
   itemsState: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
+    _id: PropTypes.string,
   }).isRequired,
 };
 

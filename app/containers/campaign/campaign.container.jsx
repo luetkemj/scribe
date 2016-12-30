@@ -61,9 +61,9 @@ class CampaignContainer extends Component {
         <TimeKeeper
           day={1}
           time={{
-            hours: '0',
-            minutes: '0',
-            seconds: '0',
+            hours: 0,
+            minutes: 0,
+            seconds: 0,
           }}
           sky={'night'}
           rotation={-180}
@@ -135,7 +135,7 @@ class CampaignContainer extends Component {
 
 CampaignContainer.propTypes = {
   historyState: PropTypes.shape({
-    logs: PropTypes.arrayOf(),
+    logs: PropTypes.arrayOf(PropTypes.shape()),
     error: PropTypes.string,
   }).isRequired,
   loadLogsIfNeeded: PropTypes.func.isRequired,
