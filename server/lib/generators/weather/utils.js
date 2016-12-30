@@ -248,22 +248,22 @@ export function getHeatIndex(T, R) {
   const C2 = 2.04901523;
   const C3 = 10.14333127;
   const C4 = -0.22475541;
-  const C5 = -6.83783 * Math.pow(10, -3);
-  const C6 = -5.481717 * Math.pow(10, -2);
-  const C7 = 1.22874 * Math.pow(10, -3);
-  const C8 = 8.5282 * Math.pow(10, -4);
-  const C9 = -1.99 * Math.pow(10, -6);
+  const C5 = -6.83783 * (10 ** -3);
+  const C6 = -5.481717 * (10 ** -2);
+  const C7 = 1.22874 * (10 ** -3);
+  const C8 = 8.5282 * (10 ** -4);
+  const C9 = -1.99 * (10 ** -6);
 
   const HI = Math.round(
             C1 +
            (C2 * T) +
            (C3 * R) +
            (C4 * T * R) +
-           (C5 * Math.pow(T, 2)) +
-           (C6 * Math.pow(R, 2)) +
-           (C7 * Math.pow(T, 2) * R) +
-           (C8 * T * Math.pow(R, 2)) +
-           (C9 * Math.pow(T, 2) * Math.pow(R, 2)));
+           (C5 * (T ** 2)) +
+           (C6 * (R ** 2)) +
+           (C7 * (T ** 2) * R) +
+           (C8 * T * (R ** 2)) +
+           (C9 * (T ** 2) * (R ** 2)));
 
   return {
     feels_like: Math.round(HI),
@@ -280,13 +280,13 @@ export function getHeatIndex(T, R) {
 export function getWindChill(T, V) {
   const C1 = 35.74;
   const C2 = 0.6215;
-  const C3 = -35.75 * Math.pow(V, 0.16);
+  const C3 = -35.75 * (V ** 0.16);
   const C4 = 0.4275;
   const WC = Math.round(
             C1 +
             (C2 * T) +
              C3 +
-            (C4 * T * Math.pow(V, 0.16)),
+            (C4 * T * (V ** 0.16)),
          );
 
   return {
