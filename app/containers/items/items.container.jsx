@@ -34,11 +34,11 @@ class ItemsContainer extends Component {
 
 ItemsContainer.propTypes = {
   itemsState: PropTypes.shape({
-    items: PropTypes.arrayOf({}),
+    items: PropTypes.arrayOf(PropTypes.shape()),
     loadingItems: PropTypes.bool.isRequired,
   }).isRequired,
   loadItemsIfNeeded: PropTypes.func.isRequired,
-  children: PropTypes.arrayOf(),
+  children: PropTypes.shape(),
 };
 
 function mapStateToProps(state) {

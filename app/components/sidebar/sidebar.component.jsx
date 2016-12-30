@@ -32,7 +32,7 @@ export default function Sidebar({ location, links }) {
 
 Sidebar.propTypes = {
   location: PropTypes.shape({
-    location: PropTypes.string.isRequired,
+    location: PropTypes.string,
   }).isRequired,
   links: PropTypes.arrayOf(
     PropTypes.shape({
