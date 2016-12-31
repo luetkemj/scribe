@@ -154,7 +154,7 @@ export function generateWeather(req, res) {
         hourlyWeather,
       };
 
-      logger.log('generateWeather: currentWeather: %j', currentWeather);
+      logger.log('generateWeather: currentWeather: %o', currentWeather);
 
       return res.send(currentWeather);
     }

@@ -7,7 +7,7 @@ const logger = require('../../lib/logger')();
 const Monster = mongoose.model('Monster');
 
 export function createMonster(req, res) {
-  logger.log('createMonster: %j', req.body);
+  logger.log('createMonster: %o', req.body);
 
   Monster.create(req.body, (err, monster) => {
     if (err) {
@@ -15,7 +15,7 @@ export function createMonster(req, res) {
       return res.send(err);
     }
 
-    logger.log('saveMonster: %j', monster);
+    logger.log('saveMonster: %o', monster);
     return res.send(monster);
   });
 }
@@ -49,7 +49,7 @@ export function getMonster(req, res) {
   .exec((err, monster) => {
     if (!err) {
       const monsterUI = buildMonsterUI(monster);
-      logger.log('getMonster: %j', monsterUI);
+      logger.log('getMonster: %o', monsterUI);
       return res.send(monsterUI);
     }
     logger.log('getMonster Error: %j', err);
@@ -66,7 +66,7 @@ export function updateMonster(req, res) {
       return res.send(err);
     }
 
-    logger.log('updateMonster: %j', monster);
+    logger.log('updateMonster: %o', monster);
     return res.send(monster);
   });
 }
@@ -80,7 +80,7 @@ export function deleteMonster(req, res) {
       return res.send(err);
     }
 
-    logger.log('deleteMonster: %j', monster);
+    logger.log('deleteMonster: %o', monster);
     return res.send(monster);
   });
 }
