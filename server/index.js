@@ -11,7 +11,7 @@ require('./config/init')();
 const logger = require('./lib/logger')();
 
 // output the configuration
-logger.log('config: %j', config);
+logger.log('config: %o', config);
 
 // start the application
 app.listen(config.port, (err) => {

@@ -31,7 +31,7 @@ export function getChart(req, res) {
     if (!err) {
       const sample = _.sample(chart.chart);
       const chartUI = buildChartUI(chart, sample);
-      logger.log('getChart: %j', chartUI.meta);
+      logger.log('getChart: %o', chartUI.meta);
       return res.send(chartUI);
     }
     logger.log('getChart Error: %j', err);

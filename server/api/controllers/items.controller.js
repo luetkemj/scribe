@@ -35,7 +35,7 @@ export function getItem(req, res) {
   .exec((err, item) => {
     if (!err) {
       const itemUI = buildItemUI(item);
-      logger.log('getItems: %j', itemUI);
+      logger.log('getItem: %o', itemUI);
       return res.send(itemUI);
     }
     logger.log('getItem Error: %j', err);
@@ -52,7 +52,7 @@ export function createItem(req, res) {
       return res.send(err);
     }
 
-    logger.log('createItem: %j', item);
+    logger.log('createItem: %o', item);
     return res.send(item);
   });
 }
@@ -66,7 +66,7 @@ export function updateItem(req, res) {
       return res.send(err);
     }
 
-    logger.log('updateItem: %j', item);
+    logger.log('updateItem: %o', item);
     return res.send(item);
   });
 }
@@ -80,7 +80,7 @@ export function deleteItem(req, res) {
       return res.send(err);
     }
 
-    logger.log('deleteItem: %j', item);
+    logger.log('deleteItem: %o', item);
     return res.send(item);
   });
 }

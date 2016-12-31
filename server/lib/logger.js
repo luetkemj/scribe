@@ -8,6 +8,6 @@ module.exports = function exports() {
   // (since this is just a passthrough for logging)
   return debugCaller('scribe*', {
     depth: 2,
-    logColor: 2,
+    logColor: 6,
   });
 };

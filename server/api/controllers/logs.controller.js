@@ -35,7 +35,7 @@ export function getLog(req, res) {
   .exec((err, log) => {
     if (!err) {
       const logUI = buildLogUI(log);
-      logger.log('getLogs: %j', logUI);
+      logger.log('getLogs: %o', logUI);
       return res.send(logUI);
     }
     logger.log('getLog Error: %j', err);
@@ -45,7 +45,7 @@ export function getLog(req, res) {
 
 
 export function createLog(req, res) {
-  logger.log('createLog: %j', req.body);
+  logger.log('createLog: %o', req.body);
 
   Log.create(req.body, (err, log) => {
     if (err) {
@@ -53,7 +53,7 @@ export function createLog(req, res) {
       return res.send(err);
     }
 
-    logger.log('createLog: %j', log);
+    logger.log('createLog: %o', log);
     return res.send(log);
   });
 }
@@ -66,7 +66,7 @@ export function updateLog(req, res) {
       logger.log(`Error: ${err}`);
       return res.send(err);
     }
-    logger.log('updateLog: %j', log);
+    logger.log('updateLog: %o', log);
     return res.send(log);
   });
 }
@@ -80,7 +80,7 @@ export function deleteLog(req, res) {
       return res.send(err);
     }
 
-    logger.log('deleteLog: %j', log);
+    logger.log('deleteLog: %o', log);
     return res.send(log);
   });
 }
