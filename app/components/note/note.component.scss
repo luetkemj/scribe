@@ -11,6 +11,10 @@ $buttons: '../../theme/buttons.scss';
   margin: 0 0 10px;
 }
 
+.content {
+  composes: sansSerifSmallLight from $typography;
+}
+
 .heading {
   font-weight: $bold;
 }
