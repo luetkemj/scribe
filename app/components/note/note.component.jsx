@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react';
+import Textarea from 'react-textarea-autosize';
 
 import style from './note.component.scss';
 
@@ -52,7 +53,7 @@ export default class Note extends Component {
 
     if (!this.props.creating && !this.props.editing) {
       contentToRender = (
-        <div className={style.content}>{content}</div>
+        <pre className={style.content}>{content}</pre>
       );
     }
 
@@ -60,7 +61,7 @@ export default class Note extends Component {
       createFormToRender = (
         <div>
           <form className={style.form}>
-            <input
+            <Textarea
               type="text"
               className={style.input}
               name="content"
@@ -85,7 +86,7 @@ export default class Note extends Component {
     if (this.props.editing) {
       editFormToRender = (
         <div className={style.form}>
-          <input
+          <Textarea
             type="text"
             className={style.input}
             name="content"
