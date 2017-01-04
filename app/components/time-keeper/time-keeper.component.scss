@@ -9,6 +9,7 @@ $scaled-small: $size * ($small * 0.01);
 $scaled-very-small: $size * ($very-small * 0.01);
 $scaled-medium: $size * ($medium * 0.01);
 $scaled-medium-large: $size * ($medium-large * 0.01);
+$scaled-large: $size * ($large * 0.01);
 
 .timeKeeper {
   display: flex;
@@ -78,23 +79,11 @@ $scaled-medium-large: $size * ($medium-large * 0.01);
     &::before {
       opacity: 1;
     }
-
-    .cloudA,
-    .cloudB {
-      color: $swatch02;
-      z-index: 1;
-    }
   }
 
   &.dawn {
     &::after {
       opacity: 1;
-    }
-
-    .cloudA,
-    .cloudB {
-      color: $swatch02;
-      z-index: 1;
     }
   }
 
@@ -103,11 +92,6 @@ $scaled-medium-large: $size * ($medium-large * 0.01);
 
     .stars {
       opacity: 0;
-    }
-
-    .cloudA,
-    .cloudB {
-      color: $swatch02;
     }
   }
 }
@@ -122,34 +106,12 @@ $scaled-medium-large: $size * ($medium-large * 0.01);
   left: $size * 0.09px;
 }
 
-.cloudA,
-.cloudB {
-  color: $swatch04;
-  position: absolute;
-  transition: color $transition-sky linear;
-  font-size: $scaled-medium;
-
-  &::before {
-    @include icon('cloud', 'scribe-weather');
-  }
-}
-
-.cloudA {
-  top: $size * 0.29px;
-  left: $size * 0.2px;
-}
-
-.cloudB {
-  top: $size * 0.39px;
-  right: $size * 0.25px;
-}
-
 .sunMoon {
-  width: $size * 1px;
-  height: $size * 1px;
+  width: $size * 1.1px;
+  height: $size * 1.1px;
   position: absolute;
-  left: $size * 0.14px;
-  top: $size * 0.14px;
+  left: $size * 0.09px;
+  top: $size * 0.09px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -159,23 +121,56 @@ $scaled-medium-large: $size * ($medium-large * 0.01);
 
 .sun {
   color: $swatch22;
+  filter: blur(2px);
   transition: transform $transition-sun-moon linear;
+  @include fontsmoothing;
 
   &::before {
-    @include icon('sun', 'scribe-weather');
+    @include icon('moon15', 'moon');
     margin-right: 0;
-    font-size: $scaled-medium-large;
+    font-size: $size * 0.28px;
   }
 }
 
 .moon {
   color: $swatch23;
   transition: transform $transition-sun-moon linear;
+  @include fontsmoothing;
+  position: relative;
 
   &::before {
-    @include icon('moon', 'scribe-weather');
     margin-right: 0;
-    font-size: $scaled-medium-large;
+    font-size: $size * 0.28px;
+    position: relative;
+    left: 25%;
+    z-index: 1;
+  }
+
+  &::after {
+    @include icon('moon15', 'moon');
+    margin-right: 0;
+    font-size: $size * 0.28px;
+    position: relative;
+    left: -25%;
+    color: transparent;
+    transition: color 0 linear;
+  }
+}
+
+@for $i from 2 through 28 {
+  .moon#{$i} {
+    &::before {
+      @include icon('moon#{$i}', 'moon');
+    }
+  }
+}
+
+.night {
+  .moon {
+    &::after {
+      color: $swatch20;
+      transition-delay: $transition-sky;
+    }
   }
 }
 

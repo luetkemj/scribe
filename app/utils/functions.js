@@ -62,3 +62,18 @@ export function buildTimeUI(ms) {
     rotation,
   };
 }
+
+export function phaseOfMoon(day, hours) {
+  if (day < 29) {
+    if (hours > 12) {
+      return day + 1;
+    }
+    return day;
+  }
+
+  if (hours > 12) {
+    return (day % 28) + 1;
+  }
+
+  return day % 28;
+}

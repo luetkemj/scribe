@@ -76,3 +76,8 @@ $bold: 600;
   line-height: 36px;
   font-weight: 400;
 }
+
+@mixin fontsmoothing {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
