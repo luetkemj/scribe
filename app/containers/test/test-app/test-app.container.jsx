@@ -11,5 +11,5 @@ export default function TestApp({ children }) {
 }
 
 TestApp.propTypes = {
-  children: PropTypes.arrayOf(),
+  children: PropTypes.shape(),
 };

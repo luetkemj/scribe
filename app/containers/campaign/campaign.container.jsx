@@ -8,7 +8,7 @@ import WeatherTracker from '../../components/weather-tracker/weather-tracker.com
 
 import { loadLogsIfNeeded } from '../../actions/history.actions';
 import { createLog } from '../../actions/log.actions';
-import { buildTimeUI } from '../../utils/functions';
+import { buildTimeUI, phaseOfMoon } from '../../utils/functions';
 import style from './campaign.container.scss';
 
 class CampaignContainer extends Component {
@@ -69,6 +69,7 @@ class CampaignContainer extends Component {
           rotation={-180}
           increment={this.increment}
           initialMs={0}
+          phaseOfMoon={1}
         />
       );
     } else {
@@ -86,6 +87,7 @@ class CampaignContainer extends Component {
           rotation={timeUI.rotation}
           increment={this.increment}
           initialMs={timeUI.ms}
+          phaseOfMoon={phaseOfMoon(log.day, timeUI.hours)}
         />
       );
     }

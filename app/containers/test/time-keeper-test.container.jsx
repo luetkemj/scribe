@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import TimeKeeper from '../../components/time-keeper/time-keeper.component';
-import { parseMs } from '../../utils/functions';
+import { parseMs, phaseOfMoon } from '../../utils/functions';
 
 export default class TimeKeeperTestContainer extends Component {
   state = {
@@ -69,6 +69,7 @@ export default class TimeKeeperTestContainer extends Component {
           rotation={this.state.rotation}
           increment={this.increment}
           initialMs={this.state.ms}
+          phaseOfMoon={phaseOfMoon(this.state.days + 1, this.state.hours)}
         />
       </div>
     );
