@@ -53,7 +53,15 @@ export default class Note extends Component {
 
     if (!this.props.creating && !this.props.editing) {
       contentToRender = (
-        <pre className={style.content}>{content}</pre>
+        <div className={style.content}>{
+          content.split('\n').map(item => (
+            <span>
+              {item}
+              <br />
+            </span>
+          ))
+          }
+        </div>
       );
     }
 
