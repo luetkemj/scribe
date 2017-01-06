@@ -1,3 +1,4 @@
+// import async from 'async';
 import { find } from 'lodash';
 
 import {
@@ -188,3 +189,9 @@ export function deleteLog(log) {
       .catch(error => handleHttpError(dispatch, error, deletingLogError));
   };
 }
+
+// export function deleteLogs(logs) {
+//   return async.each(logs, (log, eachCallback) => {
+//     deleteLog(log)
+//   });
+// }

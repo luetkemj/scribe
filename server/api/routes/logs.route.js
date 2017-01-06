@@ -1,5 +1,6 @@
 import {
   deleteLog,
+  deleteLogs,
   getLog,
   getLogs,
   createLog,
@@ -12,4 +13,5 @@ module.exports = (router) => {
   router.route('/api/logs').post(createLog);
   router.route('/api/logs/:id').patch(updateLog);
   router.route('/api/logs/:id').delete(deleteLog);
+  router.route('/api/logs').patch(deleteLogs);
 };

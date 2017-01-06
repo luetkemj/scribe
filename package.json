@@ -27,6 +27,7 @@
     "test-app": "TEST_APP=true NODE_ENV=development ./node_modules/.bin/babel-node ./server/index.js"
   },
   "dependencies": {
+    "async": "2.1.4",
     "body-parser": "1.15.2",
     "connect-history-api-fallback": "1.3.0",
     "debug-caller": "2.1.0",
