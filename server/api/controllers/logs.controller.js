@@ -1,3 +1,4 @@
+import async from 'async';
 import * as _ from 'lodash';
 import mongoose from 'mongoose';
 import { buildLogUI } from '../../lib/logs';
@@ -71,16 +72,25 @@ export function updateLog(req, res) {
   });
 }
 
-export function deleteLog(req, res) {
-  const { id } = req.params;
+export function deleteLogs(req, res) {
+  logger.log('deleteLogs: deleting logs:%j', req.body);
 
-  Log.findByIdAndRemove(id, {}, (err, log) => {
-    if (err) {
-      logger.log(`Error: ${err}`);
-      return res.send(err);
-    }
+  async.each(req.body, (logId, eachCallback) => {
+    logger.log('deleting logs');
+    Log.findByIdAndRemove(logId, {}, (err, log) => {
+      logger.log(logId);
+      if (err) {
+        logger.log(err);
+        return eachCallback(err);
+      }
 
-    logger.log('deleteLog: %o', log);
-    return res.send(log);
+      logger.log(log);
+      return eachCallback(null, log);
+    });
+  }, (eachError) => {
+    if (eachError) { return res.sendStatus(500); }
+
+    logger.log('deleteLogs: logs deleted %j', req.body);
+    return res.send(req.body);
   });
 }

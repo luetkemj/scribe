@@ -1,10 +1,11 @@
+// import async from 'async';
 import { find } from 'lodash';
 
 import {
   getLogUrl,
   getUpdateLogUrl,
   getCreateLogUrl,
-  getDeleteLogUrl,
+  getDeleteLogsUrl,
 } from '../../server/lib/logs';
 
 import {
@@ -24,9 +25,9 @@ import {
   CREATING_LOG_INITIATED,
   CREATING_LOG_SUCCESS,
   CREATING_LOG_ERROR,
-  DELETING_LOG_INITIATED,
-  DELETING_LOG_SUCCESS,
-  DELETING_LOG_ERROR,
+  DELETING_LOGS_INITIATED,
+  DELETING_LOGS_SUCCESS,
+  DELETING_LOGS_ERROR,
 } from '../constants/action-types';
 
 function loadingLogInitiated() {
@@ -90,20 +91,20 @@ function creatingLogError(error) {
   };
 }
 
-function deletingLogInitiated() {
-  return { type: DELETING_LOG_INITIATED };
+function deletingLogsInitiated() {
+  return { type: DELETING_LOGS_INITIATED };
 }
 
-function deletingLogSuccess(log) {
+function deletingLogsSuccess(deletedLogs) {
   return {
-    type: DELETING_LOG_SUCCESS,
-    log,
+    type: DELETING_LOGS_SUCCESS,
+    deletedLogs,
   };
 }
 
-function deletingLogError(error) {
+function deletingLogsError(error) {
   return {
-    type: DELETING_LOG_ERROR,
+    type: DELETING_LOGS_ERROR,
     error,
   };
 }
@@ -172,19 +173,18 @@ export function createLog(log) {
   };
 }
 
-export function deleteLog(log) {
+export function deleteLogs(logIds) {
   return (dispatch) => {
-    dispatch(deletingLogInitiated());
-
-    const uri = getDeleteLogUrl(log._id);
+    dispatch(deletingLogsInitiated());
+    const uri = getDeleteLogsUrl();
     const options = Object.assign({}, FETCH_DEFAULT_OPTIONS, {
-      method: 'DELETE',
+      method: 'PATCH',
+      body: JSON.stringify(logIds),
     });
-
     return fetch(uri, options)
       .then(checkHttpStatus)
       .then(response => response.json())
-      .then(dispatch(deletingLogSuccess(log)))
-      .catch(error => handleHttpError(dispatch, error, deletingLogError));
+      .then(deletedLogs => dispatch(deletingLogsSuccess(deletedLogs)))
+      .catch(error => handleHttpError(dispatch, error, deletingLogsError));
   };
 }

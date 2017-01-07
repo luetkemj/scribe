@@ -19,21 +19,21 @@ export function getLogUrl(id) {
 export function getCreateLogUrl() {
   const url = `${config.api.logs}`;
 
-  logger.log(`getCreateLogsUrl: url: ${url}`);
+  logger.log(`getCreateLogUrl: url: ${url}`);
   return url;
 }
 
 export function getUpdateLogUrl(id) {
   const url = `${config.api.logs}/${id}`;
 
-  logger.log(`getUpdateLogsUrl: url: ${url}`);
+  logger.log(`getUpdateLogUrl: url: ${url}`);
   return url;
 }
 
-export function getDeleteLogUrl(id) {
-  const url = `${config.api.logs}/${id}`;
+export function getDeleteLogsUrl() {
+  const url = `${config.api.logs}`;
 
-  logger.log(`getUpdateLogsUrl: url: ${url}`);
+  logger.log(`getDeleteLogsUrl: url: ${url}`);
   return url;
 }
 

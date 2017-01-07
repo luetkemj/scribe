@@ -5,7 +5,7 @@ import { cloneDeep, find, remove } from 'lodash';
 
 import Log from '../../../components/log/log.component';
 
-import { updateLog, deleteLog } from '../../../actions/log.actions';
+import { updateLog, deleteLogs } from '../../../actions/log.actions';
 import { buildTimeUI, leadingZero } from '../../../utils/functions';
 
 class LogContainer extends Component {
@@ -16,7 +16,8 @@ class LogContainer extends Component {
   }
 
   delete = (log) => {
-    this.props.deleteLog(log);
+    const logIds = [log._id];
+    this.props.deleteLogs(logIds);
   }
 
   editNotes = () => {
@@ -163,11 +164,11 @@ class LogContainer extends Component {
 LogContainer.propTypes = {
   log: PropTypes.shape(),
   updateLog: PropTypes.func.isRequired,
-  deleteLog: PropTypes.func.isRequired,
+  deleteLogs: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ updateLog, deleteLog }, dispatch);
+  return bindActionCreators({ updateLog, deleteLogs }, dispatch);
 }
 
 export default connect(

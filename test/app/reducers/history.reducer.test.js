@@ -103,9 +103,9 @@ describe('the history reducer', () => {
       });
     });
 
-    it('should handle DELETING_LOG_INITIATED correctly', () => {
+    it('should handle DELETING_LOGS_INITIATED correctly', () => {
       should(reducer(state, {
-        type: types.DELETING_LOG_INITIATED,
+        type: types.DELETING_LOGS_INITIATED,
       })).deepEqual({
         loading: true,
         error: null,
@@ -113,14 +113,14 @@ describe('the history reducer', () => {
       });
     });
 
-    it('should handle DELETING_LOG_SUCCESS correctly', () => {
+    it('should handle DELETING_LOGS_SUCCESS correctly', () => {
       should(reducer({
         loading: false,
         error: null,
         logs: [{ _id: 1 }, { _id: 2 }, { _id: 3 }],
       }, {
-        type: types.DELETING_LOG_SUCCESS,
-        log: { _id: 2 },
+        type: types.DELETING_LOGS_SUCCESS,
+        deletedLogs: [2],
       })).deepEqual({
         loading: false,
         error: null,
@@ -128,9 +128,9 @@ describe('the history reducer', () => {
       });
     });
 
-    it('should handle DELETING_LOG_ERROR correctly', () => {
+    it('should handle DELETING_LOGS_ERROR correctly', () => {
       should(reducer(state, {
-        type: types.DELETING_LOG_ERROR,
+        type: types.DELETING_LOGS_ERROR,
         error: 'bad things!',
       })).deepEqual({
         loading: false,

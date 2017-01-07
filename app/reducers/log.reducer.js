@@ -12,9 +12,9 @@ import {
   CREATING_LOG_INITIATED,
   CREATING_LOG_SUCCESS,
   CREATING_LOG_ERROR,
-  DELETING_LOG_INITIATED,
-  DELETING_LOG_SUCCESS,
-  DELETING_LOG_ERROR,
+  DELETING_LOGS_INITIATED,
+  DELETING_LOGS_SUCCESS,
+  DELETING_LOGS_ERROR,
 
   CREATE_NOTE,
   UPDATE_NOTE,
@@ -78,16 +78,15 @@ export default function logReducer(state = initialState, action) {
         loading: false,
         error: action.error,
       });
-    case DELETING_LOG_INITIATED:
+    case DELETING_LOGS_INITIATED:
       return Object.assign({}, state, {
         loading: true,
       });
-    case DELETING_LOG_SUCCESS:
+    case DELETING_LOGS_SUCCESS:
       return Object.assign({}, state, {
         loading: false,
-        ...action.log,
       });
-    case DELETING_LOG_ERROR:
+    case DELETING_LOGS_ERROR:
       return Object.assign({}, state, {
         loading: false,
         error: action.error,

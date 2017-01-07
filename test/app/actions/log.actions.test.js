@@ -13,7 +13,7 @@ describe('logActions', () => {
   const CREATE_LOG_URL = '/api/logs';
   const GET_LOG_URL = '/api/logs/1';
   const UPDATE_LOG_URL = '/api/logs/1';
-  const DELETE_LOG_URL = '/api/logs/1';
+  const DELETE_LOGS_URL = '/api/logs';
   let store;
 
   afterEach(() => {
@@ -194,25 +194,25 @@ describe('logActions', () => {
     });
   });
 
-  describe('deleteLog', () => {
+  describe('deleteLogs', () => {
     describe('when status is 200', () => {
       beforeEach(() => {
         store = mockStore();
-        fetchMock.mock(DELETE_LOG_URL, {
-          method: 'DELETE',
+        fetchMock.mock(DELETE_LOGS_URL, {
+          method: 'PATCH',
           status: 200,
-          body: { _id: 1 },
+          body: ['1', '2'],
         });
       });
 
       it('should dispatch properly', (done) => {
-        store.dispatch(logActions.deleteLog({ _id: 1 }))
+        store.dispatch(logActions.deleteLogs(['1', '2']))
         .then(() => {
           const actions = store.getActions();
           should(actions.length).equal(2);
-          should(actions[0].type).equal(types.DELETING_LOG_INITIATED);
-          should(actions[1].type).equal(types.DELETING_LOG_SUCCESS);
-          should(actions[1].log).deepEqual({ _id: 1 });
+          should(actions[0].type).equal(types.DELETING_LOGS_INITIATED);
+          should(actions[1].type).equal(types.DELETING_LOGS_SUCCESS);
+          should(actions[1].deletedLogs).deepEqual(['1', '2']);
         })
         .then(done)
         .catch(done);
@@ -222,19 +222,19 @@ describe('logActions', () => {
     describe('when status is 500', () => {
       beforeEach(() => {
         store = mockStore();
-        fetchMock.mock(UPDATE_LOG_URL, {
-          method: 'POST',
+        fetchMock.mock(DELETE_LOGS_URL, {
+          method: 'PATCH',
           status: 500,
         });
       });
 
       it('should dispatch properly', (done) => {
-        store.dispatch(logActions.updateLog({ _id: 1 }))
+        store.dispatch(logActions.deleteLogs(['1', '2']))
         .then(() => {
           const actions = store.getActions();
           should(actions.length).equal(2);
-          should(actions[0].type).equal(types.UPDATING_LOG_INITIATED);
-          should(actions[1].type).equal(types.UPDATING_LOG_ERROR);
+          should(actions[0].type).equal(types.DELETING_LOGS_INITIATED);
+          should(actions[1].type).equal(types.DELETING_LOGS_ERROR);
         })
         .then(done)
         .catch(done);

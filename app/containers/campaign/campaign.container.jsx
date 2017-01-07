@@ -2,12 +2,14 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import { each } from 'lodash';
+
 import LogContainer from './log/log.container';
 import TimeKeeper from '../../components/time-keeper/time-keeper.component';
 import WeatherTracker from '../../components/weather-tracker/weather-tracker.component';
 
 import { loadLogsIfNeeded } from '../../actions/history.actions';
-import { createLog } from '../../actions/log.actions';
+import { createLog, deleteLogs } from '../../actions/log.actions';
 import { buildTimeUI, phaseOfMoon } from '../../utils/functions';
 import style from './campaign.container.scss';
 
@@ -33,6 +35,20 @@ class CampaignContainer extends Component {
     };
 
     this.props.createLog(log);
+    this.pruneEmptyLogs();
+  }
+
+  pruneEmptyLogs() {
+    const { logs } = this.props.historyState;
+    const logIds = [];
+
+    each(logs, (log) => {
+      if (!log.notes.length) {
+        logIds.push(log._id);
+      }
+    });
+
+    this.props.deleteLogs(logIds);
   }
 
   render() {
@@ -142,6 +158,7 @@ CampaignContainer.propTypes = {
   }).isRequired,
   loadLogsIfNeeded: PropTypes.func.isRequired,
   createLog: PropTypes.func.isRequired,
+  deleteLogs: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -151,7 +168,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ loadLogsIfNeeded, createLog }, dispatch);
+  return bindActionCreators({ loadLogsIfNeeded, createLog, deleteLogs }, dispatch);
 }
 
 export default connect(
