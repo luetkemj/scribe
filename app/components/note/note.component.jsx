@@ -54,8 +54,8 @@ export default class Note extends Component {
     if (!this.props.creating && !this.props.editing) {
       contentToRender = (
         <div className={style.content}>{
-          content.split('\n').map(item => (
-            <span>
+          content.split('\n').map((item, index) => (
+            <span key={index}>
               {item}
               <br />
             </span>

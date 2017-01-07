@@ -72,33 +72,25 @@ export function updateLog(req, res) {
   });
 }
 
-export function deleteLog(req, res) {
-  const { id } = req.params;
+export function deleteLogs(req, res) {
+  logger.log('deleteLogs: deleting logs:%j', req.body);
 
-  Log.findByIdAndRemove(id, {}, (err, log) => {
-    if (err) {
-      logger.log(`Error: ${err}`);
-      return res.send(err);
-    }
-
-    logger.log('deleteLog: %o', log);
-    return res.send(log);
-  });
-}
-
-export function deleteLogs(req, res, callback) {
-  logger.log('deleteLogs');
-  const { logIds } = req.body;
-
-  return async.each(logIds, (logId, eachCallback) => {
+  async.each(req.body, (logId, eachCallback) => {
+    logger.log('deleting logs');
     Log.findByIdAndRemove(logId, {}, (err, log) => {
-      if (err) { return eachCallback(err); }
+      logger.log(logId);
+      if (err) {
+        logger.log(err);
+        return eachCallback(err);
+      }
 
+      logger.log(log);
       return eachCallback(null, log);
     });
   }, (eachError) => {
-    if (eachError) { return callback(eachError); }
+    if (eachError) { return res.sendStatus(500); }
 
-    return callback(null);
+    logger.log('deleteLogs: logs deleted %j', req.body);
+    return res.send(req.body);
   });
 }
