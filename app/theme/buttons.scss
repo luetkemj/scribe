@@ -4,7 +4,7 @@
 
 @mixin button($style) {
   @include font($sans-serif, $small, $bold);
-  color: $swatch03;
+  color: $swatch04;
   background: transparent;
   padding: 0;
   border: 0;
@@ -13,25 +13,29 @@
   transition: color 300ms ease;
 
   &:disabled {
-    color: $swatch02;
+    color: $swatch03;
     cursor: default;
   }
 
   @if $style == 'undo' {
+    color: $swatch09;
+
     &:hover {
-      color: $swatch09;
+      color: $swatch08;
     }
   }
 
   @if $style == 'do' {
+    color: $swatch06;
+
     &:hover {
-      color: $swatch06;
+      color: $swatch05;
     }
   }
 
   @if $style == 'delete' {
     &::before {
-      color: $swatch03;
+      color: $swatch09;
       @include icon(cross);
       transition: color 300ms ease;
       font-size: 8px;
@@ -39,7 +43,7 @@
 
     &:hover {
       &::before {
-        color: $swatch09;
+        color: $swatch08;
       }
     }
   }

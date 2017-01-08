@@ -13,6 +13,11 @@ $buttons: '../../theme/buttons.scss';
 
 .content {
   composes: sansSerifSmallLight from $typography;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-all;
+  word-break: break-word;
+  hyphens: auto;
 }
 
 .heading {
@@ -35,6 +40,7 @@ $buttons: '../../theme/buttons.scss';
   @include font($sans-serif, $small, $light);
   outline: none;
   transition: color 300ms ease, background 300ms ease;
+  resize: none;
 }
 
 .submit {

@@ -11,6 +11,17 @@ $scaled-medium: $size * ($medium * 0.01);
 $scaled-medium-large: $size * ($medium-large * 0.01);
 $scaled-large: $size * ($large * 0.01);
 
+// On mount the sun and moon spin crazy fast from 0 to the current rotation
+// to prevent this we wait untill the component has mounted and put everything in place
+// before initalizing transform.
+.hasMounted {
+  .sunMoon,
+  .sun,
+  .moon {
+    transition: transform $transition-sun-moon linear;
+  }
+}
+
 .timeKeeper {
   display: flex;
   flex-direction: column;
@@ -116,13 +127,11 @@ $scaled-large: $size * ($large * 0.01);
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  transition: transform $transition-sun-moon linear;
 }
 
 .sun {
   color: $swatch22;
   filter: blur(2px);
-  transition: transform $transition-sun-moon linear;
   @include fontsmoothing;
 
   &::before {
@@ -134,7 +143,6 @@ $scaled-large: $size * ($large * 0.01);
 
 .moon {
   color: $swatch23;
-  transition: transform $transition-sun-moon linear;
   @include fontsmoothing;
   position: relative;
 
