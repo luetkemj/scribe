@@ -4,6 +4,10 @@
   "version": "0.0.0",
   "repository": {
     "type": "git",
+    "url": "https://github.com/luetkemj/scribe"
+  },
+  "license": {
+    "type": "MIT",
     "url": "https://github.com/luetkemj/scribe/raw/master/LICENSE"
   },
   "scripts": {
