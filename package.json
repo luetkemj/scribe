@@ -2,10 +2,13 @@
   "name": "Scribe",
   "description": "DM Tools",
   "version": "0.0.0",
-  "license": "WTFPL",
+  "licenses": [{
+    "type": "MIT",
+    "url": "https://github.com/dylants/debug-caller/raw/master/LICENSE"
+  }],
   "repository": {
     "type": "git",
-    "url": "https://github.com/luetkemj/scribe"
+    "url": "https://github.com/luetkemj/scribe/luetkemj-license/LICENSE"
   },
   "scripts": {
     "clean:build": "rimraf build && rimraf public",
