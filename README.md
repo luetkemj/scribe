@@ -119,3 +119,11 @@ The contents of the test application are not included in the webpack bundle
 used in the main application. The `TEST_APP` environment variable is used
 to determine which application `index.js` file to use, which imports in the
 necessary files.
+
+## Contributing ##
+
+If you would like to contibute to this project some good first tickets can be [found here](https://github.com/luetkemj/scribe/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22).
+
+To contribute, fork this repository, write code, submit a pull request.
+
+This project uses mocha and should for tests, airbnb's eslint config, and a custom sass-lint config. Before submitting a pull request you should run `npm test` to ensure your branch can me merged. New features should include tests where appropriate.
