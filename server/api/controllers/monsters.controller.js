@@ -15,7 +15,7 @@ export function createMonster(req, res) {
       return res.send(err);
     }
 
-    logger.log('saveMonster: %o', monster);
+    logger.log('createMonster: %o', monster);
     return res.send(monster);
   });
 }
