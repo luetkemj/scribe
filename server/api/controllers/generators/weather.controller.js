@@ -143,6 +143,7 @@ export function generateWeather(req, res) {
       hourlyWeather = generateStormConditions(hourlyWeather, season, stormType, stormStart);
 
       const currentWeather = {
+        time: initialMs,
         forecast: {
           lowTemp,
           highTemp,
