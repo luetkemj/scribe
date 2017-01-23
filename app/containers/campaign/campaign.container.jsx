@@ -129,6 +129,30 @@ class CampaignContainer extends Component {
               <TerrainPicker
                 zone={'Temperate'}
                 terrain={'hills'}
+                terrains={[
+                  {
+                    terrain: 'hills',
+                    active: 'active',
+                  },
+                  {
+                    terrain: 'plains',
+                  },
+                  {
+                    terrain: 'desert',
+                  },
+                  {
+                    terrain: 'mountains',
+                  },
+                  {
+                    terrain: 'swamp',
+                  },
+                  {
+                    terrain: 'coast',
+                  },
+                  {
+                    terrain: 'forest',
+                  },
+                ]}
               />
             </div>
           </div>

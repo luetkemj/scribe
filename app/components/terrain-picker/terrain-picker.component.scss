@@ -59,6 +59,7 @@ $margin: $length * 0.4;
     margin-right: 0;
   }
 
+  &.active,
   &:hover {
     background: $swatch01;
     cursor: pointer;
