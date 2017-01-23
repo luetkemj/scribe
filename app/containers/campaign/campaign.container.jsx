@@ -7,6 +7,7 @@ import { each } from 'lodash';
 import LogContainer from './log/log.container';
 import TimeKeeper from '../../components/time-keeper/time-keeper.component';
 import WeatherTracker from '../../components/weather-tracker/weather-tracker.component';
+import TerrainPicker from '../../components/terrain-picker/terrain-picker.component';
 
 import { loadLogsIfNeeded } from '../../actions/history.actions';
 import { createLog, deleteLogs } from '../../actions/log.actions';
@@ -121,23 +122,13 @@ class CampaignContainer extends Component {
                 season={'winter'}
                 currentWeatherCondition={'flurry'}
                 temp={'very cold'}
-                changeWeather={() => {}}
-                weatherConditions={[
-                  'blizzard',
-                  'flurry',
-                  'cloud',
-                  'hail',
-                  'heavyRain',
-                  'rain',
-                  'moon',
-                  'partlyMoon',
-                  'sun',
-                  'partlySun',
-                  'sleet',
-                  'wind',
-                ]}
-                toggleControls={() => {}}
-                controls={this.state.weatherControls}
+                wind={'calm air'}
+              />
+            </div>
+            <div className={style.terrain}>
+              <TerrainPicker
+                zone={'Temperate'}
+                terrain={'hills'}
               />
             </div>
           </div>

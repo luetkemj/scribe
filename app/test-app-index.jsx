@@ -13,6 +13,7 @@ import LogTestContainer from './containers/test/log-test.container';
 import NoteTestContainer from './containers/test/note-test.container';
 import SidebarTestContainer from './containers/test/sidebar-test.container';
 import SpinnerTestContainer from './containers/test/spinner-test.container';
+import TerrainPickerTestContainer from './containers/test/terrain-picker-test.container';
 import TimeKeeperTestContainer from './containers/test/time-keeper-test.container';
 import WeatherTrackerTestContainer from './containers/test/weather-tracker-test.container';
 
@@ -29,6 +30,7 @@ render(
       <Route path="note" component={NoteTestContainer} />
       <Route path="sidebar" component={SidebarTestContainer} />
       <Route path="spinner" component={SpinnerTestContainer} />
+      <Route path="terrain-picker" component={TerrainPickerTestContainer} />
       <Route path="time-keeper" component={TimeKeeperTestContainer} />
       <Route path="weather-tracker" component={WeatherTrackerTestContainer} />
     </Route>

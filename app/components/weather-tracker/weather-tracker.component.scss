@@ -35,6 +35,11 @@
   @include font($sans-serif, $very-small, $light);
 }
 
+.condition {
+  margin: 0;
+  @include font($sans-serif, $very-small, $light);
+}
+
 .relativeTemp {
   margin: 0;
   @include font($sans-serif, $very-small, $light);

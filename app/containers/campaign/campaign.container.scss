@@ -17,19 +17,20 @@
   margin: 20px 0;
   overflow-y: scroll;
   border-left: 1px solid $swatch01;
-  max-width: 320px;
+  max-width: 470px;
 }
 
 .current {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   margin-bottom: 32px;
 }
 
 .weather {
   border-left: 1px solid $swatch01;
-  padding-left: 20px;
+  border-right: 1px solid $swatch01;
+  padding: 0 20px;
+  width: 112px;
 }
 
 // styles
