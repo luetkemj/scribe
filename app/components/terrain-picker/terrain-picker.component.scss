@@ -1,0 +1,181 @@
+@import '../../theme/variables';
+@import '../../theme/icons';
+@import '../../theme/typography';
+
+.terrainPicker {
+  text-align: center;
+}
+
+.pickerWrap {
+  margin-top: 12px;
+}
+
+.zone {
+  margin: 0;
+  text-transform: uppercase;
+  @include font($sans-serif, $very-small, $light);
+}
+
+.terrain {
+  margin: 0;
+  @include font($sans-serif, $very-small, $light);
+}
+
+// HEXAGONS
+// sass square root function
+@function sqrt($r) {
+  $x0: 1;
+  $x1: $x0;
+
+  @for $i from 1 through 10 {
+    $x1: $x0 - ($x0 * $x0 - abs($r)) / (2 * $x0);
+    $x0: $x1;
+  }
+
+  @return $x1;
+}
+
+$length: 20px;
+$height: sqrt(3) * $length;
+$width: 2 * $length;
+$margin: $length * 0.45;
+
+.hex {
+  border: 0;
+  padding: 0;
+  display: block;
+  width: $width;
+  height: $height;
+  background: $swatch01;
+  margin-right: $length;
+  margin-left: -1px;
+  margin-bottom: - $margin;
+  position: relative;
+  z-index: 1;
+  transition: background 600ms ease;
+  clip-path: polygon(100% 50%, 75% 100%, 25% 100%, 0% 50%, 25% 0%, 75% 0%);
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &.active,
+  &:hover {
+    background: $swatch01;
+    cursor: pointer;
+    z-index: 2;
+
+    &::before {
+      transform: scale(0.9);
+    }
+
+    &::after {
+      transform: scale(0.9);
+    }
+  }
+
+  &::before {
+    content: '';
+    display: block;
+    width: calc(#{$width} - 4px);
+    height: calc(#{$height} - 4px);
+    background: $swatch01;
+    position: relative;
+    top: 0;
+    left: 2px;
+    transition: transform 300ms ease;
+    clip-path: polygon(100% 50%, 75% 100%, 25% 100%, 0% 50%, 25% 0%, 75% 0%);
+    cursor: pointer;
+
+    &:hover {
+      background: $swatch08;
+    }
+  }
+
+  &::after {
+    position: absolute;
+    top: -2px;
+    left: 0;
+    font-size: 35px;
+    transition: transform 300ms ease;
+    color: $swatch01;
+  }
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-bottom: - $length / 2;
+}
+
+.hills {
+  &::before {
+    background-color: $swatch24;
+  }
+
+  &::after {
+    @include icon('hills', 'scribe-terrain');
+  }
+}
+
+.plains {
+  &::before {
+    background-color: $swatch25;
+  }
+
+  &::after {
+    @include icon('plains', 'scribe-terrain');
+  }
+}
+
+.desert {
+  &::before {
+    background-color: $swatch27;
+  }
+
+  &::after {
+    @include icon('desert', 'scribe-terrain');
+  }
+}
+
+.mountains {
+  &::before {
+    background-color: $swatch26;
+  }
+
+  &::after {
+    @include icon('mountains', 'scribe-terrain');
+  }
+}
+
+.swamp {
+  &::before {
+    background-color: $swatch28;
+  }
+
+  &::after {
+    @include icon('swamp', 'scribe-terrain');
+  }
+}
+
+.coast {
+  &::before {
+    background-color: $swatch30;
+  }
+
+  &::after {
+    @include icon('coast', 'scribe-terrain');
+  }
+}
+
+.forest {
+  &::before {
+    background-color: $swatch29;
+  }
+
+  &::after {
+    @include icon('forest', 'scribe-terrain');
+  }
+}
