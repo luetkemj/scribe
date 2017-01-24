@@ -38,7 +38,7 @@
 $length: 20px;
 $height: sqrt(3) * $length;
 $width: 2 * $length;
-$margin: $length * 0.4;
+$margin: $length * 0.45;
 
 .hex {
   border: 0;
@@ -48,12 +48,12 @@ $margin: $length * 0.4;
   height: $height;
   background: $swatch01;
   margin-right: $length;
+  margin-left: -1px;
   margin-bottom: - $margin;
   position: relative;
   z-index: 1;
   transition: background 600ms ease;
   clip-path: polygon(100% 50%, 75% 100%, 25% 100%, 0% 50%, 25% 0%, 75% 0%);
-  transform: scale(0.9);
 
   &:last-child {
     margin-right: 0;
@@ -63,13 +63,14 @@ $margin: $length * 0.4;
   &:hover {
     background: $swatch01;
     cursor: pointer;
+    z-index: 2;
 
     &::before {
-      transform: scale(0.8);
+      transform: scale(0.9);
     }
 
     &::after {
-      transform: scale(0.8);
+      transform: scale(0.9);
     }
   }
 
@@ -97,6 +98,7 @@ $margin: $length * 0.4;
     left: 0;
     font-size: 35px;
     transition: transform 300ms ease;
+    color: $swatch01;
   }
 }
 
