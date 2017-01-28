@@ -117,17 +117,6 @@ describe('the auth reducer', () => {
       });
     });
 
-    it('should handle LOG_OUT_ERROR correctly', () => {
-      should(reducer(state, {
-        type: types.LOG_OUT_ERROR,
-        error: 'butt',
-      })).deepEqual({
-        loading: false,
-        error: 'butt',
-        user: { user: 1 },
-      });
-    });
-
     it('should handle LOG_OUT_SUCCESS correctly', () => {
       should(reducer(state, {
         type: types.LOG_OUT_SUCCESS,
