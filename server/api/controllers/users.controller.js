@@ -24,10 +24,10 @@ export function getUsers(req, res) {
 }
 
 export function getUser(req, res) {
-  const { id } = req.params;
+  const { userName } = req.params;
 
   User
-  .findById(id)
+  .find({ userName })
   .lean()
   .exec((err, user) => {
     if (!err) {

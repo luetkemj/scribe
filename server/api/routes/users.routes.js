@@ -8,8 +8,8 @@ import {
 
 module.exports = (router) => {
   router.route('/api/users').get(getUsers);
-  router.route('/api/users/:id').get(getUser);
+  router.route('/api/users/:username').get(getUser);
   router.route('/api/users').post(createUser);
-  router.route('/api/users/:id').patch(updateUser);
-  router.route('/api/users/:id').delete(deleteUser);
+  router.route('/api/users/:username').patch(updateUser);
+  router.route('/api/users/:username').delete(deleteUser);
 };

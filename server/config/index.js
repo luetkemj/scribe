@@ -11,6 +11,7 @@ const config = {
     items: '/api/items',
     logs: '/api/logs',
     charts: '/api/charts',
+    users: '/api/users',
   },
 };
 
