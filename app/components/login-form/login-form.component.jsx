@@ -38,7 +38,7 @@ export default class LoginForm extends Component {
               value={this.state.username}
               onChange={this.handleChange}
               placeholder="username"
-              autocomplete="off"
+              autoComplete="off"
             />
             <div className={style.controls}>
               <button
