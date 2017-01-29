@@ -18,13 +18,13 @@ export default function TestHomeContainer() {
           <Link to="/header">Header</Link>
         </li>
         <li className={style.listItem}>
-          <Link to="/item-form">Item Form</Link>
-        </li>
-        <li className={style.listItem}>
           <Link to="/list-item">List Item</Link>
         </li>
         <li className={style.listItem}>
           <Link to="/log">Log</Link>
+        </li>
+        <li className={style.listItem}>
+          <Link to="/login-form">Login Form</Link>
         </li>
         <li className={style.listItem}>
           <Link to="/note">Note</Link>

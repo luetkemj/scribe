@@ -1,0 +1,33 @@
+@import '../../theme/typography';
+@import '../../theme/variables';
+@import '../../theme/buttons';
+@import '../../theme/forms';
+
+.loginForm {
+  background: $swatch02;
+  padding: 36px 48px;
+  width: 510px;
+}
+
+.title {
+  @include font($serif, $large);
+  color: $swatch01;
+  margin: 0 0 24px;
+}
+
+.input {
+  @include input;
+}
+
+.createNew {
+  @include button(do);
+}
+
+.login {
+  @include button(do);
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+}
