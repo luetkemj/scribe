@@ -2,6 +2,7 @@
 @import '../../theme/typography';
 @import '../../theme/icons';
 @import '../../theme/buttons';
+@import '../../theme/forms';
 
 $typography: '../../theme/typography.scss';
 $buttons: '../../theme/buttons.scss';
@@ -29,18 +30,7 @@ $buttons: '../../theme/buttons.scss';
 }
 
 .input {
-  height: 24px;
-  width: 100%;
-  padding: 5px;
-  display: flex;
-  align-items: center;
-  border: 0;
-  background: $swatch03;
-  color: $swatch01;
-  @include font($sans-serif, $small, $light);
-  outline: none;
-  transition: color 300ms ease, background 300ms ease;
-  resize: none;
+  @include input;
 }
 
 .submit {

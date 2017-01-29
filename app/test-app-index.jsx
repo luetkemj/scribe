@@ -10,6 +10,7 @@ import DefinitionListTestContainer from './containers/test/definition-list-test.
 import HeaderTestContainer from './containers/test/header-test.container';
 import ListItemTestContainer from './containers/test/list-item-test.container';
 import LogTestContainer from './containers/test/log-test.container';
+import LoginFormTestContainer from './containers/test/login-form-test.container';
 import NoteTestContainer from './containers/test/note-test.container';
 import SidebarTestContainer from './containers/test/sidebar-test.container';
 import SpinnerTestContainer from './containers/test/spinner-test.container';
@@ -27,6 +28,7 @@ render(
       <Route path="header" component={HeaderTestContainer} />
       <Route path="list-item" component={ListItemTestContainer} />
       <Route path="log" component={LogTestContainer} />
+      <Route path="login-form" component={LoginFormTestContainer} />
       <Route path="note" component={NoteTestContainer} />
       <Route path="sidebar" component={SidebarTestContainer} />
       <Route path="spinner" component={SpinnerTestContainer} />

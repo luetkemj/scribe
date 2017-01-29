@@ -2,6 +2,13 @@
 @import '/typography';
 @import '/icons';
 
+@mixin disabled {
+  &:disabled {
+    color: $swatch03;
+    cursor: default;
+  }
+}
+
 @mixin button($style) {
   @include font($sans-serif, $small, $bold);
   color: $swatch04;
@@ -12,10 +19,7 @@
   cursor: pointer;
   transition: color 300ms ease;
 
-  &:disabled {
-    color: $swatch03;
-    cursor: default;
-  }
+  @include disabled;
 
   @if $style == 'undo' {
     color: $swatch09;
@@ -23,6 +27,8 @@
     &:hover {
       color: $swatch08;
     }
+
+    @include disabled;
   }
 
   @if $style == 'do' {
@@ -31,6 +37,8 @@
     &:hover {
       color: $swatch05;
     }
+
+    @include disabled;
   }
 
   @if $style == 'delete' {
@@ -46,5 +54,7 @@
         color: $swatch08;
       }
     }
+
+    @include disabled;
   }
 }
