@@ -22,10 +22,12 @@ export default function App({ children, location }) {
   ];
 
   return (
-    <div className={style.app}>
+    <div className={`${style.app} ${style[location.pathname.slice(1)]}`}>
       <Header />
-      <div>
-        <Sidebar location={location} links={sidebarLinks} />
+      <div className={style.content}>
+        <div className={style.sidebarContainer}>
+          <Sidebar location={location} links={sidebarLinks} />
+        </div>
         {children}
       </div>
     </div>

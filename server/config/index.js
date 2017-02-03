@@ -1,5 +1,13 @@
 const config = {
   port: process.env.PORT || 3000,
+  auth: {
+    secret: 'Joan Butt and Squids are terrible at keeping secrets',
+    authTokenIssuedAt: () => Math.floor(Date.now() / 1000) - 30,
+    authTokenExpiresIn: '3d',
+  },
+  cookies: {
+    authToken: 'scribe_token',
+  },
   mongo: {
     protocol: process.env.MONGO_PROTOCOL || 'mongodb://',
     host: process.env.MONGO_HOST || 'localhost',
@@ -12,6 +20,7 @@ const config = {
     logs: '/api/logs',
     charts: '/api/charts',
     users: '/api/users',
+    auth: '/api/authenticate',
   },
 };
 

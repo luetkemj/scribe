@@ -1,4 +1,5 @@
 @import 'normalize.css';
+@import '../../theme/variables';
 
 * {
   box-sizing: border-box;
@@ -7,4 +8,17 @@
 html,
 body {
   height: 100%;
+}
+
+.login {
+  .content {
+    background: $swatch03;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sidebarContainer {
+    display: none;
+  }
 }

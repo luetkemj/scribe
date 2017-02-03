@@ -5,8 +5,8 @@
 
 .loginForm {
   background: $swatch02;
-  padding: 36px 48px;
-  width: 510px;
+  padding: 48px 48px 36px;
+  width: 400px;
 }
 
 .title {
@@ -17,6 +17,7 @@
 
 .input {
   @include input;
+  margin-bottom: 12px;
 }
 
 .createNew {

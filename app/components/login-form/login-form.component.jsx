@@ -2,7 +2,10 @@ import React, { Component, PropTypes } from 'react';
 import style from './login-form.component.scss';
 
 export default class LoginForm extends Component {
-  state = { username: '' }
+  state = {
+    username: '',
+    password: '',
+  }
 
   handleChange = (event) => {
     this.setState({
@@ -11,26 +14,26 @@ export default class LoginForm extends Component {
   }
 
   createNew = (event) => {
-    this.props.createNew(this.state.username);
+    this.props.createNew(this.state.username, this.state.password);
 
     event.currentTarget.blur();
     event.preventDefault();
   };
 
   login = (event) => {
-    this.props.login(this.state.username);
+    this.props.login(this.state.username, this.state.password);
 
     event.currentTarget.blur();
     event.preventDefault();
   };
 
   render() {
-    const isDisabled = !this.state.username;
+    const isDisabled = !(this.state.username && this.state.password);
 
     return (
       <div className={style.loginForm}>
         <div className={style.container}>
-          <h1 className={style.title}>Game Master</h1>
+          <div className={style.logo} />
           <form className={style.form}>
             <input
               className={style.input}
@@ -40,6 +43,16 @@ export default class LoginForm extends Component {
               placeholder="username"
               autoComplete="off"
             />
+            <input
+              className={style.input}
+              name="password"
+              value={this.state.password}
+              onChange={this.handleChange}
+              type="password"
+              placeholder="password"
+              autoComplete="off"
+            />
+
             <div className={style.controls}>
               <button
                 type="button"
@@ -47,6 +60,7 @@ export default class LoginForm extends Component {
                 onClick={this.createNew}
                 disabled={isDisabled}
               >CREATE NEW</button>
+
               <button
                 type="submit"
                 className={style.login}
