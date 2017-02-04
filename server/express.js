@@ -3,7 +3,6 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import glob from 'glob';
 import history from 'connect-history-api-fallback';
-
 import jwt from 'express-jwt';
 import cookieParser from 'cookie-parser';
 import config from './config';
@@ -21,63 +20,24 @@ app.use(bodyParser.json());
 // use express' cookie-parser to access cookies with req.cookies
 app.use(cookieParser());
 
-/* ------------------------------------------ *
- * Security / JWT configuration
- * ------------------------------------------ */
-
-// express-jwt
-// https://github.com/auth0/express-jwt
-
-// function requireAuthentication(req, res, next) {
-//   console.log(req.user);
-//   if (req.user) {
-//     if (req.cookies[config.cookies.profileId]) {
-//       req.user.selectedProfileId = req.cookies[config.cookies.profileId]; // eslint-disable-line no-param-reassign, max-len
-//     }
-//     return next();
-//   }
-//   return res
-//     .clearCookie(config.cookies.authToken)
-//     .clearCookie(config.cookies.profileId)
-//     .status(401).send({ error: 'Unauthorized' });
-// }
-//
-// app.all([
-//   '/campaign',
-//   '/campaign/*',
-// ], jwt({
-//   secret: config.auth.secret,
-//   credentialsRequired: true,
-//   getToken: req => req.cookies[config.cookies.authToken],
-// }), requireAuthentication);
-//
-
-
+// Security / JWT configuration
 app.use(jwt({
   secret: config.auth.secret,
-  credentialsRequired: true,
+  credentialsRequired: false,
   getToken: req => req.cookies[config.cookies.authToken],
 }));
 
-app.use((err, req, res, next) => {
-  if (err.name === 'UnauthorizedError') {
-    return next();
-  }
-  return next();
-});
-
 // Always (attempt to) load the user information into the req
 function requireAuthentication(req, res, next) {
-  if (req.user || req.path === '/login' || /\/login/.test(req.headers.referer)) {
+  if (req.user || req.path === '/login') {
     return next();
   }
   return res
-    .clearCookie(config.cookies.authToken)
-    .redirect('/login');
+   .clearCookie(config.cookies.authToken)
+   .status(401).send({ error: 'Unauthorized' });
 }
 
-app.all('*', requireAuthentication);
-
+app.all(['/api/logs'], requireAuthentication);
 
 // load the server controllers (via the routes)
 const ROUTE_PATH = path.join(API_ROOT, 'routes');
