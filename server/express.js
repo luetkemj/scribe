@@ -29,7 +29,7 @@ app.use(jwt({
 
 // Always (attempt to) load the user information into the req
 function requireAuthentication(req, res, next) {
-  if (req.user || req.path === '/login') {
+  if (req.user) {
     return next();
   }
   return res
