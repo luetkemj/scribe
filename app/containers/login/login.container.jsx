@@ -5,7 +5,7 @@ import style from './login.container.scss';
 import LoginForm from '../../components/login-form/login-form.component';
 
 import { createNewUser } from '../../actions/user.actions';
-import { login } from '../../actions/auth.actions';
+import { login } from '../../actions/login.actions';
 
 function LoginContainer(props) {
   return (

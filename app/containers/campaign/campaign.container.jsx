@@ -128,6 +128,7 @@ class CampaignContainer extends Component {
             <div className={style.terrain}>
               <TerrainPicker
                 zone={'Temperate'}
+                pickTerrain={() => {}}
                 terrain={'hills'}
                 terrains={[
                   {

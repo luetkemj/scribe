@@ -6,7 +6,7 @@ const logger = require('../../lib/logger')();
 
 const User = mongoose.model('User');
 
-export function authenticateUser(req, res) {
+export function login(req, res) {
   logger.log('authenticateUser: %j', req.body);
 
   User.findOne({ username: req.body.username }, (err, user) => {
@@ -28,4 +28,10 @@ export function authenticateUser(req, res) {
     logger.log(`Error: ${err}`);
     return res.sendStatus(401);
   });
+}
+
+export function logout(req, res) {
+  return res
+    .clearCookie(config.cookies.authToken)
+    .status(200).send();
 }

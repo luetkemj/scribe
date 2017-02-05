@@ -26,26 +26,26 @@ describe('logs library', () => {
   describe('getLogsUrl', () => {
     it('should work without args', () => {
       should(logsLib.getLogsUrl())
-      .equal('/api/logs?limit=0&skip=0');
+      .equal('/api/secure/logs?limit=0&skip=0');
     });
 
     it('should work with args', () => {
       should(logsLib.getLogsUrl(10, 19))
-      .equal('/api/logs?limit=10&skip=19');
+      .equal('/api/secure/logs?limit=10&skip=19');
     });
   });
 
   describe('getCreateLogUrl', () => {
     it('should work', () => {
       should(logsLib.getCreateLogUrl())
-      .equal('/api/logs');
+      .equal('/api/secure/logs');
     });
   });
 
   describe('getLogUrl', () => {
     it('should work', () => {
       should(logsLib.getLogUrl(1))
-      .equal('/api/logs/1');
+      .equal('/api/secure/logs/1');
     });
   });
 

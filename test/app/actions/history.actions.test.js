@@ -10,7 +10,7 @@ const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
 describe('historyActions', () => {
-  const GET_LOGS_URL = '/api/logs?limit=400&skip=0';
+  const GET_LOGS_URL = '/api/secure/logs?limit=400&skip=0';
   let store;
 
   afterEach(() => {

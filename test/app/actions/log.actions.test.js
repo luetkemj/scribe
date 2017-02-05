@@ -10,10 +10,10 @@ const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
 describe('logActions', () => {
-  const CREATE_LOG_URL = '/api/logs';
-  const GET_LOG_URL = '/api/logs/1';
-  const UPDATE_LOG_URL = '/api/logs/1';
-  const DELETE_LOGS_URL = '/api/logs';
+  const CREATE_LOG_URL = '/api/secure/logs';
+  const GET_LOG_URL = '/api/secure/logs/1';
+  const UPDATE_LOG_URL = '/api/secure/logs/1';
+  const DELETE_LOGS_URL = '/api/secure/logs';
   let store;
 
   afterEach(() => {

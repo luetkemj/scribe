@@ -15,12 +15,12 @@ const config = {
     database: process.env.MONGO_DB || 'scribe',
   },
   api: {
+    logs: '/api/secure/logs',
     monsters: '/api/monsters',
     items: '/api/items',
-    logs: '/api/logs',
     charts: '/api/charts',
     users: '/api/users',
-    auth: '/api/authenticate',
+    login: '/api/login',
   },
 };
 

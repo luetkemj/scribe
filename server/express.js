@@ -37,7 +37,7 @@ function requireAuthentication(req, res, next) {
    .status(401).send({ error: 'Unauthorized' });
 }
 
-app.all(['/api/logs'], requireAuthentication);
+app.all(['/api/secure/*'], requireAuthentication);
 
 // load the server controllers (via the routes)
 const ROUTE_PATH = path.join(API_ROOT, 'routes');
