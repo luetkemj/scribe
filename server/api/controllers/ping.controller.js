@@ -1,5 +1,6 @@
 import request from 'request';
 import config from '../../../server/config';
+import { getUserGravatar } from '../../lib/users';
 
 const logger = require('../../lib/logger')();
 
@@ -13,12 +14,11 @@ export function ping(req, res) {
         logger.log('request error: ', error);
         return res.send(error);
       }
-      logger.log('body:', JSON.parse(body));
-      logger.log('body.username:', JSON.parse(body).username);
       return res.send({
         userId: req.user.id,
         loggedIn: true,
         username: JSON.parse(body).username,
+        gravatar: getUserGravatar(JSON.parse(body).email),
       });
     });
   }

@@ -52,7 +52,7 @@ describe('loginActions', () => {
           },
         ];
 
-        store.dispatch(loginActions.login('yay', 'security'))
+        store.dispatch(loginActions.login({ username: 'yay', password: 'security', email: 'a@b.com' }))
           .then(() => {
             should(fetchUrl).equal('/api/login');
             should(fetchOptions.method).equal('POST');
@@ -75,7 +75,7 @@ describe('loginActions', () => {
       });
 
       it('should dispatch properly', (done) => {
-        store.dispatch(loginActions.login())
+        store.dispatch(loginActions.login({ username: 'yay', password: 'security', email: 'a@b.com' }))
         .then(() => {
           const actions = store.getActions();
           should(actions.length).equal(2);

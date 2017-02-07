@@ -14,6 +14,7 @@ import {
   CREATE_NEW_USER_SUCCESS,
 } from '../constants/action-types';
 
+const logger = require('../../server/lib/logger')();
 
 function createNewUserInitiated() {
   return { type: CREATE_NEW_USER_INITIATED };
@@ -33,7 +34,8 @@ function createNewUserSuccess(user) {
   };
 }
 
-export function createNewUser(username, password) {
+export function createNewUser(user) {
+  const { username, password, email } = user;
   return (dispatch) => {
     dispatch(createNewUserInitiated());
 
@@ -44,13 +46,16 @@ export function createNewUser(username, password) {
       body: JSON.stringify({
         username,
         password,
+        email,
       }),
     });
+
+    logger.log('%o', options);
 
     return fetch(uri, options)
       .then(checkHttpStatus)
       .then(response => response.json())
-      .then(user => dispatch(createNewUserSuccess(user)))
+      .then(newUser => dispatch(createNewUserSuccess(newUser)))
       .catch(error => handleHttpError(dispatch, error, createNewUserError));
   };
 }

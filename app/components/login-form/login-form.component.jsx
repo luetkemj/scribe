@@ -5,6 +5,7 @@ export default class LoginForm extends Component {
   state = {
     username: '',
     password: '',
+    email: '',
   }
 
   handleChange = (event) => {
@@ -14,14 +15,14 @@ export default class LoginForm extends Component {
   }
 
   createNew = (event) => {
-    this.props.createNew(this.state.username, this.state.password);
+    this.props.createNew(this.state);
 
     event.currentTarget.blur();
     event.preventDefault();
   };
 
   login = (event) => {
-    this.props.login(this.state.username, this.state.password);
+    this.props.login(this.state);
 
     event.currentTarget.blur();
     event.preventDefault();
@@ -41,6 +42,14 @@ export default class LoginForm extends Component {
               value={this.state.username}
               onChange={this.handleChange}
               placeholder="username"
+              autoComplete="off"
+            />
+            <input
+              className={style.input}
+              name="email"
+              value={this.state.email}
+              onChange={this.handleChange}
+              placeholder="email"
               autoComplete="off"
             />
             <input

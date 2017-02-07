@@ -40,6 +40,7 @@
     "glob": "7.1.1",
     "jsonwebtoken": "7.2.1",
     "lodash": "4.17.3",
+    "md5": "2.2.1",
     "mongoose": "4.7.5",
     "normalize.css": "5.0.0",
     "react": "15.4.1",

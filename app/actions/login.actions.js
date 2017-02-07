@@ -47,7 +47,8 @@ function logoutSuccess() {
   return { type: LOG_OUT_SUCCESS };
 }
 
-export function login(username, password) {
+export function login(user) {
+  const { username, password } = user;
   return (dispatch) => {
     dispatch(loginInitiated());
 

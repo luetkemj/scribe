@@ -37,7 +37,7 @@ describe('userActions', () => {
 
           return {
             status: 200,
-            body: { user: 123 },
+            body: { username: 'yay', password: 'security', email: 'a@b.com' },
           };
         });
       });
@@ -48,15 +48,15 @@ describe('userActions', () => {
           },
           {
             type: types.CREATE_NEW_USER_SUCCESS,
-            user: { user: 123 },
+            user: { username: 'yay', password: 'security', email: 'a@b.com' },
           },
         ];
 
-        store.dispatch(userActions.createNewUser('yay', 'security'))
+        store.dispatch(userActions.createNewUser({ username: 'yay', password: 'security', email: 'a@b.com' }))
           .then(() => {
             should(fetchUrl).equal('/api/users');
             should(fetchOptions.method).equal('POST');
-            should(fetchOptions.body).equal(JSON.stringify({ username: 'yay', password: 'security' }));
+            should(fetchOptions.body).equal(JSON.stringify({ username: 'yay', password: 'security', email: 'a@b.com' }));
 
             should(store.getActions()).deepEqual(expectedActions);
           })
@@ -75,7 +75,7 @@ describe('userActions', () => {
       });
 
       it('should dispatch properly', (done) => {
-        store.dispatch(userActions.createNewUser())
+        store.dispatch(userActions.createNewUser({ username: 'yay', password: 'security', email: 'a@b.com' }))
         .then(() => {
           const actions = store.getActions();
           should(actions.length).equal(2);
