@@ -27,7 +27,7 @@ export function getUser(req, res) {
   const { id } = req.params;
 
   User
-  .find({ id })
+  .findById(id)
   .lean()
   .exec((err, user) => {
     if (!err) {
