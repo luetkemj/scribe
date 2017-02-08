@@ -5,8 +5,8 @@
 
 .loginForm {
   background: $swatch02;
-  padding: 36px 48px;
-  width: 510px;
+  padding: 48px 48px 36px;
+  width: 400px;
 }
 
 .title {
@@ -17,17 +17,47 @@
 
 .input {
   @include input;
+  margin-bottom: 12px;
 }
 
-.createNew {
-  @include button(do);
-}
-
-.login {
+.submit {
   @include button(do);
 }
 
 .controls {
   display: flex;
   justify-content: space-between;
+}
+
+.toggle {
+  display: flex;
+  margin-bottom: 24px;
+
+  &.login {
+    .loginToggle {
+      background: $swatch05;
+      color: $swatch02;
+    }
+  }
+
+  &.signup {
+    .signupToggle {
+      background: $swatch05;
+      color: $swatch02;
+    }
+  }
+}
+
+.loginToggle,
+.signupToggle {
+  @include button(do);
+  width: 100%;
+  display: block;
+  text-align: center;
+  border: 0;
+  background: $swatch03;
+  padding: 16px;
+  text-transform: uppercase;
+  outline: none;
+  transition: background 300ms ease, color 300ms ease;
 }

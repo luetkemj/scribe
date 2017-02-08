@@ -7,9 +7,9 @@ import {
 } from '../controllers/logs.controller';
 
 module.exports = (router) => {
-  router.route('/api/logs').get(getLogs);
-  router.route('/api/logs/:id').get(getLog);
-  router.route('/api/logs').post(createLog);
-  router.route('/api/logs/:id').patch(updateLog);
-  router.route('/api/logs').patch(deleteLogs);
+  router.route('/api/secure/logs').get(getLogs);
+  router.route('/api/secure/logs/:id').get(getLog);
+  router.route('/api/secure/logs').post(createLog);
+  router.route('/api/secure/logs/:id').patch(updateLog);
+  router.route('/api/secure/logs').patch(deleteLogs);
 };

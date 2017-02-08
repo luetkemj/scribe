@@ -9,6 +9,7 @@ import App from './containers/app/app.container';
 import CampaignContainer from './containers/campaign/campaign.container';
 import ItemsContainer from './containers/items/items.container';
 import ItemDetailsContainer from './containers/items/item-details/item-details.container';
+import LoginContainer from './containers/login/login.container';
 import MonstersContainer from './containers/monsters/monsters.container';
 import MonsterDetailsContainer from './containers/monsters/monster-details/monster-details.container';
 
@@ -20,6 +21,7 @@ render(
   <Provider store={store}>
     <Router history={history}>
       <Route path="/" component={App} >
+        <Route path="login" component={LoginContainer} />
         <Route path="items" component={ItemsContainer}>
           <Route path=":id" component={ItemDetailsContainer} />
         </Route>

@@ -3,6 +3,9 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import glob from 'glob';
 import history from 'connect-history-api-fallback';
+import jwt from 'express-jwt';
+import cookieParser from 'cookie-parser';
+import config from './config';
 
 const API_ROOT = path.join(__dirname, 'api');
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
@@ -13,6 +16,28 @@ const app = express();
 
 // use express' body parser to access body elements later
 app.use(bodyParser.json());
+
+// use express' cookie-parser to access cookies with req.cookies
+app.use(cookieParser());
+
+// Security / JWT configuration
+app.use(jwt({
+  secret: config.auth.secret,
+  credentialsRequired: false,
+  getToken: req => req.cookies[config.cookies.authToken],
+}));
+
+// Always (attempt to) load the user information into the req
+function requireAuthentication(req, res, next) {
+  if (req.user) {
+    return next();
+  }
+  return res
+   .clearCookie(config.cookies.authToken)
+   .status(401).send({ error: 'Unauthorized' });
+}
+
+app.all(['/api/secure/*'], requireAuthentication);
 
 // load the server controllers (via the routes)
 const ROUTE_PATH = path.join(API_ROOT, 'routes');
