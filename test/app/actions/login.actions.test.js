@@ -11,7 +11,7 @@ const mockStore = configureMockStore(middlewares);
 
 describe('loginActions', () => {
   const LOGIN_URL = '/api/login';
-  const LOGOUT_URL = '/api/login';
+  const LOGOUT_URL = '/api/logout';
   let store;
 
   beforeEach(() => {
@@ -86,50 +86,51 @@ describe('loginActions', () => {
         .catch(done);
       });
     });
+  });
 
-    describe('logout', () => {
-      describe('when status is 200', () => {
-        beforeEach(() => {
-          store = mockStore();
-          fetchMock.mock(LOGOUT_URL, {
-            method: 'POST',
-            status: 200,
-          });
-        });
-
-        it('should dispatch properly', (done) => {
-          store.dispatch(loginActions.logout())
-          .then(() => {
-            const actions = store.getActions();
-            should(actions.length).equal(2);
-            should(actions[0].type).equal(types.LOG_OUT_INITIATED);
-            should(actions[1].type).equal(types.LOG_OUT_SUCCESS);
-          })
-          .then(done)
-          .catch(done);
+  describe('logout', () => {
+    describe('when status is 200', () => {
+      beforeEach(() => {
+        store = mockStore();
+        fetchMock.mock(LOGOUT_URL, {
+          method: 'POST',
+          status: 200,
         });
       });
 
-      describe('when status is 500', () => {
-        beforeEach(() => {
-          store = mockStore();
-          fetchMock.mock(LOGOUT_URL, {
-            method: 'POST',
-            status: 500,
-          });
-        });
+      it('should dispatch properly', (done) => {
+        store.dispatch(loginActions.logout())
+        .then(() => {
+          const actions = store.getActions();
+          should(actions.length).equal(3);
+          should(actions[0].type).equal(types.LOG_OUT_INITIATED);
+          should(actions[1].type).equal(types.LOG_OUT_SUCCESS);
+          should(actions[2].payload.method).equal('push');
+        })
+        .then(done)
+        .catch(done);
+      });
+    });
 
-        it('should dispatch properly', (done) => {
-          store.dispatch(loginActions.logout())
-          .then(() => {
-            const actions = store.getActions();
-            should(actions.length).equal(2);
-            should(actions[0].type).equal(types.LOG_OUT_INITIATED);
-            should(actions[1].type).equal(types.LOG_OUT_ERROR);
-          })
-          .then(done)
-          .catch(done);
+    describe('when status is 500', () => {
+      beforeEach(() => {
+        store = mockStore();
+        fetchMock.mock(LOGOUT_URL, {
+          method: 'POST',
+          status: 500,
         });
+      });
+
+      it('should dispatch properly', (done) => {
+        store.dispatch(loginActions.logout())
+        .then(() => {
+          const actions = store.getActions();
+          should(actions.length).equal(2);
+          should(actions[0].type).equal(types.LOG_OUT_INITIATED);
+          should(actions[1].type).equal(types.LOG_OUT_ERROR);
+        })
+        .then(done)
+        .catch(done);
       });
     });
   });

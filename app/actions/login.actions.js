@@ -1,3 +1,6 @@
+import { push } from 'react-router-redux';
+import { ping } from './ping.actions';
+
 import {
   getLoginUrl,
   getLogoutUrl,
@@ -65,6 +68,8 @@ export function login(user) {
     return fetch(uri, options)
       .then(checkHttpStatus)
       .then(() => dispatch(loginSuccess()))
+      .then(() => dispatch(ping()))
+      .then(() => dispatch(push('/campaign')))
       .catch(error => handleHttpError(dispatch, error, loginError));
   };
 }
@@ -82,6 +87,8 @@ export function logout() {
     return fetch(uri, options)
       .then(checkHttpStatus)
       .then(() => dispatch(logoutSuccess()))
+      .then(() => dispatch(ping()))
+      .then(() => dispatch(push('/login')))
       .catch(error => handleHttpError(dispatch, error, logoutError));
   };
 }

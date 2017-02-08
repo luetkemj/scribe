@@ -5,5 +5,5 @@ export function getLoginUrl() {
 }
 
 export function getLogoutUrl() {
-  return config.api.login;
+  return config.api.logout;
 }

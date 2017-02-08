@@ -1,5 +1,6 @@
 @import 'normalize.css';
 @import '../../theme/variables';
+@import '../../theme/typography';
 
 * {
   box-sizing: border-box;
@@ -8,6 +9,12 @@
 html,
 body {
   height: 100%;
+}
+
+.content {
+  height: calc(100vh - 80px);
+  display: flex;
+  overflow: hidden;
 }
 
 .login {
@@ -20,5 +27,97 @@ body {
 
   .sidebarContainer {
     display: none;
+  }
+}
+
+.header {
+  height: 80px;
+  padding: 0 16px;
+  background-color: $swatch01;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// HEADER LOGO
+.logo {
+  border: 0;
+  font: 0 / 0 a;
+  text-shadow: none;
+  color: transparent;
+  background-image: url('../../theme/assets/images/logo-light.svg');
+  width: 110px;
+  height: 43px;
+}
+
+// HEADER AUTH
+.auth {
+  color: $swatch04;
+
+  a {
+    color: $swatch04;
+    text-decoration: none;
+    transition: color 300ms ease;
+    @include font($sans-serif, 18px, $light);
+
+    &:hover {
+      color: $swatch05;
+    }
+  }
+}
+
+.loggedIn {
+  display: flex;
+  align-items: center;
+
+  .authGroup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90px;
+  }
+
+  .logout {
+    background: 0;
+    border: 0;
+    font-size: 18px;
+    font-weight: $light;
+    color: $swatch04;
+    transition: font-size 300ms ease, height 300ms ease, color 300ms ease;
+    cursor: pointer;
+    display: none;
+
+    &:hover {
+      color: $swatch05;
+    }
+  }
+
+  &:hover {
+    .logout {
+      display: block;
+    }
+
+    .name {
+      display: none;
+    }
+  }
+}
+
+.name {
+  @include font($sans-serif, 18px, $bold);
+  text-transform: uppercase;
+  transition: font-size 300ms ease;
+}
+
+.avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 21px;
+  border: 1px solid $swatch02;
+  overflow: hidden;
+
+  img {
+    max-width: 100%;
+    max-height: 100%;
   }
 }

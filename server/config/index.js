@@ -22,6 +22,7 @@ const config = {
     charts: '/api/charts',
     users: '/api/users',
     login: '/api/login',
+    logout: '/api/logout',
   },
 };
 

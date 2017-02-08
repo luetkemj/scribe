@@ -16,7 +16,6 @@ export function ping(req, res) {
       }
       return res.send({
         userId: req.user.id,
-        loggedIn: true,
         username: JSON.parse(body).username,
         gravatar: getUserGravatar(JSON.parse(body).email),
       });
@@ -24,7 +23,5 @@ export function ping(req, res) {
   }
 
   // if no user
-  return res.send({
-    loggedIn: false,
-  });
+  return res.send(null);
 }
