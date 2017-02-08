@@ -38,27 +38,23 @@ describe('loginActions', () => {
 
           return {
             status: 200,
-            body: { token: 123 },
+            body: { user: 123 },
           };
         });
       });
       it('should dispatch correctly', (done) => {
-        const expectedActions = [
-          {
-            type: types.LOG_IN_INITIATED,
-          },
-          {
-            type: types.LOG_IN_SUCCESS,
-          },
-        ];
-
         store.dispatch(loginActions.login({ username: 'yay', password: 'security', email: 'a@b.com' }))
           .then(() => {
+            const actions = store.getActions();
             should(fetchUrl).equal('/api/login');
             should(fetchOptions.method).equal('POST');
-            should(fetchOptions.body).equal(JSON.stringify({ username: 'yay', password: 'security' }));
+            should(fetchOptions.body).equal(JSON.stringify({ email: 'a@b.com', password: 'security' }));
 
-            should(store.getActions()).deepEqual(expectedActions);
+            should(actions[0].type).equal(types.LOG_IN_INITIATED);
+            should(actions[1].type).equal(types.LOG_IN_SUCCESS);
+            should(actions[1].user).deepEqual({ user: 123 });
+            should(actions[2].payload.args[0]).equal('/campaign');
+            should(actions[2].payload.method).equal('push');
           })
           .then(done)
           .catch(done);
