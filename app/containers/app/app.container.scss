@@ -33,6 +33,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
 }
 
 // HEADER LOGO
@@ -65,44 +66,12 @@ body {
 .loggedIn {
   display: flex;
   align-items: center;
-
-  .authGroup {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 90px;
-  }
-
-  .logout {
-    background: 0;
-    border: 0;
-    font-size: 18px;
-    font-weight: $light;
-    color: $swatch04;
-    transition: font-size 300ms ease, height 300ms ease, color 300ms ease;
-    cursor: pointer;
-    display: none;
-
-    &:hover {
-      color: $swatch05;
-    }
-  }
-
-  &:hover {
-    .logout {
-      display: block;
-    }
-
-    .name {
-      display: none;
-    }
-  }
 }
 
 .name {
   @include font($sans-serif, 18px, $light);
   text-transform: uppercase;
-  transition: font-size 300ms ease;
+  margin-right: 12px;
 }
 
 .avatar {
@@ -115,5 +84,112 @@ body {
   img {
     max-width: 100%;
     max-height: 100%;
+  }
+}
+
+// MENU
+.menu {
+  $width: 255px;
+  height: 80px;
+  width: $width;
+  position: absolute;
+  left: calc(50% - #{$width / 2});
+  text-align: center;
+
+  font-size: 18px;
+  font-weight: $light;
+  color: $swatch04;
+  text-transform: uppercase;
+
+  &:hover {
+    .list {
+      display: block;
+    }
+  }
+
+  .campaign {
+    font-weight: bold;
+    color: $swatch05;
+    height: 20px;
+    margin-top: 13px;
+  }
+}
+
+.hr {
+  height: 1px;
+  background: $swatch04;
+  margin: 8px;
+}
+
+.active {
+  &::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-top: 11px solid $swatch05;
+    position: absolute;
+    left: calc(50% - 9px);
+    bottom: -6px;
+    z-index: 1;
+  }
+}
+
+.list {
+  position: absolute;
+  display: none;
+  width: 80%;
+  background: $swatch01;
+  color: $swatch02;
+  padding: 28px 32px;
+  top: 68px;
+  left: calc(50% - 40%);
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+
+    li {
+      margin-bottom: 12px;
+      font-size: 18px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      a {
+        text-decoration: none;
+        color: $swatch02;
+        transition: color 300ms ease;
+
+        &:hover {
+          color: $swatch05;
+        }
+      }
+    }
+  }
+
+  .secondaryMenu {
+    padding-top: 9px;
+    margin-top: 9px;
+    border-top: 1px solid $swatch02;
+  }
+
+  .logout {
+    background: none;
+    border: 0;
+    color: $swatch02;
+    transition: color 300ms ease;
+    text-transform: uppercase;
+    font-weight: 300;
+    outline: none;
+    cursor: pointer;
+
+    &:hover {
+      color: $swatch05;
+    }
   }
 }

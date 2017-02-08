@@ -18,6 +18,15 @@ class App extends Component {
   render() {
     const { children, location, authState } = this.props;
 
+    let secondaryMenu;
+    if (authState && authState.user) {
+      secondaryMenu = (
+        <ul className={style.secondaryMenu}>
+          <button className={style.logout} onClick={this.handleLogout}>Logout</button>
+        </ul>
+      );
+    }
+
     let authToRender;
     if (authState && !authState.user) {
       authToRender = (
@@ -28,10 +37,7 @@ class App extends Component {
     if (authState && authState.user) {
       authToRender = (
         <div className={style.loggedIn}>
-          <div className={style.authGroup}>
-            <button className={style.logout} onClick={this.handleLogout}>LOGOUT</button>
-            <div className={style.name}>{authState.user.username}</div>
-          </div>
+          <div className={style.name}>{authState.user.username}</div>
           <div className={style.avatar}>
             <img src={authState.user.gravatar} alt={authState.user.name} role="presentation" />
           </div>
@@ -43,7 +49,19 @@ class App extends Component {
       <div className={`${style.app} ${style[location.pathname.slice(1)]}`}>
         <div className={style.header}>
           <Link to="/"><h1 className={style.logo}>D&D Scribe</h1></Link>
-          <div className={style.menu}>MENU</div>
+          <div className={style.menu}>
+            <div className={style.campaign}>PARTY of 5</div>
+            <div className={style.hr} />
+            <div className={style.active}>MENU</div>
+            <div className={style.list}>
+              <ul className={style.primaryMenu}>
+                <li><Link to={'/campaign'}>Campaign</Link></li>
+                <li><Link to={'/monsters'}>Monsters</Link></li>
+                <li><Link to={'/items'}>Items</Link></li>
+              </ul>
+              {secondaryMenu}
+            </div>
+          </div>
           <div className={style.auth}>
             {authToRender}
           </div>
