@@ -6,6 +6,15 @@ export default class LoginForm extends Component {
     username: '',
     password: '',
     email: '',
+    form: 'login',
+  }
+
+  setFormLogin = () => {
+    this.setState({ form: 'login' });
+  }
+
+  setFormSignup = () => {
+    this.setState({ form: 'signup' });
   }
 
   handleChange = (event) => {
@@ -29,21 +38,54 @@ export default class LoginForm extends Component {
   };
 
   render() {
-    const isDisabled = !(this.state.username && this.state.password);
+    const disableLogin = !(this.state.password && this.state.email);
+    const disableSignup = !(this.state.username && this.state.password && this.state.email);
+
+    let username;
+    if (this.state.form === 'signup') {
+      username = (
+        <input
+          className={style.input}
+          name="username"
+          value={this.state.username}
+          onChange={this.handleChange}
+          placeholder="username"
+          autoComplete="off"
+        />
+      );
+    }
+
+    let button;
+    if (this.state.form === 'login') {
+      button = (
+        <button
+          type="submit"
+          className={style.submit}
+          onClick={this.login}
+          disabled={disableLogin}
+        >LOGIN</button>
+      );
+    }
+
+    if (this.state.form === 'signup') {
+      button = (
+        <button
+          type="button"
+          className={style.submit}
+          onClick={this.createNew}
+          disabled={disableSignup}
+        >SIGNUP</button>
+      );
+    }
 
     return (
       <div className={style.loginForm}>
         <div className={style.container}>
-          <div className={style.logo} />
+          <div className={`${style.toggle} ${style[this.state.form]}`}>
+            <button className={style.loginToggle} onClick={this.setFormLogin}>Login</button>
+            <button className={style.signupToggle} onClick={this.setFormSignup}>Sign up</button>
+          </div>
           <form className={style.form}>
-            <input
-              className={style.input}
-              name="username"
-              value={this.state.username}
-              onChange={this.handleChange}
-              placeholder="username"
-              autoComplete="off"
-            />
             <input
               className={style.input}
               name="email"
@@ -52,6 +94,7 @@ export default class LoginForm extends Component {
               placeholder="email"
               autoComplete="off"
             />
+            {username}
             <input
               className={style.input}
               name="password"
@@ -63,19 +106,7 @@ export default class LoginForm extends Component {
             />
 
             <div className={style.controls}>
-              <button
-                type="button"
-                className={style.createNew}
-                onClick={this.createNew}
-                disabled={isDisabled}
-              >CREATE NEW</button>
-
-              <button
-                type="submit"
-                className={style.login}
-                onClick={this.login}
-                disabled={isDisabled}
-              >SUBMIT</button>
+              {button}
             </div>
           </form>
         </div>

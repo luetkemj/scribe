@@ -2,6 +2,8 @@ import mongoose from 'mongoose';
 import { signJWT } from '../../lib/jwt';
 import config from '../../config';
 
+import { getUserGravatar } from '../../lib/users';
+
 const logger = require('../../lib/logger')();
 
 const User = mongoose.model('User');
@@ -9,7 +11,7 @@ const User = mongoose.model('User');
 export function login(req, res) {
   logger.log('authenticateUser: %j', req.body);
 
-  User.findOne({ username: req.body.username }, (err, user) => {
+  User.findOne({ email: req.body.email }, (err, user) => {
     if (!err) {
       if (user && user.password === req.body.password) {
         logger.log('authenticateUser: User Authenticated 🎉');
@@ -17,7 +19,8 @@ export function login(req, res) {
         const token = signJWT(user._id);
 
         return res.cookie(config.cookies.authToken, token, { httpOnly: true }).json({
-          token,
+          username: user.username,
+          gravatar: getUserGravatar(user.email),
         });
       }
 

@@ -1,5 +1,4 @@
 import { push } from 'react-router-redux';
-import { ping } from './ping.actions';
 
 import {
   getLoginUrl,
@@ -32,9 +31,10 @@ function loginError(error) {
   };
 }
 
-function loginSuccess() {
+function loginSuccess(user) {
   return {
     type: LOG_IN_SUCCESS,
+    user,
   };
 }
 
@@ -51,7 +51,7 @@ function logoutSuccess() {
 }
 
 export function login(user) {
-  const { username, password } = user;
+  const { email, password } = user;
   return (dispatch) => {
     dispatch(loginInitiated());
 
@@ -60,15 +60,15 @@ export function login(user) {
     const options = Object.assign({}, FETCH_DEFAULT_OPTIONS, {
       method: 'POST',
       body: JSON.stringify({
-        username,
+        email,
         password,
       }),
     });
 
     return fetch(uri, options)
       .then(checkHttpStatus)
-      .then(() => dispatch(loginSuccess()))
-      .then(() => dispatch(ping()))
+      .then(response => response.json())
+      .then(loggedInUser => dispatch(loginSuccess(loggedInUser)))
       .then(() => dispatch(push('/campaign')))
       .catch(error => handleHttpError(dispatch, error, loginError));
   };
@@ -87,7 +87,6 @@ export function logout() {
     return fetch(uri, options)
       .then(checkHttpStatus)
       .then(() => dispatch(logoutSuccess()))
-      .then(() => dispatch(ping()))
       .then(() => dispatch(push('/login')))
       .catch(error => handleHttpError(dispatch, error, logoutError));
   };

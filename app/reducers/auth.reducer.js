@@ -26,6 +26,7 @@ export default function authReducer(state = initialState, action) {
         error: action.error,
         user: null,
       });
+    case LOG_IN_SUCCESS:
     case PING_SUCCESS:
       return Object.assign({}, state, {
         loading: false,
@@ -46,7 +47,6 @@ export default function authReducer(state = initialState, action) {
         error: action.error,
         user: null,
       });
-    case LOG_IN_SUCCESS:
     case CREATE_NEW_USER_SUCCESS:
       return Object.assign({}, state, {
         loading: false,

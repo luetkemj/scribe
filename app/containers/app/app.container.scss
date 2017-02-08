@@ -21,12 +21,8 @@ body {
   .content {
     background: $swatch03;
     display: flex;
-    align-items: center;
     justify-content: center;
-  }
-
-  .sidebarContainer {
-    display: none;
+    padding-top: 80px;
   }
 }
 
@@ -104,7 +100,7 @@ body {
 }
 
 .name {
-  @include font($sans-serif, 18px, $bold);
+  @include font($sans-serif, 18px, $light);
   text-transform: uppercase;
   transition: font-size 300ms ease;
 }
