@@ -27,6 +27,17 @@ app.use(jwt({
   getToken: req => req.cookies[config.cookies.authToken],
 }));
 
+// if error clear token and force login.
+app.use((err, req, res, next) => {
+  if (err.name === 'UnauthorizedError') {
+    return res
+     .clearCookie(config.cookies.authToken)
+     .redirect('/login');
+  }
+
+  return next();
+});
+
 // Always (attempt to) load the user information into the req
 function requireAuthentication(req, res, next) {
   if (req.user) {
@@ -37,6 +48,7 @@ function requireAuthentication(req, res, next) {
    .status(401).send({ error: 'Unauthorized' });
 }
 
+// require auth on secure routes
 app.all(['/api/secure/*'], requireAuthentication);
 
 // load the server controllers (via the routes)

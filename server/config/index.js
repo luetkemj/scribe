@@ -2,7 +2,7 @@ const config = {
   port: process.env.PORT || 3000,
   rootUrl: process.env.SCRIBE_ROOT_URL || `http://localhost:${process.env.PORT || 3000}`,
   auth: {
-    secret: 'Joan Butt and Squids are terrible at keeping secrets',
+    secret: process.env.SECRET || 'Joan Butt and Squids are terrible at keeping secrets',
     authTokenIssuedAt: () => Math.floor(Date.now() / 1000) - 30,
     authTokenExpiresIn: '3d',
   },
