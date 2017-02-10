@@ -14,6 +14,11 @@ export function ping(req, res) {
         logger.log('request error: ', error);
         return res.send(error);
       }
+
+      if (!body) {
+        return res.status(401).send({ error: 'unauthorized' });
+      }
+
       return res.send({
         userId: req.user.id,
         username: JSON.parse(body).username,
