@@ -32,7 +32,8 @@ app.use((err, req, res, next) => {
   if (err.name === 'UnauthorizedError') {
     return res
      .clearCookie(config.cookies.authToken)
-     .redirect('/login');
+     .redirect('/login')
+     .status(401).send({ error: 'Unauthorized' });
   }
 
   return next();
