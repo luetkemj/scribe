@@ -24,12 +24,12 @@ export function login(req, res) {
         });
       }
 
-      logger.log(`Error: ${err}`);
-      return res.sendStatus(401);
+      logger.log('Error: Username or email is incorrect.');
+      return res.status(401).send({ error: 'Username or email is incorrect.' });
     }
 
     logger.log(`Error: ${err}`);
-    return res.sendStatus(401);
+    return res.status(401).send({ error: err });
   });
 }
 

@@ -52,11 +52,12 @@ function logoutSuccess() {
 
 export function login(user) {
   const { email, password } = user;
+
   return (dispatch) => {
     dispatch(loginInitiated());
 
+    let responseStatus;
     const uri = getLoginUrl();
-
     const options = Object.assign({}, FETCH_DEFAULT_OPTIONS, {
       method: 'POST',
       body: JSON.stringify({
@@ -66,13 +67,23 @@ export function login(user) {
     });
 
     return fetch(uri, options)
-      .then(checkHttpStatus)
-      .then(response => response.json())
-      .then(loggedInUser => dispatch(loginSuccess(loggedInUser)))
-      .then(() => dispatch(push('/campaign')))
-      .catch(error => handleHttpError(dispatch, error, loginError));
+    .then((response) => {
+      responseStatus = response.status;
+      return response.json();
+    })
+    .then((json) => {
+      if (responseStatus >= 200 && responseStatus < 300) {
+        dispatch(loginSuccess(json));
+        return dispatch(push('/campaign'));
+      } else if (responseStatus === 401) {
+        return dispatch(loginError('Incorrect username or password.'));
+      }
+      return dispatch(loginError(json.error));
+    })
+    .catch(error => dispatch(loginError(error)));
   };
 }
+
 
 export function logout() {
   return (dispatch) => {
