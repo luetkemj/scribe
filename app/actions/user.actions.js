@@ -23,7 +23,7 @@ function createNewUserInitiated() {
 function createNewUserError(error) {
   return {
     type: CREATE_NEW_USER_ERROR,
-    error,
+    createUserError: error,
   };
 }
 

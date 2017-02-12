@@ -13,7 +13,10 @@ describe('the auth reducer', () => {
   it('should have the correct initial state', () => {
     should(reducer(undefined, {})).deepEqual({
       loading: false,
-      error: null,
+      pingError: null,
+      loginError: null,
+      createUserError: null,
+      logoutError: null,
       user: null,
     });
   });
@@ -29,7 +32,10 @@ describe('the auth reducer', () => {
         error: 'butt',
       })).deepEqual({
         loading: false,
-        error: 'butt',
+        pingError: 'butt',
+        loginError: null,
+        createUserError: null,
+        logoutError: null,
         user: null,
       });
     });
@@ -40,7 +46,10 @@ describe('the auth reducer', () => {
         user: 'butt',
       })).deepEqual({
         loading: false,
-        error: null,
+        pingError: null,
+        loginError: null,
+        createUserError: null,
+        logoutError: null,
         user: 'butt',
       });
     });
@@ -50,7 +59,10 @@ describe('the auth reducer', () => {
         type: types.LOG_IN_INITIATED,
       })).deepEqual({
         loading: true,
-        error: null,
+        pingError: null,
+        loginError: null,
+        createUserError: null,
+        logoutError: null,
         user: null,
       });
     });
@@ -60,7 +72,10 @@ describe('the auth reducer', () => {
         type: types.CREATE_NEW_USER_INITIATED,
       })).deepEqual({
         loading: true,
-        error: null,
+        pingError: null,
+        loginError: null,
+        createUserError: null,
+        logoutError: null,
         user: null,
       });
     });
@@ -70,7 +85,10 @@ describe('the auth reducer', () => {
     beforeEach(() => {
       state = reducer({
         loading: true,
-        error: null,
+        pingError: null,
+        loginError: null,
+        createUserError: null,
+        logoutError: null,
         user: null,
       }, {});
     });
@@ -81,7 +99,10 @@ describe('the auth reducer', () => {
         error: 'butt',
       })).deepEqual({
         loading: false,
-        error: 'butt',
+        pingError: null,
+        loginError: 'butt',
+        createUserError: null,
+        logoutError: null,
         user: null,
       });
     });
@@ -92,7 +113,10 @@ describe('the auth reducer', () => {
         error: 'butt',
       })).deepEqual({
         loading: false,
-        error: 'butt',
+        pingError: null,
+        loginError: null,
+        createUserError: null,
+        logoutError: 'butt',
         user: null,
       });
     });
@@ -103,7 +127,10 @@ describe('the auth reducer', () => {
         error: 'butt',
       })).deepEqual({
         loading: false,
-        error: 'butt',
+        pingError: null,
+        loginError: null,
+        createUserError: 'butt',
+        logoutError: null,
         user: null,
       });
     });
@@ -111,21 +138,26 @@ describe('the auth reducer', () => {
     it('should handle LOG_IN_SUCCESS correctly', () => {
       should(reducer(state, {
         type: types.LOG_IN_SUCCESS,
-        user: null,
+        user: 'user',
       })).deepEqual({
         loading: false,
-        error: null,
-        user: null,
+        pingError: null,
+        loginError: null,
+        createUserError: null,
+        logoutError: null,
+        user: 'user',
       });
     });
 
     it('should handle CREATE_NEW_USER_SUCCESS correctly', () => {
       should(reducer(state, {
         type: types.CREATE_NEW_USER_SUCCESS,
-        user: null,
       })).deepEqual({
         loading: false,
-        error: null,
+        pingError: null,
+        loginError: null,
+        createUserError: null,
+        logoutError: null,
         user: null,
       });
     });
@@ -134,8 +166,11 @@ describe('the auth reducer', () => {
   describe('while logged in', () => {
     beforeEach(() => {
       state = reducer({
-        loading: true,
-        error: null,
+        loading: false,
+        pingError: null,
+        loginError: null,
+        createUserError: null,
+        logoutError: null,
         user: { user: 1 },
       }, {});
     });
@@ -145,7 +180,10 @@ describe('the auth reducer', () => {
         type: types.LOG_OUT_INITIATED,
       })).deepEqual({
         loading: true,
-        error: null,
+        pingError: null,
+        loginError: null,
+        createUserError: null,
+        logoutError: null,
         user: { user: 1 },
       });
     });
@@ -156,7 +194,10 @@ describe('the auth reducer', () => {
         error: 'butt',
       })).deepEqual({
         loading: false,
-        error: 'butt',
+        pingError: null,
+        loginError: null,
+        createUserError: null,
+        logoutError: 'butt',
         user: { user: 1 },
       });
     });
@@ -166,7 +207,10 @@ describe('the auth reducer', () => {
         type: types.LOG_OUT_SUCCESS,
       })).deepEqual({
         loading: false,
-        error: null,
+        pingError: null,
+        loginError: null,
+        createUserError: null,
+        logoutError: null,
         user: null,
       });
     });

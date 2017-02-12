@@ -27,7 +27,7 @@ function loginInitiated() {
 function loginError(error) {
   return {
     type: LOG_IN_ERROR,
-    error,
+    loginError: error,
   };
 }
 
@@ -42,8 +42,11 @@ function logoutInitiated() {
   return { type: LOG_OUT_INITIATED };
 }
 
-function logoutError() {
-  return { type: LOG_OUT_ERROR };
+function logoutError(error) {
+  return {
+    type: LOG_OUT_ERROR,
+    logoutError: error,
+  };
 }
 
 function logoutSuccess() {
