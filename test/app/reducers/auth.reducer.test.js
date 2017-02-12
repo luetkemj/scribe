@@ -29,7 +29,7 @@ describe('the auth reducer', () => {
     it('should handle PING_ERROR correctly', () => {
       should(reducer(state, {
         type: types.PING_ERROR,
-        error: 'butt',
+        pingError: 'butt',
       })).deepEqual({
         loading: false,
         pingError: 'butt',
@@ -96,7 +96,7 @@ describe('the auth reducer', () => {
     it('should handle LOG_IN_ERROR correctly', () => {
       should(reducer(state, {
         type: types.LOG_IN_ERROR,
-        error: 'butt',
+        loginError: 'butt',
       })).deepEqual({
         loading: false,
         pingError: null,
@@ -110,7 +110,7 @@ describe('the auth reducer', () => {
     it('should handle LOG_OUT_ERROR correctly', () => {
       should(reducer(state, {
         type: types.LOG_OUT_ERROR,
-        error: 'butt',
+        logoutError: 'butt',
       })).deepEqual({
         loading: false,
         pingError: null,
@@ -124,7 +124,7 @@ describe('the auth reducer', () => {
     it('should handle CREATE_NEW_USER_ERROR correctly', () => {
       should(reducer(state, {
         type: types.CREATE_NEW_USER_ERROR,
-        error: 'butt',
+        createUserError: 'butt',
       })).deepEqual({
         loading: false,
         pingError: null,
@@ -191,7 +191,7 @@ describe('the auth reducer', () => {
     it('should handle LOG_OUT_ERROR correctly', () => {
       should(reducer(state, {
         type: types.LOG_OUT_ERROR,
-        error: 'butt',
+        logoutError: 'butt',
       })).deepEqual({
         loading: false,
         pingError: null,

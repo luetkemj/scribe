@@ -1,3 +1,4 @@
+@import '../../theme/typography';
 @import '../../theme/variables';
 
 $stroke: 1px;
@@ -7,8 +8,7 @@ $height: 25px;
 
 .loader {
   position: relative;
-  text-indent: -9999em;
-  margin: 30px auto;
+  margin: 16px auto;
   border-top: $stroke $style rgba($swatch01, 0.2);
   border-right: $stroke $style rgba($swatch01, 0.2);
   border-bottom: $stroke $style rgba($swatch01, 0.2);
@@ -25,6 +25,13 @@ $height: 25px;
     width: $width;
     height: $height;
   }
+}
+
+.text {
+  color: $swatch05;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  @include font-map((font-size: $small));
 }
 
 @keyframes load8 {

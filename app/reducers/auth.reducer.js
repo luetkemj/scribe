@@ -44,7 +44,7 @@ export default function authReducer(state = initialState, action) {
     case PING_ERROR:
       return Object.assign({}, state, {
         loading: false,
-        pingError: action.error,
+        pingError: action.pingError,
         loginError: null,
         createUserError: null,
         logoutError: null,
@@ -54,7 +54,7 @@ export default function authReducer(state = initialState, action) {
       return Object.assign({}, state, {
         loading: false,
         pingError: null,
-        loginError: action.error,
+        loginError: action.loginError,
         createUserError: null,
         logoutError: null,
         user: null,
@@ -64,7 +64,7 @@ export default function authReducer(state = initialState, action) {
         loading: false,
         pingError: null,
         loginError: null,
-        createUserError: action.error,
+        createUserError: action.createUserError,
         logoutError: null,
         user: null,
       });
@@ -74,7 +74,7 @@ export default function authReducer(state = initialState, action) {
         pingError: null,
         loginError: null,
         createUserError: null,
-        logoutError: action.error,
+        logoutError: action.logoutError,
       });
     case LOG_IN_SUCCESS:
     case PING_SUCCESS:

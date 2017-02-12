@@ -81,3 +81,18 @@ $bold: 600;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+
+@mixin font-map ($options: ()) {
+  // setup defaults
+  $config: map-merge((
+      font-family: $sans-serif,
+      font-size: $medium,
+      font-weight: $normal,
+  ), $options);
+
+  // the styles we output
+  font-family: map-get($config, font-family);
+  font-size: map-get($config, font-size);
+  font-weight: map-get($config, font-weight);
+}
