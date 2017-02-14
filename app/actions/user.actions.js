@@ -4,8 +4,6 @@ import {
 
 import {
   FETCH_DEFAULT_OPTIONS,
-  checkHttpStatus,
-  handleHttpError,
 } from '../utils/http.utils';
 
 import {
@@ -36,11 +34,12 @@ function createNewUserSuccess(user) {
 
 export function createNewUser(user) {
   const { username, password, email } = user;
+
   return (dispatch) => {
     dispatch(createNewUserInitiated());
 
+    let responseStatus;
     const uri = getCreateNewUserUrl();
-
     const options = Object.assign({}, FETCH_DEFAULT_OPTIONS, {
       method: 'POST',
       body: JSON.stringify({
@@ -50,12 +49,21 @@ export function createNewUser(user) {
       }),
     });
 
-    logger.log('%o', options);
-
     return fetch(uri, options)
-      .then(checkHttpStatus)
-      .then(response => response.json())
-      .then(newUser => dispatch(createNewUserSuccess(newUser)))
-      .catch(error => handleHttpError(dispatch, error, createNewUserError));
+    .then((response) => {
+      responseStatus = response.status;
+      return response.json();
+    })
+    .then((json) => {
+      if (responseStatus >= 200 && responseStatus < 300) {
+        logger.log(json);
+        if (json.code === 11000) {
+          return dispatch(createNewUserError('That username or email already exists.'));
+        }
+        return dispatch(createNewUserSuccess(json));
+      }
+      return dispatch(createNewUserError(json.error));
+    })
+    .catch(error => dispatch(createNewUserError(error)));
   };
 }
