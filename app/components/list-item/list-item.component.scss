@@ -1,7 +1,8 @@
+@import '../../theme/typography';
 @import '../../theme/variables';
 
 .listItem {
-  composes: sansSerifMedium from 'sass!../../theme/typography.scss';
+  @include font;
   padding-left: 20px;
   border: 0;
   cursor: pointer;

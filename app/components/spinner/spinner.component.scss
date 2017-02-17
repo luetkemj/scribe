@@ -31,7 +31,7 @@ $height: 25px;
   color: $swatch05;
   text-transform: uppercase;
   letter-spacing: 1px;
-  @include font-map((font-size: $small));
+  @include font((font-size: $small));
 }
 
 @keyframes load8 {

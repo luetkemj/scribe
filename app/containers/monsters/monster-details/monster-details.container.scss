@@ -1,3 +1,4 @@
+@import '../../../theme/typography';
 @import '../../../theme/variables';
 
 .monsterDetails {
@@ -8,11 +9,12 @@
 }
 
 .name {
-  composes: serifLargeNormal from 'sass!../../../theme/typography.scss';
+  @include font((font-size: $large, font-family: $serif));
   margin: 0 0 -5px;
 }
 
 .sizeTypeAlignment {
-  composes: sansSerifSmallLightItalic from 'sass!../../../theme/typography.scss';
+  @include font((font-size: $small, font-weight: $light));
+  font-style: italic;
   margin: 0;
 }

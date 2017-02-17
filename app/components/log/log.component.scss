@@ -3,13 +3,13 @@
 @import '../../theme/buttons';
 
 .heading {
-  @include font($serif, $large);
+  @include font((font-size: $large, font-family: $serif, font-weight: $light));
   border-bottom: 1px solid $swatch01;
   padding-bottom: 30px;
 }
 
 .log {
-  @include font($sans-serif, $small);
+  @include font((font-size: $small));
   padding-top: 5px;
   border-bottom: 1px solid $swatch03;
 

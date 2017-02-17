@@ -7,7 +7,7 @@
   padding-top: 15px;
 
   dd {
-    @include font($sans-serif, $small, $light);
+    @include font((font-size: $small, font-weight: $light))
     display: inline;
     margin: 0;
 
@@ -19,13 +19,14 @@
   }
 
   dt {
-    @include font($sans-serif, $small, $bold, 21px);
+    @include font((font-size: $small, font-weight: $bold));
+    line-height: 21px;
     display: inline;
   }
 
   &.verbose {
     dd {
-      @include font($sans-serif, $small, $light);
+      @include font((font-size: $small, font-weight: $light));
       display: inline;
       margin: 0;
 
@@ -37,7 +38,9 @@
     }
 
     dt {
-      @include font($sans-serif, $small, $bold, 21px, italic);
+      @include font((font-size: $small, font-weight: $bold));
+      line-height: 21px;
+      font-style: italic;
       display: inline;
     }
   }

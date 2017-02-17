@@ -8,12 +8,12 @@ $typography: '../../theme/typography.scss';
 $buttons: '../../theme/buttons.scss';
 
 .note {
-  composes: sansSerifSmallLight from $typography;
+  @include font((font-size: $small, font-weight: $light));
   margin: 0 0 10px;
 }
 
 .content {
-  composes: sansSerifSmallLight from $typography;
+  @include font((font-size: $small, font-weight: $light));
   overflow-wrap: break-word;
   word-wrap: break-word;
   word-break: break-all;

@@ -32,17 +32,17 @@
 .season {
   margin: 0;
   text-transform: uppercase;
-  @include font($sans-serif, $very-small, $light);
+  @include font((font-size: $very-small, font-weight: $light));
 }
 
 .condition {
   margin: 0;
-  @include font($sans-serif, $very-small, $light);
+  @include font((font-size: $very-small, font-weight: $light));
 }
 
 .relativeTemp {
   margin: 0;
-  @include font($sans-serif, $very-small, $light);
+  @include font((font-size: $very-small, font-weight: $light));
 }
 
 .weatherIcon {
