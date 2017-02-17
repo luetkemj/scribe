@@ -35,7 +35,7 @@
 
 // styles
 .heading {
-  @include font($serif, $large);
+  @include font((font-size: $large, font-family: $serif));
   border-bottom: 1px solid $swatch01;
   padding-bottom: 30px;
 }

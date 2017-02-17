@@ -10,7 +10,7 @@
 }
 
 @mixin button($style) {
-  @include font($sans-serif, $small, $bold);
+  @include font((font-size: $small, font-weight: $bold));
   color: $swatch04;
   background: transparent;
   padding: 0;

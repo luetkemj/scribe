@@ -11,79 +11,12 @@ $light: 300;
 $normal: 400;
 $bold: 600;
 
-@mixin font($family: $sans-serif, $size: $small, $weight: $normal, $line-height: 21px, $style: normal) {
-  font-family: $family;
-  font-size: $size;
-  line-height: $line-height;
-  font-weight: $weight;
-  font-style: $style;
-}
-
-.serifLargeNormal {
-  font-family: 'Crimson Text';
-  font-size: 36px;
-  font-weight: 400;
-}
-
-.sansSerifSmallLightItalic {
-  font-family: Lato;
-  font-size: 14px;
-  line-height: 21px;
-  font-weight: 300;
-  font-style: italic;
-}
-
-.sansSerifSmallLight {
-  font-family: Lato;
-  font-size: 14px;
-  line-height: 21px;
-  font-weight: 300;
-}
-
-.sansSerifSmall {
-  font-family: Lato;
-  font-size: 14px;
-  line-height: 21px;
-  font-weight: 400;
-}
-
-.sansSerifSmallBold {
-  font-family: Lato;
-  font-size: 14px;
-  line-height: 21px;
-  font-weight: 600;
-}
-
-.sansSerifSmallBoldItalic {
-  font-family: Lato;
-  font-size: 14px;
-  line-height: 21px;
-  font-weight: 600;
-  font-style: italic;
-}
-
-
-.sansSerifMedium {
-  font-family: Lato;
-  font-size: 16px;
-  line-height: 36px;
-  font-weight: 400;
-}
-
-.serifMedium {
-  font-family: 'Crimson Text';
-  font-size: 16px;
-  line-height: 36px;
-  font-weight: 400;
-}
-
 @mixin fontsmoothing {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-
-@mixin font-map ($options: ()) {
+@mixin font ($options: ()) {
   // setup defaults
   $config: map-merge((
       font-family: $sans-serif,

@@ -9,7 +9,7 @@
   border: 0;
   background: $swatch03;
   color: $swatch01;
-  @include font($sans-serif, $small, $light);
+  @include font((font-size: $small, font-weight: $light));
   outline: none;
   transition: color 300ms ease, background 300ms ease;
   resize: none;

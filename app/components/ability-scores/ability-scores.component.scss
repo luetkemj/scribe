@@ -1,3 +1,4 @@
+@import '../../theme/typography';
 @import '../../theme/variables';
 
 .abilityScores {
@@ -16,9 +17,9 @@
 }
 
 .abilityName {
-  composes: sansSerifSmallBold from 'sass!../../theme/typography.scss';
+  @include font((font-size: $small, font-weight: $bold));
 }
 
 .abilityScore {
-  composes: sansSerifSmallLight from 'sass!../../theme/typography.scss';
+  @include font((font-size: $small, font-weight: $light));
 }

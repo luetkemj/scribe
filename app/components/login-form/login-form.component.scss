@@ -27,19 +27,19 @@
 .error {
   margin-bottom: 16px;
   color: $swatch09;
-  @include font-map((font-size: $small, font-weight: $bold));
+  @include font((font-size: $small, font-weight: $bold));
 
   p {
     margin: 0;
   }
 
   .message {
-    @include font-map((font-size: $small, font-weight: $light));
+    @include font((font-size: $small, font-weight: $light));
   }
 }
 
 .title {
-  @include font($serif, $large);
+  @include font((font-size: $large, font-family: $serif));
   color: $swatch01;
   margin: 0 0 24px;
 }

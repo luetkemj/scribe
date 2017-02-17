@@ -31,7 +31,7 @@ $scaled-large: $size * ($large * 0.01);
 
 .dayCount {
   text-align: center;
-  @include font($sans-serif, $scaled-small, $bold);
+  @include font((font-size: $scaled-small, font-weight: $bold));
   margin-bottom: $size * 0.1px;
 }
 
@@ -183,7 +183,7 @@ $scaled-large: $size * ($large * 0.01);
 }
 
 .time {
-  @include font($sans-serif, $scaled-medium-large);
+  @include font((font-size: $scaled-medium-large));
   margin-bottom: $size * 0.2px;
 }
 
@@ -198,7 +198,7 @@ $scaled-large: $size * ($large * 0.01);
   height: $size * 0.3px;
   border-radius: 100%;
   border: 0;
-  @include font($sans-serif, $scaled-very-small);
+  @include font((font-size: $scaled-very-small));
   text-align: center;
   padding: 0;
   margin-right: $size * 0.05px;
