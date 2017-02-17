@@ -9,6 +9,7 @@ export default function LoginFormTestContainer() {
         minHeight: '100vh',
         background: '#efefef',
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
       }}
@@ -16,6 +17,17 @@ export default function LoginFormTestContainer() {
       <LoginForm
         createNew={() => {}}
         login={() => {}}
+        loading
+      />
+      <LoginForm
+        createNew={() => {}}
+        login={() => {}}
+      />
+
+      <LoginForm
+        createNew={() => {}}
+        login={() => {}}
+        error={'Incorrect username or password.'}
       />
     </div>
   );

@@ -18,7 +18,7 @@ function pingSuccess(user) {
 function pingError(error) {
   return {
     type: PING_ERROR,
-    error,
+    pingError: error,
   };
 }
 

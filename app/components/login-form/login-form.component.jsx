@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import Spinner from '../../components/spinner/spinner.component';
 import style from './login-form.component.scss';
 
 export default class LoginForm extends Component {
@@ -78,8 +79,31 @@ export default class LoginForm extends Component {
       );
     }
 
+    let spinnerToRender;
+    if (this.props.loading) {
+      spinnerToRender = (
+        <div className={style.spinnerWrapper}>
+          <Spinner
+            text={'Resurrecting Game Master...'}
+          />
+        </div>
+      );
+    }
+
+    let errorToRender;
+    if (this.props.error) {
+      errorToRender = (
+        <div className={style.error}>
+          <p>Critical Fail:</p>
+          <p className={style.message}>{this.props.error}</p>
+        </div>
+      );
+    }
+
     return (
       <div className={style.loginForm}>
+        {spinnerToRender}
+        {errorToRender}
         <div className={style.container}>
           <div className={`${style.toggle} ${style[this.state.form]}`}>
             <button className={style.loginToggle} onClick={this.setFormLogin}>Login</button>
@@ -92,7 +116,6 @@ export default class LoginForm extends Component {
               value={this.state.email}
               onChange={this.handleChange}
               placeholder="email"
-              autoComplete="off"
             />
             {username}
             <input
@@ -118,4 +141,6 @@ export default class LoginForm extends Component {
 LoginForm.propTypes = {
   createNew: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
+  error: PropTypes.string,
+  loading: PropTypes.bool,
 };

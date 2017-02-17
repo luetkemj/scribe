@@ -8,11 +8,17 @@ import { createNewUser } from '../../actions/user.actions';
 import { login } from '../../actions/login.actions';
 
 function LoginContainer(props) {
+  let error;
+  if (props.authState.loginError) { error = props.authState.loginError; }
+  if (props.authState.createUserError) { error = props.authState.createUserError; }
+
   return (
     <div className={style.loginContainer}>
       <LoginForm
         createNew={props.createNewUser}
         login={props.login}
+        loading={props.authState.loading}
+        error={error}
       />
     </div>
   );
@@ -21,13 +27,24 @@ function LoginContainer(props) {
 LoginContainer.propTypes = {
   createNewUser: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
+  authState: PropTypes.shape({
+    loading: PropTypes.bool.required,
+    loginError: PropTypes.string,
+    createUserError: PropTypes.string,
+  }),
 };
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({ createNewUser, login }, dispatch);
 }
 
+function mapStateToProps(state) {
+  return {
+    authState: state.authState,
+  };
+}
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(LoginContainer);

@@ -14,58 +14,94 @@ import {
 
 const initialState = {
   loading: false,
-  error: null,
+  pingError: null,
+  loginError: null,
+  createUserError: null,
+  logoutError: null,
   user: null,
 };
 
 export default function authReducer(state = initialState, action) {
   switch (action.type) {
+    case LOG_IN_INITIATED:
+    case CREATE_NEW_USER_INITIATED:
+      return Object.assign({}, state, {
+        loading: true,
+        pingError: null,
+        loginError: null,
+        createUserError: null,
+        logoutError: null,
+        user: null,
+      });
+    case LOG_OUT_INITIATED:
+      return Object.assign({}, state, {
+        loading: true,
+        pingError: null,
+        loginError: null,
+        createUserError: null,
+        logoutError: null,
+      });
     case PING_ERROR:
       return Object.assign({}, state, {
         loading: false,
-        error: action.error,
+        pingError: action.pingError,
+        loginError: null,
+        createUserError: null,
+        logoutError: null,
         user: null,
+      });
+    case LOG_IN_ERROR:
+      return Object.assign({}, state, {
+        loading: false,
+        pingError: null,
+        loginError: action.loginError,
+        createUserError: null,
+        logoutError: null,
+        user: null,
+      });
+    case CREATE_NEW_USER_ERROR:
+      return Object.assign({}, state, {
+        loading: false,
+        pingError: null,
+        loginError: null,
+        createUserError: action.createUserError,
+        logoutError: null,
+        user: null,
+      });
+    case LOG_OUT_ERROR:
+      return Object.assign({}, state, {
+        loading: false,
+        pingError: null,
+        loginError: null,
+        createUserError: null,
+        logoutError: action.logoutError,
       });
     case LOG_IN_SUCCESS:
     case PING_SUCCESS:
       return Object.assign({}, state, {
         loading: false,
-        error: null,
+        pingError: null,
+        loginError: null,
+        createUserError: null,
+        logoutError: null,
         user: action.user,
-      });
-    case LOG_IN_INITIATED:
-    case CREATE_NEW_USER_INITIATED:
-      return Object.assign({}, state, {
-        loading: true,
-        error: null,
-        user: null,
-      });
-    case LOG_IN_ERROR:
-    case CREATE_NEW_USER_ERROR:
-      return Object.assign({}, state, {
-        loading: false,
-        error: action.error,
-        user: null,
       });
     case CREATE_NEW_USER_SUCCESS:
       return Object.assign({}, state, {
         loading: false,
-        error: null,
-      });
-    case LOG_OUT_INITIATED:
-      return Object.assign({}, state, {
-        loading: true,
-        error: null,
-      });
-    case LOG_OUT_ERROR:
-      return Object.assign({}, state, {
-        loading: false,
-        error: action.error,
+        pingError: null,
+        loginError: null,
+        createUserError: null,
+        logoutError: null,
+        user: null,
       });
     case LOG_OUT_SUCCESS:
       return Object.assign({}, state, {
         loading: false,
-        error: null,
+        pingError: null,
+        loginError: null,
+        createUserError: null,
+        logoutError: null,
         user: null,
       });
     default:

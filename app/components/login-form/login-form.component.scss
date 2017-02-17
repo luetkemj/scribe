@@ -7,6 +7,35 @@
   background: $swatch02;
   padding: 48px 48px 36px;
   width: 400px;
+  position: relative;
+}
+
+.spinnerWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 400px;
+  height: 100%;
+  background-color: $swatch02;
+  opacity: .95;
+}
+
+.error {
+  margin-bottom: 16px;
+  color: $swatch09;
+  @include font-map((font-size: $small, font-weight: $bold));
+
+  p {
+    margin: 0;
+  }
+
+  .message {
+    @include font-map((font-size: $small, font-weight: $light));
+  }
 }
 
 .title {
