@@ -7,7 +7,7 @@ export default function ListItem({ active, name, onClick }) {
 
   return (
     <div className={listItem}>
-      <div onClick={onClick}>{name}</div>
+      <button onClick={onClick}>{name}</button>
     </div>
   );
 }

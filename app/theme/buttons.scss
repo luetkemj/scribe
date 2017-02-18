@@ -1,4 +1,4 @@
-@import '/variables';
+@import '/swatches';
 @import '/typography';
 @import '/icons';
 
@@ -12,11 +12,6 @@
 @mixin button($style) {
   @include font((font-size: $small, font-weight: $bold));
   color: $swatch04;
-  background: transparent;
-  padding: 0;
-  border: 0;
-  outline: none;
-  cursor: pointer;
   transition: color 300ms ease;
 
   @include disabled;
