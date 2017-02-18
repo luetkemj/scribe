@@ -105,6 +105,13 @@ body {
     .list {
       display: block;
     }
+
+    .active {
+      &::after {
+        border-top: 0 solid $swatch05;
+        border-bottom: 11px solid $swatch05;
+      }
+    }
   }
 
   .campaign {
@@ -130,15 +137,18 @@ body {
     border-left: 9px solid transparent;
     border-right: 9px solid transparent;
     border-top: 11px solid $swatch05;
+    border-bottom: 0 solid $swatch05;
     position: absolute;
     left: calc(50% - 9px);
     bottom: -6px;
-    z-index: 1;
+    z-index: 2;
+    transition: border 100ms ease;
   }
 }
 
 .list {
   position: absolute;
+  z-index: 1;
   display: none;
   width: 80%;
   background: $swatch01;

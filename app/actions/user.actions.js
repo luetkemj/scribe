@@ -58,7 +58,7 @@ export function createNewUser(user) {
       if (responseStatus >= 200 && responseStatus < 300) {
         logger.log(json);
         if (json.code === 11000) {
-          return dispatch(createNewUserError('That username or email already exists.'));
+          return dispatch(createNewUserError('That email has already been used.'));
         }
         return dispatch(createNewUserSuccess(json));
       }

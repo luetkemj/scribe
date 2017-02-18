@@ -3,6 +3,7 @@
 
 .listItem {
   @include font;
+  line-height: 36px;
   padding-left: 20px;
   border: 0;
   cursor: pointer;
