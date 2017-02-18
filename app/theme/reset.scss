@@ -1,0 +1,61 @@
+@import '../../theme/swatches';
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+li {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  outline: 0;
+  color: inherit;
+  font: inherit;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  line-height: inherit;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:disabled {
+    background-color: $swatch03;
+    cursor: not-allowed;
+
+    &:hover {
+      background-color: $swatch03;
+    }
+  }
+}
+
+input {
+  outline: none;
+}

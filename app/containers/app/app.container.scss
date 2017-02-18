@@ -1,15 +1,7 @@
 @import 'normalize.css';
+@import '../../theme/reset';
 @import '../../theme/swatches';
 @import '../../theme/typography';
-
-* {
-  box-sizing: border-box;
-}
-
-html,
-body {
-  height: 100%;
-}
 
 .content {
   height: calc(100vh - 80px);
