@@ -17,7 +17,6 @@ class App extends Component {
 
   render() {
     const { children, location, authState } = this.props;
-
     let secondaryMenu;
     if (authState && authState.user) {
       secondaryMenu = (
@@ -45,14 +44,16 @@ class App extends Component {
       );
     }
 
+    const currentPage = location.pathname.slice(1).split('/')[0] ? location.pathname.slice(1).split('/')[0] : 'welcome';
+
     return (
-      <div className={`${style.app} ${style[location.pathname.slice(1)]}`}>
+      <div className={`${style.app} ${style[currentPage]}`}>
         <div className={style.header}>
           <Link to="/"><h1 className={style.logo}>D&D Scribe</h1></Link>
           <div className={style.menu}>
             <div className={style.campaign}>PARTY of 5</div>
             <div className={style.hr} />
-            <div className={style.active}>MENU</div>
+            <div className={style.active}>{currentPage}</div>
             <div className={style.list}>
               <ul className={style.primaryMenu}>
                 <li><Link to={'/campaign'}>Campaign</Link></li>
