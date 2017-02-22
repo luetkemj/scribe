@@ -158,9 +158,9 @@ function loadCampaigns(dispatch) {
 
 export function loadCampaignIfNeeded(id) {
   return (dispatch, getState) => {
-    const { campaignsState } = getState();
+    const { campaignState } = getState();
 
-    if (find(campaignsState.campaigns, { _id: id })) {
+    if (campaignState.campaign._id === id) {
       return dispatch(campaignAlreadyLoaded());
     }
 
@@ -170,13 +170,9 @@ export function loadCampaignIfNeeded(id) {
 
 export function loadCampaignsIfNeeded() {
   return (dispatch, getState) => {
-    const { campaignsState } = getState();
+    const { campaignState } = getState();
 
-    /*
-    @TODO: check if the campaigns in state belong to the current user. We should clear state and
-    start over if they do not. At time of writtinfg there is no campaignState written.
-    */
-    if (campaignsState.campaigns.length) {
+    if (campaignState.campaigns.length) {
       return dispatch(campaignsAlreadyLoaded());
     }
 
@@ -206,7 +202,7 @@ export function updateCampaign(campaign) {
   return (dispatch) => {
     dispatch(updateCampaignInitiated(campaign));
 
-    const uri = `/api/secure/campaigns/${campaign.id}`;
+    const uri = `/api/secure/campaigns/${campaign._id}`;
     const options = Object.assign({}, FETCH_DEFAULT_OPTIONS, {
       method: 'PATCH',
       body: JSON.stringify(campaign),
@@ -224,7 +220,7 @@ export function deleteCampaign(campaign) {
   return (dispatch) => {
     dispatch(deleteCampaignInitiated(campaign));
 
-    const uri = `/api/secure/campaigns/${campaign.id}`;
+    const uri = `/api/secure/campaigns/${campaign._id}`;
     const options = Object.assign({}, FETCH_DEFAULT_OPTIONS, {
       method: 'DELETE',
     });
