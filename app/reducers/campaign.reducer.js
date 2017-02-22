@@ -1,4 +1,4 @@
-import { deepClone, concat, chain, orderBy, find, without, indexOf } from 'lodash';
+import { cloneDeep, chain, find, without, indexOf } from 'lodash';
 
 import {
   CREATE_CAMPAIGN_INITIATED,
@@ -62,9 +62,9 @@ export default function campaignReducer(state = initialState, action) {
       });
 
     case CREATE_CAMPAIGN_SUCCESS: {
-      const updatedState = deepClone(state);
+      const updatedState = cloneDeep(state);
       // add the new campaign to campaigns state and order by name
-      const campaigns = chain(updatedState.campaigns).concat(action.campaign).orderBy('name');
+      const campaigns = chain(updatedState.campaigns).concat(action.campaign).orderBy('name').value();
       // update new state
       return Object.assign({}, updatedState, {
         loading: false,
@@ -74,7 +74,7 @@ export default function campaignReducer(state = initialState, action) {
     }
 
     case DELETE_CAMPAIGN_SUCCESS: {
-      const updatedState = deepClone(state);
+      const updatedState = cloneDeep(state);
       // find the campaign we deleted in state
       const campaign = find(updatedState.campaigns, ['name', action.campaign.name]);
       // if we can't find the campaign, bail!
@@ -94,9 +94,9 @@ export default function campaignReducer(state = initialState, action) {
     }
 
     case UPDATE_CAMPAIGN_SUCCESS: {
-      const updatedState = deepClone(state);
+      const updatedState = cloneDeep(state);
       // find the campaign we are updating
-      const campaign = find(updatedState.campaigns, ['name', action.campaign.name]);
+      const campaign = find(updatedState.campaigns, ['id', action.campaign.id]);
 
       // cache the index of the campaign we are modiying
       const index = indexOf(updatedState.campaigns, campaign);
