@@ -5,12 +5,10 @@ const logger = require('../../lib/logger')();
 const Campaign = mongoose.model('Campaign');
 
 export function getCampaigns(req, res) {
-  const { limit, skip } = req.query;
-
   Campaign
-  .find({})
-  .skip(Number(skip) || 0)
-  .limit(Number(limit) || 10)
+  .find({
+    userId: req.user.id,
+  })
   .sort('name')
   .lean()
   .exec((err, campaigns) => {
@@ -27,7 +25,10 @@ export function getCampaign(req, res) {
   const { id } = req.params;
 
   Campaign
-  .findById(id)
+  .find({
+    _id: id,
+    userId: req.user.id,
+  })
   .lean()
   .exec((err, campaign) => {
     if (!err) {
@@ -40,23 +41,31 @@ export function getCampaign(req, res) {
 }
 
 export function createCampaign(req, res) {
-  logger.log('createCampaign: %j', req.body);
+  const campaign = {
+    name: req.body.name,
+    userId: req.user.id,
+  };
 
-  Campaign.create(req.body, (err, campaign) => {
+  logger.log('createCampaign: %j', campaign);
+
+  Campaign.create(campaign, (err, createdCampaign) => {
     if (err) {
       logger.log(`Error: ${err}`);
       return res.send(err);
     }
 
-    logger.log('createCampaign: %o', campaign);
-    return res.send(campaign);
+    logger.log('createCampaign: %o', createdCampaign);
+    return res.send(createdCampaign);
   });
 }
 
 export function updateCampaign(req, res) {
   const { id } = req.params;
 
-  Campaign.findByIdAndUpdate(id, { $set: req.body }, (err, campaign) => {
+  Campaign.update({
+    _id: id,
+    userId: req.user.id,
+  }, { $set: req.body }, (err, campaign) => {
     if (err) {
       logger.log(`Error: ${err}`);
       return res.send(err);
@@ -70,7 +79,10 @@ export function updateCampaign(req, res) {
 export function deleteCampaign(req, res) {
   const { id } = req.params;
 
-  Campaign.findByIdAndRemove(id, {}, (err, campaign) => {
+  Campaign.remove({
+    _id: id,
+    userId: req.user.id,
+  }, (err, campaign) => {
     if (err) {
       logger.log(`Error: ${err}`);
       return res.send(err);
