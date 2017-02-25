@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import Spinner from '../../components/spinner/spinner.component';
-import { loadCampaignsIfNeeded } from '../../actions/campaign.actions';
+import { loadCampaignsIfNeeded, loadCampaignIfNeeded } from '../../actions/campaign.actions';
 import style from './campaigns.container.scss';
 
 class CampaignsContainer extends Component {
@@ -25,7 +25,11 @@ class CampaignsContainer extends Component {
     const campaignsToRender = campaigns.map(campaign =>
       <div className={style.campaign} key={campaign._id}>
         <div>
-          <button className={style.name}>{ campaign.name }</button>
+          <button
+            className={style.name}
+            onClick={() => this.props.loadCampaignIfNeeded(campaign._id)}
+          >{ campaign.name }
+          </button>
         </div>
         <div>
           <div className={style.day}>DAY 12</div>
@@ -50,6 +54,7 @@ class CampaignsContainer extends Component {
 
 CampaignsContainer.propTypes = {
   loadCampaignsIfNeeded: PropTypes.func.isRequired,
+  loadCampaignIfNeeded: PropTypes.func.isRequired,
   campaignState: PropTypes.shape({
     loading: PropTypes.bool.isRquired,
     error: PropTypes.string,
@@ -68,7 +73,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ loadCampaignsIfNeeded }, dispatch);
+  return bindActionCreators({ loadCampaignsIfNeeded, loadCampaignIfNeeded }, dispatch);
 }
 
 export default connect(

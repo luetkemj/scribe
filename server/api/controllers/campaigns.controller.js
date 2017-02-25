@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { buildCampaignData } from '../../lib/campaigns';
 
 const logger = require('../../lib/logger')();
 
@@ -14,7 +15,7 @@ export function getCampaigns(req, res) {
   .exec((err, campaigns) => {
     if (!err) {
       logger.log(`getCampaigns: campaigns.length: ${campaigns.length}`);
-      return res.send(campaigns);
+      return res.send(campaigns.map(campaign => buildCampaignData(campaign)));
     }
     logger.log('getCampaigns Error: %j', err);
     return res.send(err);
@@ -33,7 +34,7 @@ export function getCampaign(req, res) {
   .exec((err, campaign) => {
     if (!err) {
       logger.log('getCampaign: %o', campaign);
-      return res.send(campaign);
+      return res.send(buildCampaignData(campaign[0]));
     }
     logger.log('getCampaign Error: %j', err);
     return res.send(err);
