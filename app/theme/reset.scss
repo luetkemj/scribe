@@ -47,12 +47,7 @@ button {
   }
 
   &:disabled {
-    background-color: $swatch03;
     cursor: not-allowed;
-
-    &:hover {
-      background-color: $swatch03;
-    }
   }
 }
 

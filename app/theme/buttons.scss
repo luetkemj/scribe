@@ -16,6 +16,16 @@
 
   @include disabled;
 
+  @if $style == 'link' {
+    color: $swatch01;
+
+    &:hover {
+      color: $swatch05;
+    }
+
+    @include disabled;
+  }
+
   @if $style == 'undo' {
     color: $swatch09;
 
