@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import Spinner from '../../components/spinner/spinner.component';
 import { loadCampaignsIfNeeded, loadCampaignIfNeeded } from '../../actions/campaign.actions';
@@ -40,22 +41,25 @@ class CampaignsContainer extends Component {
       );
     }
 
-    const campaignsToRender = campaigns.map(campaign =>
-      <div className={style.campaign} key={campaign._id}>
-        <div>
-          <button
-            className={style.name}
-            onClick={() => this.props.loadCampaignIfNeeded(campaign._id)}
-          >{ campaign.name }
-          </button>
+    const campaignsToRender = campaigns.map((campaign) => {
+      const time = moment.utc(campaign.time).format('HH:mm:ss');
+      const days = moment.utc(0).diff(moment.utc(campaign.time), 'days') + 1;
+      return (
+        <div className={style.campaign} key={campaign._id}>
+          <div>
+            <button
+              className={style.name}
+              onClick={() => this.props.loadCampaignIfNeeded(campaign._id)}
+            >{ campaign.name }
+            </button>
+          </div>
+          <div>
+            <div className={style.day}>DAY {days}</div>
+            <div className={style.time}>{time}</div>
+          </div>
         </div>
-        <div>
-          <div className={style.day}>DAY 12</div>
-          <div className={style.time}>16:42:08</div>
-          <div className={style.location}>Helmans House</div>
-        </div>
-      </div>,
-    );
+      );
+    });
 
     return (
       <div className={style.wrapper}>
