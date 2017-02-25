@@ -21,7 +21,8 @@ class App extends Component {
     if (authState && authState.user) {
       secondaryMenu = (
         <ul className={style.secondaryMenu}>
-          <button className={style.logout} onClick={this.handleLogout}>Logout</button>
+          <li><button className={style.logout} onClick={this.handleLogout}>Logout</button></li>
+          <li><Link to={'/campaigns'}>Campaigns</Link></li>
         </ul>
       );
     }
@@ -51,7 +52,7 @@ class App extends Component {
         <div className={style.header}>
           <Link to="/"><h1 className={style.logo}>D&D Scribe</h1></Link>
           <div className={style.menu}>
-            <div className={style.campaign}>PARTY of 5</div>
+            <div className={style.campaign}>{this.props.campaignState.campaign.name}</div>
             <div className={style.hr} />
             <div className={style.active}>{currentPage}</div>
             <div className={style.list}>
@@ -81,6 +82,11 @@ App.propTypes = {
   ping: PropTypes.func.isRequired,
   logout: PropTypes.func.isRequired,
   authState: PropTypes.shape(),
+  campaignState: PropTypes.shape({
+    campaign: PropTypes.shape({
+      name: PropTypes.string,
+    }).isRequired,
+  }).isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
@@ -90,6 +96,7 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
   return {
     authState: state.authState,
+    campaignState: state.campaignState,
   };
 }
 

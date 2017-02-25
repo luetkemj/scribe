@@ -15,11 +15,29 @@ class CampaignsContainer extends Component {
     const { loading, error, campaigns } = this.props.campaignState;
 
     if (loading) {
-      return (<Spinner />);
+      return (
+        <div className={style.wrapper}>
+          <div className={style.container}>
+            <div className={style.heading}>Campaigns</div>
+            <div className={style.campaigns}>
+              <Spinner />
+            </div>
+          </div>
+        </div>
+      );
     }
 
     if (error) {
-      return (<div>{error}</div>);
+      return (
+        <div className={style.wrapper}>
+          <div className={style.container}>
+            <div className={style.heading}>Campaigns</div>
+            <div className={style.campaigns}>
+              {error}
+            </div>
+          </div>
+        </div>
+      );
     }
 
     const campaignsToRender = campaigns.map(campaign =>

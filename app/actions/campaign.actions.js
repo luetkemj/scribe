@@ -1,3 +1,5 @@
+import { push } from 'react-router-redux';
+
 import {
   FETCH_DEFAULT_OPTIONS,
   checkHttpStatus,
@@ -138,6 +140,7 @@ function loadCampaign(id, dispatch) {
     .then(checkHttpStatus)
     .then(response => response.json())
     .then(campaign => dispatch(loadCampaignSuccess(campaign)))
+    .then(dispatch(push('/campaign')))
     .catch(error => handleHttpError(dispatch, error, loadCampaignError));
 }
 
@@ -161,7 +164,8 @@ export function loadCampaignIfNeeded(id) {
     const { campaignState } = getState();
 
     if (campaignState.campaign._id === id) {
-      return dispatch(campaignAlreadyLoaded());
+      dispatch(campaignAlreadyLoaded());
+      return dispatch(push('/campaign'));
     }
 
     return loadCampaign(id, dispatch);
