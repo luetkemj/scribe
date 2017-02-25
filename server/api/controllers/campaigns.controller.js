@@ -1,6 +1,6 @@
 import async from 'async';
 import mongoose from 'mongoose';
-import { buildCampaignData } from '../../lib/campaigns';
+import { buildCampaignData, buildCampaignDetails } from '../../lib/campaigns';
 
 const logger = require('../../lib/logger')();
 
@@ -27,21 +27,15 @@ export function getCampaigns(req, res) {
 
   function getEachCampaignDetails(campaigns, callback) {
     async.map(campaigns, (campaign, mapCallback) => {
-      logger.log('getEachCampaignDetails: %j', campaign);
-      Log.find({
-        campaignId: campaign._id,
-      })
-      // .sort({ time: -1 })
+      logger.log('getEachCampaignDetails: campaign: %j', campaign);
+      Log.find({ campaignId: campaign._id })
+      .sort({ time: -1 })
       .limit(1)
       .lean()
       .exec((findError, log) => {
         if (!findError) {
           logger.log('getEachCampaignDetails: Log: %j', log);
-          return mapCallback(null, {
-            ...campaign,
-            day: log.day,
-            time: log.time,
-          });
+          return mapCallback(null, buildCampaignDetails(campaign, log));
         }
         return mapCallback(findError);
       });
