@@ -7,10 +7,19 @@ const logger = require('../../lib/logger.js')();
 
 const Log = mongoose.model('Log');
 
+function gateKeeper(req) {
+  if (!req.cookies.scribe_session || !req.cookies.scribe_session.campaign) {
+    return false;
+  }
+  return true;
+}
+
 export function getLogs(req, res) {
+  if (!gateKeeper(req)) { return res.status(403).send('Error: Forbidden'); }
+
   const { limit, skip } = req.query;
 
-  Log
+  return Log
   .find({})
   .skip(Number(skip) || 0)
   .limit(Number(limit) || 10)
@@ -28,9 +37,11 @@ export function getLogs(req, res) {
 }
 
 export function getLog(req, res) {
+  if (!gateKeeper(req)) { return res.status(403).send('Error: Forbidden'); }
+
   const { id } = req.params;
 
-  Log
+  return Log
   .findById(id)
   .lean()
   .exec((err, log) => {
@@ -46,9 +57,11 @@ export function getLog(req, res) {
 
 
 export function createLog(req, res) {
+  if (!gateKeeper(req)) { return res.status(403).send('Error: Forbidden'); }
+
   logger.log('createLog: %o', req.body);
 
-  Log.create(req.body, (err, log) => {
+  return Log.create(req.body, (err, log) => {
     if (err) {
       logger.log(`Error: ${err}`);
       return res.send(err);
@@ -60,9 +73,11 @@ export function createLog(req, res) {
 }
 
 export function updateLog(req, res) {
+  if (!gateKeeper(req)) { return res.status(403).send('Error: Forbidden'); }
+
   const { id } = req.params;
 
-  Log.findByIdAndUpdate(id, req.body, { new: true }, (err, log) => {
+  return Log.findByIdAndUpdate(id, req.body, { new: true }, (err, log) => {
     if (err) {
       logger.log(`Error: ${err}`);
       return res.send(err);
@@ -73,9 +88,11 @@ export function updateLog(req, res) {
 }
 
 export function deleteLogs(req, res) {
+  if (!gateKeeper(req)) { return res.status(403).send('Error: Forbidden'); }
+
   logger.log('deleteLogs: deleting logs:%j', req.body);
 
-  async.each(req.body, (logId, eachCallback) => {
+  return async.each(req.body, (logId, eachCallback) => {
     logger.log('deleting logs');
     Log.findByIdAndRemove(logId, {}, (err, log) => {
       logger.log(logId);

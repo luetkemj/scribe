@@ -74,7 +74,7 @@ export function getCampaign(req, res) {
     if (!err) {
       logger.log('getCampaign: %o', campaign);
       const campaignData = buildCampaignData(campaign[0]);
-      req.user.campaignId = campaignData._id; // eslint-disable-line no-param-reassign
+      res.cookie('scribe_session', { campaign: campaignData._id });
       return res.send(campaignData);
     }
     logger.log('getCampaign Error: %j', err);
