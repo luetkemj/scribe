@@ -36,5 +36,6 @@ export function login(req, res) {
 export function logout(req, res) {
   return res
     .clearCookie(config.cookies.authToken)
+    .clearCookie('scribe_session')
     .status(200).send();
 }
