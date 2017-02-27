@@ -7,20 +7,23 @@ const logger = require('../../lib/logger.js')();
 
 const Log = mongoose.model('Log');
 
-function gateKeeper(req) {
+function scribeSession(req) {
   if (!req.cookies.scribe_session || !req.cookies.scribe_session.campaign) {
     return false;
   }
-  return true;
+  return {
+    campaignId: req.cookies.scribe_session.campaign,
+  };
 }
 
 export function getLogs(req, res) {
-  if (!gateKeeper(req)) { return res.status(403).send('Error: Forbidden'); }
+  const authorized = scribeSession(req);
+  if (!authorized) { return res.status(403).send('Error: Forbidden'); }
 
   const { limit, skip } = req.query;
 
   return Log
-  .find({})
+  .find({ campaignId: authorized.campaignId })
   .skip(Number(skip) || 0)
   .limit(Number(limit) || 10)
   .sort({ time: -1 })
@@ -37,7 +40,7 @@ export function getLogs(req, res) {
 }
 
 export function getLog(req, res) {
-  if (!gateKeeper(req)) { return res.status(403).send('Error: Forbidden'); }
+  if (!scribeSession(req)) { return res.status(403).send('Error: Forbidden'); }
 
   const { id } = req.params;
 
@@ -57,7 +60,7 @@ export function getLog(req, res) {
 
 
 export function createLog(req, res) {
-  if (!gateKeeper(req)) { return res.status(403).send('Error: Forbidden'); }
+  if (!scribeSession(req)) { return res.status(403).send('Error: Forbidden'); }
 
   logger.log('createLog: %o', req.body);
 
@@ -73,7 +76,7 @@ export function createLog(req, res) {
 }
 
 export function updateLog(req, res) {
-  if (!gateKeeper(req)) { return res.status(403).send('Error: Forbidden'); }
+  if (!scribeSession(req)) { return res.status(403).send('Error: Forbidden'); }
 
   const { id } = req.params;
 
@@ -88,7 +91,7 @@ export function updateLog(req, res) {
 }
 
 export function deleteLogs(req, res) {
-  if (!gateKeeper(req)) { return res.status(403).send('Error: Forbidden'); }
+  if (!scribeSession(req)) { return res.status(403).send('Error: Forbidden'); }
 
   logger.log('deleteLogs: deleting logs:%j', req.body);
 

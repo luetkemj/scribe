@@ -21,6 +21,8 @@ import {
   CREATE_NOTE,
   UPDATE_NOTE,
   DELETE_NOTE,
+  // Shared action types
+  LOAD_CAMPAIGN_SUCCESS,
 } from '../constants/action-types';
 
 const logger = require('../../server/lib/logger')();
@@ -84,6 +86,7 @@ export default function historyReducer(state = initialState, action) {
     }
     case CREATING_LOG_ERROR:
       return Object.assign({}, state, {
+        loading: false,
         error: action.error,
       });
     case DELETING_LOGS_INITIATED:
@@ -139,6 +142,12 @@ export default function historyReducer(state = initialState, action) {
 
       return updatedState;
     }
+    case LOAD_CAMPAIGN_SUCCESS:
+      return Object.assign({}, state, {
+        loading: false,
+        error: null,
+        logs: [],
+      });
     default:
       return state;
   }
