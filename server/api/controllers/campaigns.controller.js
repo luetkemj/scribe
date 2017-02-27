@@ -7,7 +7,9 @@ const logger = require('../../lib/logger')();
 const Campaign = mongoose.model('Campaign');
 const Log = mongoose.model('Log');
 
+// get campaigns for the list of existing campaigns for logged in user on /campaigns
 export function getCampaigns(req, res) {
+  // get all campaigns belonging to req.user.id
   function getEachCampaigns(callback) {
     Campaign
     .find({
@@ -25,6 +27,9 @@ export function getCampaigns(req, res) {
     });
   }
 
+  // to get some campaign details from the campaign logs like time and day, we do a map over each
+  // campaign and get the most recent returning it's most recent log.
+  // From this we can build eachCampaignsDetails
   function getEachCampaignDetails(campaigns, callback) {
     async.map(campaigns, (campaign, mapCallback) => {
       logger.log('getEachCampaignDetails: campaign: %j', campaign);
@@ -50,6 +55,7 @@ export function getCampaigns(req, res) {
     });
   }
 
+  // waterfall the two previous and very merry function it's async for xmas!
   async.waterfall([
     getEachCampaigns,
     getEachCampaignDetails,

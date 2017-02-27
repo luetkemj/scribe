@@ -1,7 +1,7 @@
 import async from 'async';
 import * as _ from 'lodash';
 import mongoose from 'mongoose';
-import { buildLogUI } from '../../lib/logs';
+import { buildLogUI, buildNewLog } from '../../lib/logs';
 
 const logger = require('../../lib/logger.js')();
 
@@ -60,11 +60,15 @@ export function getLog(req, res) {
 
 
 export function createLog(req, res) {
-  if (!scribeSession(req)) { return res.status(403).send('Error: Forbidden'); }
+  const authorized = scribeSession(req);
+
+  if (!authorized) { return res.status(403).send('Error: Forbidden'); }
+
+  const newLog = buildNewLog(req.body, authorized.campaignId);
 
   logger.log('createLog: %o', req.body);
 
-  return Log.create(req.body, (err, log) => {
+  return Log.create(newLog, (err, log) => {
     if (err) {
       logger.log(`Error: ${err}`);
       return res.send(err);

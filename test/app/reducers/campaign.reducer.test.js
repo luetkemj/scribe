@@ -263,4 +263,30 @@ describe('the campaign reducer', () => {
       });
     });
   });
+
+  describe('when campaigns exist', () => {
+    beforeEach(() => {
+      state = reducer({
+        loading: false,
+        error: null,
+        campaigns: [
+          { name: 'a' },
+          { name: 'c' },
+        ],
+        campaign: { name: 'd' },
+      }, {});
+    });
+
+    it('should handle CREATING_LOG_SUCCESS correctly', () => {
+      should(reducer(state, {
+        type: types.CREATING_LOG_SUCCESS,
+        campaign: { name: 'c' },
+      })).deepEqual({
+        loading: false,
+        error: null,
+        campaigns: [],
+        campaign: { name: 'd' },
+      });
+    });
+  });
 });
