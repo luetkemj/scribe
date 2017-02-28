@@ -16,7 +16,7 @@ class App extends Component {
   }
 
   render() {
-    const { children, location, authState } = this.props;
+    const { children, location, authState, campaignState } = this.props;
     let secondaryMenu;
     if (authState && authState.user) {
       secondaryMenu = (
@@ -46,13 +46,18 @@ class App extends Component {
     }
 
     const currentPage = location.pathname.slice(1).split('/')[0] ? location.pathname.slice(1).split('/')[0] : 'welcome';
+    let campaignName;
+
+    if (campaignState.campaign && authState.user) {
+      campaignName = campaignState.campaign.name || authState.user.campaignName;
+    }
 
     return (
       <div className={`${style.app} ${style[currentPage]}`}>
         <div className={style.header}>
           <Link to="/"><h1 className={style.logo}>D&D Scribe</h1></Link>
           <div className={style.menu}>
-            <div className={style.campaign}>{this.props.campaignState.campaign.name}</div>
+            <div className={style.campaign}>{campaignName}</div>
             <div className={style.hr} />
             <div className={style.active}>{currentPage}</div>
             <div className={style.list}>
