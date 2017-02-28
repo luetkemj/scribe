@@ -16,12 +16,13 @@ class App extends Component {
   }
 
   render() {
-    const { children, location, authState } = this.props;
+    const { children, location, authState, campaignState } = this.props;
     let secondaryMenu;
     if (authState && authState.user) {
       secondaryMenu = (
         <ul className={style.secondaryMenu}>
-          <button className={style.logout} onClick={this.handleLogout}>Logout</button>
+          <li><button className={style.logout} onClick={this.handleLogout}>Logout</button></li>
+          <li><Link to={'/campaigns'}>Campaigns</Link></li>
         </ul>
       );
     }
@@ -45,13 +46,18 @@ class App extends Component {
     }
 
     const currentPage = location.pathname.slice(1).split('/')[0] ? location.pathname.slice(1).split('/')[0] : 'welcome';
+    let campaignName;
+
+    if (campaignState.campaign && authState.user) {
+      campaignName = campaignState.campaign.name || authState.user.campaignName;
+    }
 
     return (
       <div className={`${style.app} ${style[currentPage]}`}>
         <div className={style.header}>
           <Link to="/"><h1 className={style.logo}>D&D Scribe</h1></Link>
           <div className={style.menu}>
-            <div className={style.campaign}>PARTY of 5</div>
+            <div className={style.campaign}>{campaignName}</div>
             <div className={style.hr} />
             <div className={style.active}>{currentPage}</div>
             <div className={style.list}>
@@ -81,6 +87,11 @@ App.propTypes = {
   ping: PropTypes.func.isRequired,
   logout: PropTypes.func.isRequired,
   authState: PropTypes.shape(),
+  campaignState: PropTypes.shape({
+    campaign: PropTypes.shape({
+      name: PropTypes.string,
+    }).isRequired,
+  }).isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
@@ -90,6 +101,7 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
   return {
     authState: state.authState,
+    campaignState: state.campaignState,
   };
 }
 

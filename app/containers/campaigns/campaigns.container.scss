@@ -1,0 +1,90 @@
+@import '../../theme/swatches';
+@import '../../theme/typography';
+@import '../../theme/buttons';
+@import '../../theme/forms';
+
+.wrapper {
+  background-color: $swatch03;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: scroll;
+  padding-bottom: 40px;
+}
+
+.container {
+  width: 510px;
+  background: $swatch02;
+  padding: 48px;
+  margin-top: 40px;
+}
+
+.headingContainer {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding-bottom: 18px;
+  border-bottom: 1px solid $swatch01;
+  margin-bottom: 24px;
+}
+
+.heading {
+  @include font((font-size: $large, font-family: $serif));
+}
+
+.addCampaignButton {
+  @include button(do);
+  text-transform: uppercase;
+}
+
+.campaign {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 18px;
+  border-bottom: 1px solid $swatch04;
+  margin-bottom: 18px;
+
+  &:last-child {
+    border-bottom: 0;
+  }
+}
+
+.name {
+  @include button('link');
+  @include font((font-size: $medium-medium, font-weight: $bold));
+}
+
+@mixin meta {
+  text-align: right;
+  @include font((font-size: $small, font-weight: $bold));
+}
+
+.day {
+  @include meta;
+  font-weight: normal;
+}
+
+.time {
+  @include meta;
+}
+
+.location {
+  @include meta;
+}
+
+.form {
+  margin-bottom: 24px;
+}
+
+.input {
+  @include input;
+}
+
+.create {
+  @include button(do);
+}
+
+.cancel {
+  @include button(undo);
+}

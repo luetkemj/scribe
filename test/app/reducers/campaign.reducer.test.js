@@ -220,7 +220,7 @@ describe('the campaign reducer', () => {
         campaigns: [
           { name: 'a' },
           { name: 'c' },
-          { name: 'e' },
+          { name: 'e', time: 0 },
         ],
         campaign: { name: 'd' },
       });
@@ -260,6 +260,32 @@ describe('the campaign reducer', () => {
           { name: 'e', id: 2 },
         ],
         campaign: { name: 'd', id: 3 },
+      });
+    });
+  });
+
+  describe('when campaigns exist', () => {
+    beforeEach(() => {
+      state = reducer({
+        loading: false,
+        error: null,
+        campaigns: [
+          { name: 'a' },
+          { name: 'c' },
+        ],
+        campaign: { name: 'd' },
+      }, {});
+    });
+
+    it('should handle CREATING_LOG_SUCCESS correctly', () => {
+      should(reducer(state, {
+        type: types.CREATING_LOG_SUCCESS,
+        campaign: { name: 'c' },
+      })).deepEqual({
+        loading: false,
+        error: null,
+        campaigns: [],
+        campaign: { name: 'd' },
       });
     });
   });

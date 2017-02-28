@@ -44,3 +44,10 @@ export function buildLogUI(log) {
 
   return logUI;
 }
+
+export function buildNewLog(log, campaignId) {
+  return {
+    ...log,
+    campaignId,
+  };
+}

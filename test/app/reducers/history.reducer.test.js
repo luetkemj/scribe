@@ -33,44 +33,6 @@ describe('the history reducer', () => {
       });
     });
 
-    it('should handle LOGS_ALREADY_LOADED correctly', () => {
-      should(reducer(state, {
-        type: types.LOGS_ALREADY_LOADED,
-      })).deepEqual({
-        loading: false,
-        error: null,
-        logs: [],
-      });
-    });
-
-    it('should handle LOADING_LOGS_SUCCESS correctly', () => {
-      should(reducer(state, {
-        type: types.LOADING_LOGS_SUCCESS,
-        logs: [
-          { id: 1, notes: [] },
-          { id: 2, notes: [] },
-        ],
-      })).deepEqual({
-        loading: false,
-        error: null,
-        logs: [
-          { id: 1, notes: [] },
-          { id: 2, notes: [] },
-        ],
-      });
-    });
-
-    it('should handle LOADING_LOGS_ERROR correctly', () => {
-      should(reducer(state, {
-        type: types.LOADING_LOGS_ERROR,
-        error: 'bad things!',
-      })).deepEqual({
-        loading: false,
-        error: 'bad things!',
-        logs: [],
-      });
-    });
-
     it('should handle CREATING_LOG_INITIATED correctly', () => {
       should(reducer(state, {
         type: types.CREATING_LOG_INITIATED,
@@ -78,6 +40,99 @@ describe('the history reducer', () => {
         loading: true,
         error: null,
         logs: [],
+      });
+    });
+
+    it('should handle DELETING_LOGS_INITIATED correctly', () => {
+      should(reducer(state, {
+        type: types.DELETING_LOGS_INITIATED,
+      })).deepEqual({
+        loading: true,
+        error: null,
+        logs: [],
+      });
+    });
+
+    it('should handle LOAD_CAMPAIGN_SUCCESS correctly', () => {
+      should(reducer(state, {
+        type: types.LOAD_CAMPAIGN_SUCCESS,
+      })).deepEqual({
+        loading: false,
+        error: null,
+        logs: [],
+      });
+    });
+  });
+
+  describe('when logs exist', () => {
+    beforeEach(() => {
+      state = reducer({
+        loading: false,
+        error: null,
+        logs: [
+          { id: 1, notes: [] },
+          { id: 2, notes: [] },
+        ],
+      }, {});
+    });
+
+    it('should handle LOGS_ALREADY_LOADED correctly', () => {
+      should(reducer(state, {
+        type: types.LOGS_ALREADY_LOADED,
+      })).deepEqual({
+        loading: false,
+        error: null,
+        logs: [
+          { id: 1, notes: [] },
+          { id: 2, notes: [] },
+        ],
+      });
+    });
+
+    it('should handle LOAD_CAMPAIGN_SUCCESS correctly', () => {
+      should(reducer(state, {
+        type: types.LOAD_CAMPAIGN_SUCCESS,
+      })).deepEqual({
+        loading: false,
+        error: null,
+        logs: [],
+      });
+    });
+  });
+
+  describe('while loading', () => {
+    beforeEach(() => {
+      state = reducer({
+        loading: true,
+        error: null,
+        logs: [],
+      }, {});
+      it('should handle LOADING_LOGS_SUCCESS correctly', () => {
+        should(reducer(state, {
+          type: types.LOADING_LOGS_SUCCESS,
+          logs: [
+            { id: 1, notes: [] },
+            { id: 2, notes: [] },
+          ],
+        })).deepEqual({
+          loading: false,
+          error: null,
+          logs: [
+            { id: 1, notes: [] },
+            { id: 2, notes: [] },
+          ],
+        });
+      });
+
+      it('should handle LOADING_LOGS_ERROR correctly', () => {
+        should(reducer(state, {
+          type: types.LOADING_LOGS_ERROR,
+          error: 'bad things!',
+        })).deepEqual({
+          loading: false,
+          error: 'bad things!',
+          logs: [],
+        });
       });
     });
 
@@ -99,16 +154,6 @@ describe('the history reducer', () => {
       })).deepEqual({
         loading: false,
         error: 'bad things!',
-        logs: [],
-      });
-    });
-
-    it('should handle DELETING_LOGS_INITIATED correctly', () => {
-      should(reducer(state, {
-        type: types.DELETING_LOGS_INITIATED,
-      })).deepEqual({
-        loading: true,
-        error: null,
         logs: [],
       });
     });

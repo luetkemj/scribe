@@ -47,8 +47,9 @@ describe('campaignActions', () => {
         it('should dispatch properly', () => {
           store.dispatch(campaignActions.loadCampaignIfNeeded(1));
           const actions = store.getActions();
-          should(actions.length).equal(1);
+          should(actions.length).equal(2);
           should(actions[0].type).equal(types.CAMPAIGN_ALREADY_LOADED);
+          should(actions[1].payload.method).equal('push');
         });
       });
 
@@ -65,10 +66,11 @@ describe('campaignActions', () => {
           store.dispatch(campaignActions.loadCampaignIfNeeded(1))
           .then(() => {
             const actions = store.getActions();
-            should(actions.length).equal(2);
+            should(actions.length).equal(3);
             should(actions[0].type).equal(types.LOAD_CAMPAIGN_INITIATED);
             should(actions[1].type).equal(types.LOAD_CAMPAIGN_SUCCESS);
             should(actions[1].campaign).deepEqual({ _id: 1 });
+            should(actions[2].payload.method).equal('push');
           })
           .then(done)
           .catch(done);

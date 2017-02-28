@@ -22,6 +22,9 @@ import {
   LOAD_CAMPAIGNS_ERROR,
   LOAD_CAMPAIGNS_SUCCESS,
   CAMPAIGNS_ALREADY_LOADED,
+
+  // shared action types
+  CREATING_LOG_SUCCESS,
 } from '../constants/action-types';
 
 const logger = require('../../server/lib/logger')();
@@ -63,8 +66,10 @@ export default function campaignReducer(state = initialState, action) {
 
     case CREATE_CAMPAIGN_SUCCESS: {
       const updatedState = cloneDeep(state);
+      // add time 0 to new campaign
+      const newCampaign = Object.assign({}, action.campaign, { time: 0 });
       // add the new campaign to campaigns state and order by name
-      const campaigns = chain(updatedState.campaigns).concat(action.campaign).orderBy('name').value();
+      const campaigns = chain(updatedState.campaigns).concat(newCampaign).orderBy('name').value();
       // update new state
       return Object.assign({}, updatedState, {
         loading: false,
@@ -123,6 +128,14 @@ export default function campaignReducer(state = initialState, action) {
         loading: false,
         error: null,
         campaigns: action.campaigns,
+      });
+    }
+
+    case CREATING_LOG_SUCCESS: {
+      return Object.assign({}, state, {
+        loading: false,
+        error: null,
+        campaigns: [],
       });
     }
     default:
