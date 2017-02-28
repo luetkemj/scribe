@@ -60,7 +60,7 @@ class CampaignsContainer extends Component {
           <div className={style.container}>
             <div className={style.heading}>Campaigns</div>
             <div className={style.campaigns}>
-              {error}
+              {error.error}
             </div>
           </div>
         </div>
