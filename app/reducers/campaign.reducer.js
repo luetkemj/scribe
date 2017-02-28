@@ -66,8 +66,10 @@ export default function campaignReducer(state = initialState, action) {
 
     case CREATE_CAMPAIGN_SUCCESS: {
       const updatedState = cloneDeep(state);
+      // add time 0 to new campaign
+      const newCampaign = Object.assign({}, action.campaign, { time: 0 });
       // add the new campaign to campaigns state and order by name
-      const campaigns = chain(updatedState.campaigns).concat(action.campaign).orderBy('name').value();
+      const campaigns = chain(updatedState.campaigns).concat(newCampaign).orderBy('name').value();
       // update new state
       return Object.assign({}, updatedState, {
         loading: false,
