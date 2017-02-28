@@ -220,7 +220,7 @@ describe('the campaign reducer', () => {
         campaigns: [
           { name: 'a' },
           { name: 'c' },
-          { name: 'e' },
+          { name: 'e', time: 0 },
         ],
         campaign: { name: 'd' },
       });
