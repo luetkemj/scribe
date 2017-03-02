@@ -96,9 +96,9 @@ function getEntry() {
 
   // if TEST_APP then we build the test application, else the main one
   if (process.env.TEST_APP) {
-    entry.push(path.join(appPath, 'test-app-index.jsx'));
+    entry.push(path.join(appPath, 'test-app-index.js'));
   } else {
-    entry.push(path.join(appPath, 'index.jsx'));
+    entry.push(path.join(appPath, 'index.js'));
   }
 
   return entry;

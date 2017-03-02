@@ -41,6 +41,10 @@ MonstersContainer.propTypes = {
   children: PropTypes.shape(),
 };
 
+MonstersContainer.defaultProps = {
+  children: {},
+};
+
 function mapStateToProps(state) {
   return {
     monstersState: state.monstersState,

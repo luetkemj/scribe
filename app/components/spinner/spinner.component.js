@@ -14,3 +14,7 @@ export default function Spinner({ text }) {
 Spinner.propTypes = {
   text: PropTypes.string,
 };
+
+Spinner.defaultProps = {
+  text: null,
+};

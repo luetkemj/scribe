@@ -43,7 +43,7 @@ export default class Note extends Component {
   }
 
   render() {
-    const { heading, content } = this.props;
+    const { heading, content, id } = this.props;
     const isDisabled = !this.state.content;
 
     let noteToRender;
@@ -54,8 +54,8 @@ export default class Note extends Component {
     if (!this.props.creating && !this.props.editing) {
       contentToRender = (
         <div className={style.content}>{
-          content.split('\n').map((item, index) => (
-            <span key={index}>
+          content.split('\n').map(item => (
+            <span key={id}>
               {item}
               <br />
             </span>
@@ -134,7 +134,7 @@ export default class Note extends Component {
 }
 
 Note.propTypes = {
-  id: PropTypes.string,
+  id: PropTypes.string.isRequired,
   heading: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   creating: PropTypes.bool,
@@ -145,4 +145,10 @@ Note.propTypes = {
   cancelAddNote: PropTypes.func.isRequired,
   updateTempNotes: PropTypes.func.isRequired,
   toggleNoteDeletion: PropTypes.func.isRequired,
+};
+
+Note.defaultProps = {
+  creating: false,
+  editing: false,
+  deleting: false,
 };

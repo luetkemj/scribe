@@ -62,6 +62,6 @@ TerrainPicker.propTypes = {
   terrains: PropTypes.arrayOf(PropTypes.shape({
     terrain: PropTypes.string.isRequired,
     active: PropTypes.string,
-  })),
+  })).isRequired,
   pickTerrain: PropTypes.func.isRequired,
 };

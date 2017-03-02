@@ -13,3 +13,7 @@ export default function TestApp({ children }) {
 TestApp.propTypes = {
   children: PropTypes.shape(),
 };
+
+TestApp.defaultProps = {
+  children: {},
+};

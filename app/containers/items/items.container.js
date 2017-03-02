@@ -41,6 +41,10 @@ ItemsContainer.propTypes = {
   children: PropTypes.shape(),
 };
 
+ItemsContainer.defaultProps = {
+  children: {},
+};
+
 function mapStateToProps(state) {
   return {
     itemsState: state.itemsState,

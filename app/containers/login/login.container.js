@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import style from './login.container.scss';
 import LoginForm from '../../components/login-form/login-form.component';
 
 import { createNewUser } from '../../actions/user.actions';
@@ -13,7 +12,7 @@ function LoginContainer(props) {
   if (props.authState.createUserError) { error = props.authState.createUserError; }
 
   return (
-    <div className={style.loginContainer}>
+    <div>
       <LoginForm
         createNew={props.createNewUser}
         login={props.login}
@@ -29,9 +28,9 @@ LoginContainer.propTypes = {
   login: PropTypes.func.isRequired,
   authState: PropTypes.shape({
     loading: PropTypes.bool.required,
-    loginError: PropTypes.string,
-    createUserError: PropTypes.string,
-  }),
+    loginError: PropTypes.string.isRequired,
+    createUserError: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 function mapDispatchToProps(dispatch) {

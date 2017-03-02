@@ -144,14 +144,14 @@ CampaignsContainer.propTypes = {
   loadCampaignIfNeeded: PropTypes.func.isRequired,
   createCampaign: PropTypes.func.isRequired,
   campaignState: PropTypes.shape({
-    loading: PropTypes.bool.isRquired,
-    error: PropTypes.string,
+    loading: PropTypes.bool.isRequired,
+    error: PropTypes.string.isRequired,
     campaigns: PropTypes.arrayOf(
       PropTypes.shape({
         name: PropTypes.string.isRequired,
       }),
     ),
-  }),
+  }).isRequired,
 };
 
 function mapStateToProps(state) {

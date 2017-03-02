@@ -144,3 +144,8 @@ LoginForm.propTypes = {
   error: PropTypes.string,
   loading: PropTypes.bool,
 };
+
+LoginForm.defaultProps = {
+  error: null,
+  loading: null,
+};

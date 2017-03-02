@@ -120,9 +120,9 @@ export default class Log extends Component {
     }
 
     if (notes) {
-      notesToRender = notes.map((note, index) => (
+      notesToRender = notes.map(note => (
         <Note
-          key={index}
+          key={note._id}
           id={note._id}
           heading={note.heading}
           content={note.content}
@@ -189,4 +189,8 @@ Log.propTypes = {
       deleting: PropTypes.bool,
     }),
   ),
+};
+
+Log.defaultProps = {
+  notes: [],
 };
