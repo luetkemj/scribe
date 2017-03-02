@@ -1,7 +1,5 @@
 parser: "babel-eslint"
 extends: "airbnb"
-env:
-  browser: true
 rules:
   # this rule causes problems with initialization, nock, and others
   global-require: 0
