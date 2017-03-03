@@ -1,5 +1,4 @@
 import should from 'should';
-import config from '../../../server/config';
 
 describe('items library', () => {
   let itemsLib;
@@ -10,34 +9,6 @@ describe('items library', () => {
 
   it('should exist', () => {
     should.exist(itemsLib);
-  });
-
-  describe('getItemsUrl', () => {
-    let API;
-    beforeEach(() => {
-      API = config.api.items;
-    });
-
-    it('should work', () => {
-      const expected = `${API}?limit=undefined&skip=undefined`;
-      const actual = itemsLib.getItemsUrl();
-
-      should(expected).equal(actual);
-    });
-  });
-
-  describe('getItemUrl', () => {
-    let API;
-    beforeEach(() => {
-      API = config.api.items;
-    });
-
-    it('should work', () => {
-      const expected = `${API}/20`;
-      const actual = itemsLib.getItemUrl(20);
-
-      should(expected).equal(actual);
-    });
   });
 
   describe('buildItemUI', () => {

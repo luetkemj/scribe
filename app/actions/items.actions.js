@@ -1,8 +1,4 @@
 import {
-  getItemsUrl,
-  getItemUrl,
-} from '../../server/lib/items';
-import {
   FETCH_DEFAULT_OPTIONS,
   checkHttpStatus,
   handleHttpError,
@@ -72,7 +68,7 @@ function loadingItemError() {
 function loadItems(dispatch) {
   dispatch(loadingItemsInitiated());
 
-  const uri = getItemsUrl(400, 0);
+  const uri = '/api/items?limit=400&skip=0';
   const options = Object.assign({}, FETCH_DEFAULT_OPTIONS, {
     method: 'GET',
   });
@@ -87,7 +83,7 @@ function loadItems(dispatch) {
 function loadItem(id, dispatch) {
   dispatch(loadingItemInitiated());
 
-  const uri = getItemUrl(id);
+  const uri = `/api/items/${id}`;
   const options = Object.assign({}, FETCH_DEFAULT_OPTIONS, {
     method: 'GET',
   });

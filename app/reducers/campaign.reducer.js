@@ -27,8 +27,6 @@ import {
   CREATING_LOG_SUCCESS,
 } from '../constants/action-types';
 
-const logger = require('../../server/lib/logger')();
-
 const initialState = {
   loading: false,
   error: null,
@@ -84,7 +82,6 @@ export default function campaignReducer(state = initialState, action) {
       const campaign = find(updatedState.campaigns, ['name', action.campaign.name]);
       // if we can't find the campaign, bail!
       if (!campaign) {
-        logger.log('campaign.reducer: No campaign found!');
         return state;
       }
       // get campaigns without the one we just deleted

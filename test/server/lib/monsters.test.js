@@ -12,34 +12,6 @@ describe('monsters library', () => {
     should.exist(monstersLib);
   });
 
-  describe('getMonstersUrl', () => {
-    let API;
-    beforeEach(() => {
-      API = config.api.monsters;
-    });
-
-    it('should work', () => {
-      const expected = `${API}?limit=undefined&skip=undefined`;
-      const actual = monstersLib.getMonstersUrl();
-
-      should(expected).equal(actual);
-    });
-  });
-
-  describe('getMonsterUrl', () => {
-    let API;
-    beforeEach(() => {
-      API = config.api.monsters;
-    });
-
-    it('should work', () => {
-      const expected = `${API}/20`;
-      const actual = monstersLib.getMonsterUrl(20);
-
-      should(expected).equal(actual);
-    });
-  });
-
   describe('getAbilityScoreModifier', () => {
     it('should work', () => {
       const expected = 5;

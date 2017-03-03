@@ -16,13 +16,9 @@ const config = {
     database: process.env.MONGO_DB || 'scribe',
   },
   api: {
-    logs: '/api/secure/logs',
     monsters: '/api/monsters',
     items: '/api/items',
     charts: '/api/charts',
-    users: '/api/users',
-    login: '/api/login',
-    logout: '/api/logout',
   },
 };
 

@@ -1,13 +1,6 @@
 import { find } from 'lodash';
 
 import {
-  getLogUrl,
-  getUpdateLogUrl,
-  getCreateLogUrl,
-  getDeleteLogsUrl,
-} from '../../server/lib/logs';
-
-import {
   FETCH_DEFAULT_OPTIONS,
   checkHttpStatus,
   handleHttpError,
@@ -112,7 +105,7 @@ function deletingLogsError(error) {
 function loadLog(id, dispatch) {
   dispatch(loadingLogInitiated());
 
-  const uri = getLogUrl(id);
+  const uri = `/api/secure/logs/${id}`;
   const options = Object.assign({}, FETCH_DEFAULT_OPTIONS, {
     method: 'GET',
   });
@@ -140,7 +133,7 @@ export function updateLog(log) {
   return (dispatch) => {
     dispatch(updatingLogInitiated(log));
 
-    const uri = getUpdateLogUrl(log._id);
+    const uri = `/api/secure/logs/${log._id}`;
     const options = Object.assign({}, FETCH_DEFAULT_OPTIONS, {
       method: 'PATCH',
       body: JSON.stringify(log),
@@ -158,7 +151,7 @@ export function createLog(log) {
   return (dispatch) => {
     dispatch(creatingLogInitiated());
 
-    const uri = getCreateLogUrl();
+    const uri = '/api/secure/logs';
     const options = Object.assign({}, FETCH_DEFAULT_OPTIONS, {
       method: 'POST',
       body: JSON.stringify(log),
@@ -175,7 +168,7 @@ export function createLog(log) {
 export function deleteLogs(logIds) {
   return (dispatch) => {
     dispatch(deletingLogsInitiated());
-    const uri = getDeleteLogsUrl();
+    const uri = '/api/secure/logs';
     const options = Object.assign({}, FETCH_DEFAULT_OPTIONS, {
       method: 'PATCH',
       body: JSON.stringify(logIds),

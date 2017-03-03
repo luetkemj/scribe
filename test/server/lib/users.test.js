@@ -11,18 +11,6 @@ describe('users library', () => {
     should.exist(usersLib);
   });
 
-  describe('getCreateNewUserUrl', () => {
-    it('should work', () => {
-      should(usersLib.getCreateNewUserUrl()).equal('/api/users');
-    });
-  });
-
-  describe('getUserUrl', () => {
-    it('should work', () => {
-      should(usersLib.getUserUrl(1)).equal('/api/users/1');
-    });
-  });
-
   describe('getUserGravatar', () => {
     it('should work', () => {
       const expected = 'https://www.gravatar.com/avatar/5fe8b710f689994a19f829116be2639b?d=http://i.imgur.com/zMtOZS4.png';
