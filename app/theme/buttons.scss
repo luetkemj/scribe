@@ -1,6 +1,6 @@
-@import '/swatches';
-@import '/typography';
-@import '/icons';
+@import './swatches';
+@import './typography';
+@import './icons';
 
 @mixin disabled {
   &:disabled {
