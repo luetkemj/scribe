@@ -38,7 +38,7 @@ MonstersContainer.propTypes = {
     loadingMonsters: PropTypes.bool,
   }).isRequired,
   loadMonstersIfNeeded: PropTypes.func.isRequired,
-  children: PropTypes.shape(),
+  children: PropTypes.node,
 };
 
 MonstersContainer.defaultProps = {

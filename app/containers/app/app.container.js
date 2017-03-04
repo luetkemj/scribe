@@ -82,7 +82,7 @@ class App extends Component {
 }
 
 App.propTypes = {
-  children: PropTypes.shape(),
+  children: PropTypes.node,
   location: PropTypes.shape().isRequired,
   ping: PropTypes.func.isRequired,
   logout: PropTypes.func.isRequired,
