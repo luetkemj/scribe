@@ -49,7 +49,7 @@ function getPlugins() {
 function getLoaders() {
   const loaders = [
     {
-      test: /\.jsx?$/,
+      test: /\.js$/,
       exclude: /node_modules/,
       use: {
         loader: 'babel-loader',
@@ -59,7 +59,7 @@ function getLoaders() {
           // This disables babel's transformation of ES2015 module syntax.
           // Doing so allows us to use Webpack 2's import system instead.
           // https://webpack.js.org/guides/migrating/
-          presets: [['es2015', { modules: false }], 'stage-2', 'react'],
+          presets: [['env', { modules: false }], 'stage-2', 'react'],
           plugins: ['transform-strict-mode', 'react-hot-loader/babel'],
         },
       },
