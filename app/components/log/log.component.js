@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import uuid from 'uuid/v1';
 import style from './log.component.scss';
 import Note from '../note/note.component';
 
@@ -120,21 +121,25 @@ export default class Log extends Component {
     }
 
     if (notes) {
-      notesToRender = notes.map(note => (
-        <Note
-          key={note._id}
-          id={note._id}
-          heading={note.heading}
-          content={note.content}
-          creating={note.creating}
-          deleting={note.deleting}
-          editing={this.state.editing}
-          submitAddNote={this.submitAddNote}
-          cancelAddNote={this.cancelAddNote}
-          updateTempNotes={this.updateTempNotes}
-          toggleNoteDeletion={this.props.toggleNoteDeletion}
-        />
-      ));
+      notesToRender = notes.map((note) => {
+        const { _id, heading, content, creating, deleting } = note;
+        const id = _id || uuid();
+        return (
+          <Note
+            key={id}
+            id={id}
+            heading={heading}
+            content={content}
+            creating={creating}
+            deleting={deleting}
+            editing={this.state.editing}
+            submitAddNote={this.submitAddNote}
+            cancelAddNote={this.cancelAddNote}
+            updateTempNotes={this.updateTempNotes}
+            toggleNoteDeletion={this.props.toggleNoteDeletion}
+          />
+        );
+      });
     }
 
     return (
