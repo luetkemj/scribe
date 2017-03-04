@@ -28,8 +28,8 @@ LoginContainer.propTypes = {
   login: PropTypes.func.isRequired,
   authState: PropTypes.shape({
     loading: PropTypes.bool.required,
-    loginError: PropTypes.string.isRequired,
-    createUserError: PropTypes.string.isRequired,
+    loginError: PropTypes.string,
+    createUserError: PropTypes.string,
   }).isRequired,
 };
 

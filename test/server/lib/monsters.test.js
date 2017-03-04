@@ -1,5 +1,4 @@
 import should from 'should';
-import config from '../../../server/config';
 
 describe('monsters library', () => {
   let monstersLib;

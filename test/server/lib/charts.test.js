@@ -23,24 +23,6 @@ describe('The charts lib', () => {
     should.exist(chartsLib);
   });
 
-  describe('getChartsUrl', () => {
-    it('should work', () => {
-      const expected = '/api/charts';
-      const actual = chartsLib.getChartsUrl();
-
-      should(expected).equal(actual);
-    });
-  });
-
-  describe('getChartUrl', () => {
-    it('should work', () => {
-      const expected = '/api/charts/1234';
-      const actual = chartsLib.getChartUrl('1234');
-
-      should(expected).equal(actual);
-    });
-  });
-
   describe('buildChartUI', () => {
     it('should work', () => {
       const expected = {

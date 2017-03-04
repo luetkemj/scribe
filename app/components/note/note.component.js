@@ -1,5 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import Textarea from 'react-textarea-autosize';
+import uuid from 'uuid/v1';
 
 import style from './note.component.scss';
 
@@ -134,7 +135,7 @@ export default class Note extends Component {
 }
 
 Note.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string,
   heading: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   creating: PropTypes.bool,
@@ -148,6 +149,7 @@ Note.propTypes = {
 };
 
 Note.defaultProps = {
+  id: uuid(),
   creating: false,
   editing: false,
   deleting: false,
