@@ -21,8 +21,6 @@ import {
   DELETE_NOTE,
 } from '../constants/action-types';
 
-const logger = require('../../server/lib/logger')();
-
 const initialState = {
   loading: false,
   error: null,
@@ -123,7 +121,6 @@ export default function logReducer(state = initialState, action) {
 
       // if we can't find a note - bail.
       if (!note) {
-        logger.log('log.reducer: No note found!');
         return state;
       }
 

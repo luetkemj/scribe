@@ -1,21 +1,3 @@
-import config from '../config';
-
-const logger = require('./logger')();
-
-export function getMonstersUrl(limit, skip) {
-  const url = `${config.api.monsters}?limit=${limit}&skip=${skip}`;
-
-  logger.log(`getMonstersUrl: url: ${url}`);
-  return url;
-}
-
-export function getMonsterUrl(id) {
-  const url = `${config.api.monsters}/${id}`;
-
-  logger.log(`getMonstersUrl: url: ${url}`);
-  return url;
-}
-
 export function getAbilityScoreModifier(abilityScore) {
   const mod = Math.floor((abilityScore - 10) / 2);
   return mod;

@@ -1,8 +1,4 @@
 import {
-  getCreateNewUserUrl,
-} from '../../server/lib/users';
-
-import {
   FETCH_DEFAULT_OPTIONS,
 } from '../utils/http.utils';
 
@@ -11,8 +7,6 @@ import {
   CREATE_NEW_USER_ERROR,
   CREATE_NEW_USER_SUCCESS,
 } from '../constants/action-types';
-
-const logger = require('../../server/lib/logger')();
 
 function createNewUserInitiated() {
   return { type: CREATE_NEW_USER_INITIATED };
@@ -39,7 +33,7 @@ export function createNewUser(user) {
     dispatch(createNewUserInitiated());
 
     let responseStatus;
-    const uri = getCreateNewUserUrl();
+    const uri = '/api/users';
     const options = Object.assign({}, FETCH_DEFAULT_OPTIONS, {
       method: 'POST',
       body: JSON.stringify({
@@ -56,7 +50,6 @@ export function createNewUser(user) {
     })
     .then((json) => {
       if (responseStatus >= 200 && responseStatus < 300) {
-        logger.log(json);
         if (json.code === 11000) {
           return dispatch(createNewUserError('That email has already been used.'));
         }

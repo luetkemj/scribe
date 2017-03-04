@@ -15,15 +15,6 @@ const config = {
     port: process.env.MONGO_PORT || 27017,
     database: process.env.MONGO_DB || 'scribe',
   },
-  api: {
-    logs: '/api/secure/logs',
-    monsters: '/api/monsters',
-    items: '/api/items',
-    charts: '/api/charts',
-    users: '/api/users',
-    login: '/api/login',
-    logout: '/api/logout',
-  },
 };
 
 export default config;

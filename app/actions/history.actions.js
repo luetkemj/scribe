@@ -1,8 +1,4 @@
 import {
-  getLogsUrl,
-} from '../../server/lib/logs';
-
-import {
   FETCH_DEFAULT_OPTIONS,
   checkHttpStatus,
   handleHttpError,
@@ -40,7 +36,7 @@ function loadingLogsError(error) {
 function loadLogs(dispatch) {
   dispatch(loadingLogsInitiated());
 
-  const uri = getLogsUrl(400, 0);
+  const uri = '/api/secure/logs?limit=400&skip=0';
   const options = Object.assign({}, FETCH_DEFAULT_OPTIONS, {
     method: 'GET',
   });

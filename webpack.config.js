@@ -25,9 +25,6 @@ function getPlugins() {
       filename: 'index.html',
     }),
 
-    // http://webpack.github.io/docs/list-of-plugins.html#occurenceorderplugin
-    new webpack.optimize.OccurenceOrderPlugin(),
-
     // http://webpack.github.io/docs/list-of-plugins.html#noerrorsplugin
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
@@ -36,9 +33,6 @@ function getPlugins() {
 
   // add plugins that should be used only in certain environments
   if (IS_PRODUCTION) {
-    // http://webpack.github.io/docs/list-of-plugins.html#dedupeplugin
-    plugins.push(new webpack.optimize.DedupePlugin());
-
     // http://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin
     plugins.push(new webpack.optimize.UglifyJsPlugin({
       minimize: true,
@@ -57,28 +51,51 @@ function getLoaders() {
     {
       test: /\.jsx?$/,
       exclude: /node_modules/,
-      loader: 'babel',
-      query: {
-        presets: ['es2015', 'stage-0', 'react'],
+      use: {
+        loader: 'babel-loader',
+        options: {
+          // Don't use .babelrc. Use the specified config below with webpack
+          babelrc: false,
+          // This disables babel's transformation of ES2015 module syntax.
+          // Doing so allows us to use Webpack 2's import system instead.
+          // https://webpack.js.org/guides/migrating/
+          presets: [['es2015', { modules: false }], 'stage-2', 'react'],
+          plugins: ['transform-strict-mode', 'react-hot-loader/babel'],
+        },
       },
     }, {
       test: /\.svg/,
-      loader: 'svg-url-loader',
+      use: [{
+        loader: 'svg-url-loader',
+      }],
     }, {
       test: /(\.scss)$/,
       exclude: /node_modules/,
-      loader: 'style' +
-              '!' +
-              'css?modules' +
-                '&sourceMap' +
-                '&localIdentName=[local]___[hash:base64:5]' +
-              '!' +
-              'sass?outputStyle=expanded' +
-                '&sourceMap',
+      use: [
+        {
+          loader: 'style-loader',
+        }, {
+          loader: 'css-loader',
+          options: {
+            sourceMap: true,
+            modules: true,
+            importLoaders: 1,
+            localIdentName: '[local]___[hash:base64:5]',
+            minimize: true,
+          },
+        }, {
+          loader: 'sass-loader',
+          options: {
+            sourceMap: true,
+          },
+        },
+      ],
     }, {
       test: /\.js$/,
       exclude: /node_modules/,
-      loader: 'eslint-loader',
+      use: [{
+        loader: 'eslint-loader',
+      }],
     },
   ];
 
@@ -96,9 +113,9 @@ function getEntry() {
 
   // if TEST_APP then we build the test application, else the main one
   if (process.env.TEST_APP) {
-    entry.push(path.join(appPath, 'test-app-index.jsx'));
+    entry.push(path.join(appPath, 'test-app-index.js'));
   } else {
-    entry.push(path.join(appPath, 'index.jsx'));
+    entry.push(path.join(appPath, 'index.js'));
   }
 
   return entry;
@@ -129,36 +146,24 @@ module.exports = {
   // necessary per https://webpack.github.io/docs/testing.html#compile-and-test
   target: NODE_ENV === 'test' ? 'node' : 'web',
 
-  // enable debug and cache in non-production environments
-  debug: !IS_PRODUCTION,
+  // enable cache in non-production environments
   cache: !IS_PRODUCTION,
 
   // anything but 'source-map breaks Chrome dev tools so we use source-map'
   // more info: https://webpack.github.io/docs/build-performance.html#sourcemaps
   devtool: 'source-map',
 
-  // set to false to see a list of every file being bundled.
-  noInfo: true,
-
-  eslint: {
-    configFile: './.eslintrc',
-  },
-
   resolve: {
-    // defines where the code resides
-    root: appPath,
-
-    // lists file types that can have optional extensions
-    extensions: ['', '.js', '.jsx'],
-
-    // sets a base dir for imports
-    modulesDirectories: ['node_modules', 'app'],
+    modules: [
+      appPath,
+      'node_modules',
+    ],
   },
 
   plugins: getPlugins(),
 
   module: {
-    loaders: getLoaders(),
+    rules: getLoaders(),
   },
 
   entry: getEntry(),

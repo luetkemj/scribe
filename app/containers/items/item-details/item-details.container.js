@@ -106,7 +106,7 @@ ItemDetailsContainer.propTypes = {
   loadItemIfNeeded: PropTypes.func.isRequired,
   params: PropTypes.shape({
     id: PropTypes.string.isRequired,
-  }),
+  }).isRequired,
 };
 
 function mapStateToProps(state) {

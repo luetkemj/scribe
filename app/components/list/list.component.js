@@ -24,7 +24,7 @@ export default function List({ data, ListItemContainer, loading }) {
 }
 
 List.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape({})),
+  data: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   ListItemContainer: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
 };

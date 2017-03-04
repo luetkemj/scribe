@@ -1,4 +1,3 @@
-import { getMonstersUrl, getMonsterUrl } from '../../server/lib/monsters';
 import {
   FETCH_DEFAULT_OPTIONS,
   checkHttpStatus,
@@ -70,7 +69,7 @@ function loadingMonsterError() {
 function loadMonsters(dispatch) {
   dispatch(loadingMonstersInitiated());
 
-  const uri = getMonstersUrl(400, 0);
+  const uri = '/api/monsters?limit=400&skip=0';
   const options = Object.assign({}, FETCH_DEFAULT_OPTIONS, {
     method: 'GET',
   });
@@ -85,7 +84,7 @@ function loadMonsters(dispatch) {
 function loadMonster(id, dispatch) {
   dispatch(loadingMonsterInitiated());
 
-  const uri = getMonsterUrl(id);
+  const uri = `/api/monsters/${id}`;
   const options = Object.assign({}, FETCH_DEFAULT_OPTIONS, {
     method: 'GET',
   });

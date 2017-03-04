@@ -83,15 +83,19 @@ class App extends Component {
 
 App.propTypes = {
   children: PropTypes.shape(),
-  location: PropTypes.shape(),
+  location: PropTypes.shape().isRequired,
   ping: PropTypes.func.isRequired,
   logout: PropTypes.func.isRequired,
-  authState: PropTypes.shape(),
+  authState: PropTypes.shape().isRequired,
   campaignState: PropTypes.shape({
     campaign: PropTypes.shape({
       name: PropTypes.string,
     }).isRequired,
   }).isRequired,
+};
+
+App.defaultProps = {
+  children: {},
 };
 
 function mapDispatchToProps(dispatch) {

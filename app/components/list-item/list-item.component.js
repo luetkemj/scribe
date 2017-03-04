@@ -17,3 +17,7 @@ ListItem.propTypes = {
   active: PropTypes.bool.isRequired,
   onClick: PropTypes.func,
 };
+
+ListItem.defaultProps = {
+  onClick: null,
+};

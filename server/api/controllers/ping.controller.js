@@ -12,7 +12,7 @@ const logger = require('../../lib/logger')();
 export function ping(req, res) {
   function getUser(callback) {
     if (req.user) {
-      const URL = `${config.rootUrl}${config.api.users}/${req.user.id}`;
+      const URL = `${config.rootUrl}/api/users/${req.user.id}`;
       logger.log('url: %s', URL);
 
       return request(URL, (error, response, body) => {

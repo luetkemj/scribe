@@ -1,11 +1,6 @@
 import { push } from 'react-router-redux';
 
 import {
-  getLoginUrl,
-  getLogoutUrl,
-} from '../../server/lib/login';
-
-import {
   FETCH_DEFAULT_OPTIONS,
   checkHttpStatus,
   handleHttpError,
@@ -60,7 +55,7 @@ export function login(user) {
     dispatch(loginInitiated());
 
     let responseStatus;
-    const uri = getLoginUrl();
+    const uri = '/api/login';
     const options = Object.assign({}, FETCH_DEFAULT_OPTIONS, {
       method: 'POST',
       body: JSON.stringify({
@@ -92,7 +87,7 @@ export function logout() {
   return (dispatch) => {
     dispatch(logoutInitiated());
 
-    const uri = getLogoutUrl();
+    const uri = '/api/logout';
 
     const options = Object.assign({}, FETCH_DEFAULT_OPTIONS, {
       method: 'POST',

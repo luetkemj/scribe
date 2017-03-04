@@ -37,7 +37,6 @@ describe('pingActions', () => {
         store.dispatch(pingActions.ping())
         .then(() => {
           const actions = store.getActions();
-          console.log(actions);
           should(actions.length).equal(1);
           should(actions[0].type).equal(types.PING_SUCCESS);
         })

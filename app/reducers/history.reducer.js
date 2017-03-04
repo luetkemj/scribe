@@ -25,8 +25,6 @@ import {
   LOAD_CAMPAIGN_SUCCESS,
 } from '../constants/action-types';
 
-const logger = require('../../server/lib/logger')();
-
 const initialState = {
   loading: false,
   error: null,
@@ -127,7 +125,6 @@ export default function historyReducer(state = initialState, action) {
 
       // if we can't find a log, bail!
       if (!log) {
-        logger.log('history.reducer: No log found!');
         return state;
       }
 

@@ -162,7 +162,7 @@ class LogContainer extends Component {
 }
 
 LogContainer.propTypes = {
-  log: PropTypes.shape(),
+  log: PropTypes.shape().isRequired,
   updateLog: PropTypes.func.isRequired,
   deleteLogs: PropTypes.func.isRequired,
 };
