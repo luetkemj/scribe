@@ -95,8 +95,10 @@ export function logout() {
 
     return fetch(uri, options)
       .then(checkHttpStatus)
-      .then(() => dispatch(logoutSuccess()))
-      .then(() => dispatch(push('/login')))
+      .then(() => {
+        dispatch(logoutSuccess());
+        dispatch(push('/login'));
+      })
       .catch(error => handleHttpError(dispatch, error, logoutError));
   };
 }
