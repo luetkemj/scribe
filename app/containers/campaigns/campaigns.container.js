@@ -145,7 +145,7 @@ CampaignsContainer.propTypes = {
   createCampaign: PropTypes.func.isRequired,
   campaignState: PropTypes.shape({
     loading: PropTypes.bool.isRequired,
-    error: PropTypes.string.isRequired,
+    error: PropTypes.string,
     campaigns: PropTypes.arrayOf(
       PropTypes.shape({
         name: PropTypes.string.isRequired,
