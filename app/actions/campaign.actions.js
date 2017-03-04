@@ -139,8 +139,10 @@ function loadCampaign(id, dispatch) {
   return fetch(uri, options)
     .then(checkHttpStatus)
     .then(response => response.json())
-    .then(campaign => dispatch(loadCampaignSuccess(campaign)))
-    .then(() => dispatch(push('/campaign')))
+    .then((campaign) => {
+      dispatch(loadCampaignSuccess(campaign));
+      dispatch(push('/campaign'));
+    })
     .catch(error => handleHttpError(dispatch, error, loadCampaignError));
 }
 

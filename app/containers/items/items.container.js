@@ -38,7 +38,7 @@ ItemsContainer.propTypes = {
     loadingItems: PropTypes.bool.isRequired,
   }).isRequired,
   loadItemsIfNeeded: PropTypes.func.isRequired,
-  children: PropTypes.shape(),
+  children: PropTypes.node,
 };
 
 ItemsContainer.defaultProps = {
