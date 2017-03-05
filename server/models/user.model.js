@@ -6,6 +6,6 @@ const UserSchema = new Schema({
   username: { type: String, required: true },
   password: { type: String, required: true },
   email: { type: String, unique: true, required: true },
-});
+}, { collection: 'users' });
 
 mongoose.model('User', UserSchema, 'users');
