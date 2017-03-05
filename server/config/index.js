@@ -6,6 +6,9 @@ const config = {
     authTokenIssuedAt: () => Math.floor(Date.now() / 1000) - 30,
     authTokenExpiresIn: '3d',
   },
+  bcyrpt: {
+    saltRounds: 15,
+  },
   cookies: {
     authToken: 'scribe_token',
   },
