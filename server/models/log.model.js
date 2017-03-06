@@ -24,7 +24,10 @@ const LogSchema = new Schema({
       type: String,
     },
   }],
-  campaignId: String,
+  campaignId: {
+    type: String,
+    required: true,
+  },
 }, { collection: 'logs' });
 
 mongoose.model('Log', LogSchema, 'logs');

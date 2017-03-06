@@ -15,6 +15,6 @@ const ChartSchema = new Schema({
     }],
   },
   chart: [],
-});
+}, { collection: 'events' });
 
 mongoose.model('Chart', ChartSchema, 'charts');

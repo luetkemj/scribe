@@ -13,6 +13,6 @@ const WeatherSchema = new Schema({
     stormStartEstimate: String,
   },
   hourlyWeather: Array,
-});
+}, { collection: 'weathers' });
 
 mongoose.model('Weather', WeatherSchema, 'weathers');
