@@ -13,6 +13,6 @@ const ItemSchema = new Schema({
     value: Number,
   },
   description: String,
-});
+}, { collection: 'items' });
 
 mongoose.model('Item', ItemSchema, 'items');
