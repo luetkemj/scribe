@@ -1,6 +1,7 @@
 import path from 'path';
 import express from 'express';
 import bodyParser from 'body-parser';
+import compression from 'compression';
 import glob from 'glob';
 import history from 'connect-history-api-fallback';
 import jwt from 'express-jwt';
@@ -13,6 +14,9 @@ const APP_ROOT = path.join(__dirname, '../');
 
 // Create the express application
 const app = express();
+
+// gzip all the things
+app.use(compression());
 
 // use express' body parser to access body elements later
 app.use(bodyParser.json());
