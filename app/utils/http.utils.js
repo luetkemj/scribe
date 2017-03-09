@@ -46,7 +46,7 @@ export function handleHttpError(dispatch, error, errorAction, errorText) {
   if (isUnauthorized(error)) {
     sendToLogin(dispatch);
   } if (isForbidden(error)) {
-    dispatch(sendToCampaigns(dispatch));
+    sendToCampaigns(dispatch);
   } else {
     dispatch(errorAction(errorText || error));
   }
