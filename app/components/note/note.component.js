@@ -77,6 +77,7 @@ export default class Note extends Component {
               placeholder=""
               value={this.state.content}
               onChange={this.handleChange}
+              autoFocus
             />
             <button
               className={style.submit}
@@ -101,6 +102,7 @@ export default class Note extends Component {
             name="content"
             value={this.props.content}
             onChange={this.handleChange}
+            autoFocus
           />
           <button
             className={style.delete}
