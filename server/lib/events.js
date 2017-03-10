@@ -1,9 +1,9 @@
-export function buildEvent(body) {
-  const { eventType, event, time, campaignId } = body;
+export function buildEvent(event, campaignId) {
+  const { eventType, event: newEvent, time } = event;
 
   return {
     eventType,
-    event,
+    event: newEvent,
     time,
     campaignId,
   };

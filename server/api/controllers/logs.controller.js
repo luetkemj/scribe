@@ -2,22 +2,14 @@ import async from 'async';
 import * as _ from 'lodash';
 import mongoose from 'mongoose';
 import { buildLogUI, buildNewLog } from '../../lib/logs';
+import { getCampaignId } from '../../lib/cookies';
 
 const logger = require('../../lib/logger.js')();
 
 const Log = mongoose.model('Log');
 
-function scribeSession(req) {
-  if (!req.cookies.scribe_session || !req.cookies.scribe_session.campaign) {
-    return false;
-  }
-  return {
-    campaignId: req.cookies.scribe_session.campaign,
-  };
-}
-
 export function getLogs(req, res) {
-  const authorized = scribeSession(req);
+  const authorized = getCampaignId(req);
   if (!authorized) { return res.status(403).send('Error: Forbidden'); }
 
   const { limit, skip } = req.query;
@@ -40,7 +32,7 @@ export function getLogs(req, res) {
 }
 
 export function getLog(req, res) {
-  if (!scribeSession(req)) { return res.status(403).send('Error: Forbidden'); }
+  if (!getCampaignId(req)) { return res.status(403).send('Error: Forbidden'); }
 
   const { id } = req.params;
 
@@ -60,7 +52,7 @@ export function getLog(req, res) {
 
 
 export function createLog(req, res) {
-  const authorized = scribeSession(req);
+  const authorized = getCampaignId(req);
 
   if (!authorized) { return res.status(403).send('Error: Forbidden'); }
 
@@ -80,7 +72,7 @@ export function createLog(req, res) {
 }
 
 export function updateLog(req, res) {
-  if (!scribeSession(req)) { return res.status(403).send('Error: Forbidden'); }
+  if (!getCampaignId(req)) { return res.status(403).send('Error: Forbidden'); }
 
   const { id } = req.params;
 
@@ -95,7 +87,7 @@ export function updateLog(req, res) {
 }
 
 export function deleteLogs(req, res) {
-  if (!scribeSession(req)) { return res.status(403).send('Error: Forbidden'); }
+  if (!getCampaignId(req)) { return res.status(403).send('Error: Forbidden'); }
 
   logger.log('deleteLogs: deleting logs:%j', req.body);
 

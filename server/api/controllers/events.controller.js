@@ -1,5 +1,7 @@
+import async from 'async';
 import mongoose from 'mongoose';
 import { buildEvent } from '../../lib/events';
+import { getCampaignId } from '../../lib/cookies';
 
 const logger = require('../../lib/logger')();
 
@@ -43,19 +45,32 @@ export function getEvent(req, res) {
   });
 }
 
-export function createEvent(req, res) {
-  logger.log('createEvent: %j', req.body);
+export function createEvents(req, res) {
+  logger.log('createEvents: %j', req.body);
 
-  Event.create(req.body, (err, event) => {
-    if (err) {
-      logger.log(`Error: ${err}`);
-      return res.send(err);
+  const authorized = getCampaignId(req);
+
+  if (!authorized) { return res.status(403).send('Error: Forbidden'); }
+
+  return async.each(req.body, (event, callback) => {
+    logger.log(event);
+    const eventToCreate = buildEvent(event, authorized.campaignId);
+
+    Event.create(eventToCreate, (eachErr, newEvent) => {
+      if (eachErr) {
+        logger.log(`Error: ${eachErr}`);
+        callback(eachErr);
+      }
+      logger.log('createEvents: event created: %o', newEvent);
+      callback();
+    });
+  }, (error) => {
+    if (error) {
+      logger.log(`Error: ${error}`);
+      return res.send(error);
     }
-
-    const newEvent = buildEvent(event);
-
-    logger.log('createEvent: %o', newEvent);
-    return res.send(newEvent);
+    logger.log('createEvents: Success! %s', req.body.length);
+    return res.status(200).send(`${req.body.length} events created.`);
   });
 }
 
