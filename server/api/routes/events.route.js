@@ -4,6 +4,7 @@ import {
   getEvents,
   createEvents,
   updateEvent,
+  createWeatherEvents,
 } from '../controllers/events.controller';
 
 module.exports = (router) => {
@@ -12,4 +13,5 @@ module.exports = (router) => {
   router.route('/api/secure/events').post(createEvents);
   router.route('/api/secure/events/:id').patch(updateEvent);
   router.route('/api/secure/events/:id').delete(deleteEvent);
+  router.route('/api/secure/events/weather').post(createWeatherEvents);
 };
