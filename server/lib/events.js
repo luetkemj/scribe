@@ -1,4 +1,5 @@
 import async from 'async';
+import _ from 'lodash';
 
 const logger = require('../lib/logger')();
 
@@ -21,6 +22,8 @@ export function buildEvent(event, campaignId) {
  * @param  {Function} callback   [(null error) => {}]
  */
 export function asyncCreateEvents(model, events, campaignId, callback) {
+  const createdEvents = [];
+
   async.each(events, (event, asyncCallback) => {
     const eventToCreate = buildEvent(event, campaignId);
 
@@ -30,6 +33,7 @@ export function asyncCreateEvents(model, events, campaignId, callback) {
         return asyncCallback(eachErr);
       }
       logger.log(`createEvents: event created: ${newEvent.eventType} ${newEvent.time}`);
+      createdEvents.push(newEvent);
       return asyncCallback();
     });
   }, (error) => {
@@ -38,6 +42,6 @@ export function asyncCreateEvents(model, events, campaignId, callback) {
       return callback(error);
     }
     logger.log('createEvents: Success! %s', events.length);
-    return callback(null, `${events.length} events created.`);
+    return callback(null, _.orderBy(createdEvents, 'time'));
   });
 }

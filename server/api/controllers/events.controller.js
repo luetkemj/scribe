@@ -9,13 +9,15 @@ const logger = require('../../lib/logger')();
 const Event = mongoose.model('Event');
 
 export function getEvents(req, res) {
-  logger.log(req.query);
-  const { time, campaignId } = req.query;
+  const authorized = getCampaignId(req);
+  if (!authorized) { return res.status(403).send('Error: Forbidden'); }
 
-  Event
+  const { time } = req.query;
+
+  return Event
   .find({
     time: { $gte: time },
-    campaignId,
+    campaignId: authorized.campaignId,
   })
   .sort('-time')
   .lean()
@@ -30,11 +32,13 @@ export function getEvents(req, res) {
 }
 
 export function getEvent(req, res) {
-  const { id } = req.params;
-  const { campaignId } = req.query;
+  const authorized = getCampaignId(req);
+  if (!authorized) { return res.status(403).send('Error: Forbidden'); }
 
-  Event
-  .find({ _id: id, campaignId })
+  const { id } = req.params;
+
+  return Event
+  .find({ _id: id, campaignId: authorized.campaignId })
   .lean()
   .exec((err, event) => {
     if (!err) {
@@ -48,7 +52,6 @@ export function getEvent(req, res) {
 
 export function createEvents(req, res) {
   const authorized = getCampaignId(req);
-
   if (!authorized) { return res.status(403).send('Error: Forbidden'); }
 
   return asyncCreateEvents(req.body, authorized.campaignId, (error, events) => {
@@ -61,13 +64,16 @@ export function createEvents(req, res) {
 }
 
 export function updateEvent(req, res) {
-  const { id } = req.params;
-  const { campaignId } = req.query;
+  const authorized = getCampaignId(req);
+  if (!authorized) { return res.status(403).send('Error: Forbidden'); }
 
-  Event.findOneAndUpdate(
-    { _id: id, campaignId },
+  const { id } = req.params;
+
+  return Event.findOneAndUpdate(
+    { _id: id, campaignId: authorized.campaignId },
     { $set: req.body },
-    { new: true }, (err, event) => {
+    { new: true },
+    (err, event) => {
       if (err) {
         logger.log(`Error: ${err}`);
         return res.send(err);

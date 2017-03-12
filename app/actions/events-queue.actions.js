@@ -11,6 +11,9 @@ import {
   CREATE_EVENTS_INITIATED,
   CREATE_EVENTS_ERROR,
   CREATE_EVENTS_SUCCESS,
+  GENERATE_WEATHER_EVENTS_INITIATED,
+  GENERATE_WEATHER_EVENTS_ERROR,
+  GENERATE_WEATHER_EVENTS_SUCCESS,
 } from '../constants/action-types';
 
 function loadEventsInitiated() {
@@ -48,6 +51,24 @@ function createEventsSuccess() {
   };
 }
 
+function generateWeatherEventsInitiated() {
+  return { type: GENERATE_WEATHER_EVENTS_INITIATED };
+}
+
+function generateWeatherEventsError(error) {
+  return {
+    type: GENERATE_WEATHER_EVENTS_ERROR,
+    error,
+  };
+}
+
+function generateWeatherEventsSuccess(events) {
+  return {
+    type: GENERATE_WEATHER_EVENTS_SUCCESS,
+    events,
+  };
+}
+
 export function loadEvents() {
   return (dispatch) => {
     dispatch(loadEventsInitiated());
@@ -80,5 +101,24 @@ export function createEvents(events) {
       .then(response => response.json())
       .then(() => dispatch(createEventsSuccess()))
       .catch(error => handleHttpError(dispatch, error, createEventsError));
+  };
+}
+
+export function generateWeatherEvents(localStats) {
+  const { zone, terrain, season, month, initialMs } = localStats;
+  return (dispatch) => {
+    dispatch(generateWeatherEventsInitiated());
+
+    const uri = '/api/secure/events/weather';
+    const options = Object.assign({}, FETCH_DEFAULT_OPTIONS, {
+      method: 'POST',
+      body: JSON.stringify({ zone, terrain, season, month, initialMs }),
+    });
+
+    return fetch(uri, options)
+      .then(checkHttpStatus)
+      .then(response => response.json())
+      .then(response => dispatch(generateWeatherEventsSuccess(response)))
+      .catch(error => handleHttpError(dispatch, error, generateWeatherEventsError));
   };
 }

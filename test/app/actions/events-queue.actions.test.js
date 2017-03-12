@@ -12,6 +12,7 @@ const mockStore = configureMockStore(middlewares);
 describe('eventsQueueActions', () => {
   const CREATE_EVENT_URL = '/api/secure/events';
   const GET_EVENTS_URL = '/api/secure/events';
+  const GENERATE_WEATHER_EVENTS_URL = '/api/secure/events/weather';
   let store;
 
   afterEach(() => {
@@ -115,6 +116,66 @@ describe('eventsQueueActions', () => {
           should(actions.length).equal(2);
           should(actions[0].type).equal(types.CREATE_EVENTS_INITIATED);
           should(actions[1].type).equal(types.CREATE_EVENTS_ERROR);
+        })
+        .then(done)
+        .catch(done);
+      });
+    });
+  });
+
+  describe('generateWeatherEvents', () => {
+    describe('when status is 200', () => {
+      beforeEach(() => {
+        store = mockStore();
+        fetchMock.mock(GENERATE_WEATHER_EVENTS_URL, {
+          method: 'POST',
+          status: 200,
+          body: [{ id: 1 }],
+        });
+      });
+
+      it('should dispatch properly', (done) => {
+        store.dispatch(eventsQueueActions.generateWeatherEvents({
+          zone: 'tropical',
+          terrain: 'plains',
+          season: 'winter',
+          month: 'february',
+          initialMs: 0,
+        }))
+        .then(() => {
+          const actions = store.getActions();
+          should(actions.length).equal(2);
+          should(actions[0].type).equal(types.GENERATE_WEATHER_EVENTS_INITIATED);
+          should(actions[1].type).equal(types.GENERATE_WEATHER_EVENTS_SUCCESS);
+          should(actions[1].events).deepEqual([{ id: 1 }]);
+        })
+        .then(done)
+        .catch(done);
+      });
+    });
+
+    describe('when status is 500', () => {
+      beforeEach(() => {
+        store = mockStore();
+        fetchMock.mock(GENERATE_WEATHER_EVENTS_URL, {
+          method: 'POST',
+          status: 500,
+        });
+      });
+
+      it('should dispatch properly', (done) => {
+        store.dispatch(eventsQueueActions.generateWeatherEvents({
+          zone: 'tropical',
+          terrain: 'plains',
+          season: 'winter',
+          month: 'february',
+          initialMs: 0,
+        }))
+        .then(() => {
+          const actions = store.getActions();
+          should(actions.length).equal(2);
+          should(actions[0].type).equal(types.GENERATE_WEATHER_EVENTS_INITIATED);
+          should(actions[1].type).equal(types.GENERATE_WEATHER_EVENTS_ERROR);
         })
         .then(done)
         .catch(done);
