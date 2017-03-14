@@ -7,6 +7,7 @@ import {
 
 import authReducer from './auth.reducer';
 import campaignReducer from './campaign.reducer';
+import eventsQueueReducer from './events-queue.reducer';
 import historyReducer from './history.reducer';
 import itemsReducer from './items.reducer';
 import monstersReducer from './monsters.reducer';
@@ -15,6 +16,7 @@ const appReducer = combineReducers({
   routing,
   authState: authReducer,
   campaignState: campaignReducer,
+  eventsQueueState: eventsQueueReducer,
   historyState: historyReducer,
   itemsState: itemsReducer,
   monstersState: monstersReducer,

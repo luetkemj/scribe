@@ -4,6 +4,8 @@ import {
   handleHttpError,
 } from '../utils/http.utils';
 
+import { loadEvents } from './events-queue.actions';
+
 import {
   LOADING_LOGS_INITIATED,
   LOGS_ALREADY_LOADED,
@@ -44,7 +46,10 @@ function loadLogs(dispatch) {
   return fetch(uri, options)
     .then(checkHttpStatus)
     .then(response => response.json())
-    .then(logs => dispatch(loadingLogsSuccess(logs)))
+    .then((logs) => {
+      dispatch(loadingLogsSuccess(logs));
+      dispatch(loadEvents(logs[0].time));
+    })
     .catch(error => handleHttpError(dispatch, error, loadingLogsError));
 }
 
@@ -53,7 +58,8 @@ export function loadLogsIfNeeded() {
     const { historyState } = getState();
 
     if (historyState.logs.length) {
-      return dispatch(logsAlreadyLoaded());
+      dispatch(logsAlreadyLoaded());
+      return dispatch(loadEvents(historyState.logs[0].time));
     }
 
     return loadLogs(dispatch);
