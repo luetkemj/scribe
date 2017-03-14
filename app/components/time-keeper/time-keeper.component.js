@@ -7,17 +7,11 @@ import style from './time-keeper.component.scss';
 export default class TimeKeeper extends Component {
   state = {
     mounted: false,
-    timerId: null,
-  }
-
-  componentWillMount() {
-    this.state.timerId = () => {
-      setTimeout(() => {
-        this.setState({
-          mounted: true,
-        });
-      }, 300);
-    };
+    timerId: setTimeout(() => {
+      this.setState({
+        mounted: true,
+      });
+    }, 300),
   }
 
   componentWillUnmount() {
