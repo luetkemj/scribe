@@ -1,79 +1,64 @@
-/**
- * Takes a number and if it is less than ten, adds a leading zero.
- */
-export function leadingZero(number) {
-  let newNumber;
-  if (number >= 0 && number < 10) {
-    newNumber = `0${number}`;
-  } else {
-    newNumber = `${number}`;
-  }
-
-  return newNumber;
-}
-
-export function parseMs(milliseconds, divisor) {
-  const total = Math.trunc(milliseconds / divisor);
-  const remainder = milliseconds % divisor;
-  const raw = milliseconds / divisor;
-
-  return {
-    total,
-    remainder,
-    raw,
-  };
-}
+import moment from 'moment';
 
 export function buildTimeUI(ms) {
-  const days = parseMs(ms, 86400000);
-  const hours = parseMs(days.remainder, 3600000);
-  const minutes = parseMs(hours.remainder, 60000);
-  const seconds = parseMs(minutes.remainder, 1000);
+  const myMoment = moment.utc(ms);
+
+  // get absolute days from start of time
+  const days = moment.duration(ms).days();
+  const hours = myMoment.format('HH');
+  const minutes = myMoment.format('mm');
+  const seconds = myMoment.format('ss');
+  const hoursN = parseInt(hours, 10);
+  const minutesN = parseInt(minutes, 10);
 
   // set the sky colors per time of day
   let sky;
-  if (hours.total === 6) {
+  if (hoursN === 6) {
     sky = 'dawn';
-  } else if (hours.total === 18) {
+  } else if (hoursN === 18) {
     sky = 'dusk';
-  } else if (hours.total < 6 || hours.total > 18) {
+  } else if (hoursN < 6 || hoursN > 18) {
     sky = 'night';
-  } else if (hours.total > 6 && hours.total < 18) {
+  } else if (hoursN > 6 && hoursN < 18) {
     sky = 'day';
   }
 
   // set the rotation of the sun and moon
   const rotation =
   // get the rotation based on total number of days
-  ((days.total) * -360) +
+  ((days) * -360) +
   // get the rotation based on total number of hours minus half a day
   // to get the sun and moon in the right spot
-  ((hours.total * -15) - 180) +
+  ((hoursN * -15) - 180) +
   // get the little bit of rotation from minutes cause the maths are even enough?
-  (minutes.total * -0.25);
+  (minutesN * -0.25);
 
   return {
     ms,
-    days: days.total,
-    hours: hours.total,
-    minutes: minutes.total,
-    seconds: seconds.total,
+    days,
+    hours,
+    minutes,
+    seconds,
     sky,
     rotation,
   };
 }
 
 export function phaseOfMoon(day, hours) {
-  if (day < 29) {
-    if (hours > 12) {
-      return day + 1;
+  // day is 0 based so we need to add 1 because our phases of the moon are 1 based
+  const dayN = parseInt(day, 10) + 1;
+  const hoursN = parseInt(hours, 10);
+
+  if (dayN < 29) {
+    if (hoursN > 12) {
+      return dayN + 1;
     }
-    return day;
+    return dayN;
   }
 
-  if (hours > 12) {
-    return (day % 28) + 1;
+  if (hoursN > 12) {
+    return (dayN % 28) + 1;
   }
 
-  return day % 28;
+  return dayN % 28;
 }

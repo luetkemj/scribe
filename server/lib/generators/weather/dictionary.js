@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { parseMs } from '../../../../app/utils/functions';
+import moment from 'moment';
 import {
   BEAUFORT_SCALE,
   PRECIP_SIZE_HAIL,
@@ -7,46 +7,45 @@ import {
   PRECIP_SIZE_RAIN } from '../../../config/constants/weather.constants';
 
 export function temporalEstimation(milliseconds) {
-  const days = parseMs(milliseconds, 86400000);
-  const hours = parseMs(days.remainder, 3600000);
+  const hours = moment.duration(milliseconds).asHours() % 24;
 
-  if (_.inRange(hours.raw, 0, 0.25)) {
+  if (_.inRange(hours, 0, 0.25)) {
     return 'midnight';
   }
 
-  if (_.inRange(hours.raw, 0, 6)) {
+  if (_.inRange(hours, 0, 6)) {
     return 'early morning';
   }
 
-  if (_.inRange(hours.raw, 6, 7)) {
+  if (_.inRange(hours, 6, 7)) {
     return 'dawn';
   }
 
-  if (_.inRange(hours.raw, 7, 11.75)) {
+  if (_.inRange(hours, 7, 11.75)) {
     return 'morning';
   }
 
-  if (_.inRange(hours.raw, 11.75, 12.25)) {
+  if (_.inRange(hours, 11.75, 12.25)) {
     return 'noon';
   }
 
-  if (_.inRange(hours.raw, 12.25, 17)) {
+  if (_.inRange(hours, 12.25, 17)) {
     return 'afternoon';
   }
 
-  if (_.inRange(hours.raw, 17, 18)) {
+  if (_.inRange(hours, 17, 18)) {
     return 'evening';
   }
 
-  if (_.inRange(hours.raw, 18, 19)) {
+  if (_.inRange(hours, 18, 19)) {
     return 'dusk';
   }
 
-  if (_.inRange(hours.raw, 19, 23.75)) {
+  if (_.inRange(hours, 19, 23.75)) {
     return 'night';
   }
 
-  if (_.inRange(hours.raw, 23.75, 24)) {
+  if (_.inRange(hours, 23.75, 24)) {
     return 'midnight';
   }
 

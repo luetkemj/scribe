@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const LogSchema = new Schema({
   day: {
     type: Number,
-    min: [1, 'You must provide a day of 1 or more'],
+    min: [0, 'Days cannot be negative'],
   },
   time: {
     type: Number,

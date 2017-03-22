@@ -6,7 +6,7 @@ import { cloneDeep, find, remove } from 'lodash';
 import Log from '../../../components/log/log.component';
 
 import { updateLog, deleteLogs } from '../../../actions/log.actions';
-import { buildTimeUI, leadingZero } from '../../../utils/functions';
+import { buildTimeUI } from '../../../utils/functions';
 
 class LogContainer extends Component {
   state = {
@@ -126,7 +126,7 @@ class LogContainer extends Component {
     const { log } = this.props;
     const timeUI = buildTimeUI(log.time);
     const time =
-      `${leadingZero(timeUI.hours)}:${leadingZero(timeUI.minutes)}:${leadingZero(timeUI.seconds)}`;
+      `${timeUI.hours}:${timeUI.minutes}:${timeUI.seconds}`;
 
     let notes;
     // if we are editing or creating use our tempNotes for props

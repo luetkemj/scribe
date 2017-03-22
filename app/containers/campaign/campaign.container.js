@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import { each } from 'lodash';
 
@@ -24,12 +25,12 @@ class CampaignContainer extends Component {
   }
 
   increment = (initialMs, milliseconds) => {
-    const ms = initialMs + milliseconds;
-    const time = buildTimeUI(ms);
+    const time = moment(initialMs + milliseconds);
+
 
     const log = {
-      day: time.days + 1,
-      time: time.ms,
+      day: moment.duration(time._i).days(),
+      time: time._i,
       season: 'winter',
       weather: 'String',
       notes: [],
@@ -78,9 +79,9 @@ class CampaignContainer extends Component {
         <TimeKeeper
           day={1}
           time={{
-            hours: 0,
-            minutes: 0,
-            seconds: 0,
+            hours: '00',
+            minutes: '00',
+            seconds: '00',
           }}
           sky={'night'}
           rotation={-180}

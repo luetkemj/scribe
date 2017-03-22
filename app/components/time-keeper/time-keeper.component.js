@@ -1,7 +1,5 @@
 import React, { PropTypes, Component } from 'react';
 
-import { leadingZero } from '../../utils/functions';
-
 import style from './time-keeper.component.scss';
 
 export default class TimeKeeper extends Component {
@@ -54,10 +52,6 @@ export default class TimeKeeper extends Component {
     };
     const skyColor = style[sky];
 
-    const hours = leadingZero(time.hours);
-    const minutes = leadingZero(time.minutes);
-    const seconds = leadingZero(time.seconds);
-
     const phaseClass = `moon${phaseOfMoon}`;
     const moonClasses = `${style.moon} ${style[phaseClass]}`;
 
@@ -75,11 +69,11 @@ export default class TimeKeeper extends Component {
         </div>
 
         <div className={style.time}>
-          {hours}
+          {time.hours}
           <span className={style.colon}>:</span>
-          {minutes}
+          {time.minutes}
           <span className={style.colon}>:</span>
-          {seconds}
+          {time.seconds}
         </div>
 
         <div className={style.controls}>
@@ -112,9 +106,9 @@ export default class TimeKeeper extends Component {
 TimeKeeper.propTypes = {
   day: PropTypes.number.isRequired,
   time: PropTypes.shape({
-    hours: PropTypes.number.isRequired,
-    minutes: PropTypes.number.isRequired,
-    seconds: PropTypes.number.isRequired,
+    hours: PropTypes.string.isRequired,
+    minutes: PropTypes.string.isRequired,
+    seconds: PropTypes.string.isRequired,
   }).isRequired,
   phaseOfMoon: PropTypes.number.isRequired,
   sky: PropTypes.string.isRequired,

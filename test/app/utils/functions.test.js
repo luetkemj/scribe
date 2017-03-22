@@ -6,56 +6,83 @@ describe('utils/functions', () => {
     should.exist(functions);
   });
 
-  describe('leadingZero', () => {
-    it('should work with numbers 0 - 9', () => {
-      const expected = '05';
-      const actual = functions.leadingZero(5);
-
-      should(expected).equal(actual);
-    });
-
-    it('should work with numbers 10+', () => {
-      const expected = '50';
-      const actual = functions.leadingZero(50);
-
-      should(expected).equal(actual);
-    });
-
-    it('should work with numbers less than 0', () => {
-      const expected = '-5';
-      const actual = functions.leadingZero(-5);
-
-      should(expected).equal(actual);
-    });
-  });
-
-  describe('parseMs', () => {
-    it('should work', () => {
-      const expected = {
-        total: 10,
-        remainder: 1,
-        raw: 10.1,
-      };
-      const actual = functions.parseMs(101, 10);
-
-      should(expected).deepEqual(actual);
-    });
-  });
-
   describe('buildTimeUI', () => {
-    it('should work', () => {
+    it('should work at night', () => {
       const expected = {
-        days: 1,
-        hours: 1,
-        minutes: 1,
-        seconds: 1,
-        ms: 90061000,
-        rotation: -555.25,
+        days: 0,
+        hours: '01',
+        minutes: '01',
+        seconds: '01',
+        ms: 3661000,
+        rotation: -195.25,
         sky: 'night',
       };
-      const actual = functions.buildTimeUI(90061000);
+      const actual = functions.buildTimeUI(3661000);
 
-      should(expected).deepEqual(actual);
+      should(actual).deepEqual(expected);
+    });
+
+    it('should work at dawn', () => {
+      const expected = {
+        days: 0,
+        hours: '06',
+        minutes: '01',
+        seconds: '01',
+        ms: 21661000,
+        rotation: -270.25,
+        sky: 'dawn',
+      };
+      const actual = functions.buildTimeUI(21661000);
+
+      should(actual).deepEqual(expected);
+    });
+
+    it('should work during the day', () => {
+      const expected = {
+        days: 0,
+        hours: '12',
+        minutes: '01',
+        seconds: '01',
+        ms: 43261000,
+        rotation: -360.25,
+        sky: 'day',
+      };
+      const actual = functions.buildTimeUI(43261000);
+
+      should(actual).deepEqual(expected);
+    });
+
+    it('should work at dusk', () => {
+      const expected = {
+        days: 0,
+        hours: '18',
+        minutes: '01',
+        seconds: '01',
+        ms: 64861000,
+        rotation: -450.25,
+        sky: 'dusk',
+      };
+      const actual = functions.buildTimeUI(64861000);
+
+      should(actual).deepEqual(expected);
+    });
+  });
+
+  describe('phaseOfMoon', () => {
+    it('should work day is less than 29 and hours is less than 12', () => {
+      should(functions.phaseOfMoon(15, 10)).equal(16);
+    });
+
+    it('should work day is less than 29 and hours is more than 12', () => {
+      should(functions.phaseOfMoon(15, 14)).equal(17);
+    });
+
+    it('should work when given numbers', () => {
+      should(functions.phaseOfMoon(30, 13)).equal(4);
+    });
+
+    it('should work when given strings', () => {
+      should(functions.phaseOfMoon('28', '3')).equal(1);
     });
   });
 });
