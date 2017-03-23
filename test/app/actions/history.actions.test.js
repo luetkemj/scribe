@@ -11,7 +11,7 @@ const mockStore = configureMockStore(middlewares);
 
 describe('historyActions', () => {
   const GET_LOGS_URL = '/api/secure/logs?limit=400&skip=0';
-  const GET_EVENTS_URL = '/api/secure/events';
+  const GET_EVENTS_URL = '/api/secure/events?time=1000';
   let store;
 
   afterEach(() => {
@@ -28,7 +28,7 @@ describe('historyActions', () => {
         store = mockStore();
         fetchMock.mock(GET_LOGS_URL, {
           status: 200,
-          body: [{ a: 1 }],
+          body: [{ id: 1, time: 1000 }],
         }).mock(GET_EVENTS_URL, {
           status: 200,
           body: [{ e: 1 }],
@@ -39,7 +39,7 @@ describe('historyActions', () => {
         beforeEach(() => {
           store = mockStore({
             historyState: {
-              logs: [{ id: 1 }],
+              logs: [{ id: 1, time: 1000 }],
             },
           });
         });
@@ -47,7 +47,6 @@ describe('historyActions', () => {
         it('should dispatch properly', () => {
           store.dispatch(historyActions.loadLogsIfNeeded());
           const actions = store.getActions();
-          console.log(actions);
           should(actions.length).equal(2);
           should(actions[0].type).equal(types.LOGS_ALREADY_LOADED);
           should(actions[1].type).equal(types.LOAD_EVENTS_INITIATED);
@@ -70,7 +69,7 @@ describe('historyActions', () => {
             should(actions.length).equal(3);
             should(actions[0].type).equal(types.LOADING_LOGS_INITIATED);
             should(actions[1].type).equal(types.LOADING_LOGS_SUCCESS);
-            should(actions[1].logs).deepEqual([{ a: 1 }]);
+            should(actions[1].logs).deepEqual([{ id: 1, time: 1000 }]);
             should(actions[2].type).equal(types.LOAD_EVENTS_INITIATED);
           })
           .then(done)

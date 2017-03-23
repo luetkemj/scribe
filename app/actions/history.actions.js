@@ -48,7 +48,9 @@ function loadLogs(dispatch) {
     .then(response => response.json())
     .then((logs) => {
       dispatch(loadingLogsSuccess(logs));
-      dispatch(loadEvents(logs[0].time));
+      if (logs.length) {
+        dispatch(loadEvents(logs[0].time));
+      }
     })
     .catch(error => handleHttpError(dispatch, error, loadingLogsError));
 }

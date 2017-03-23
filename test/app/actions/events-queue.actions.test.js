@@ -11,7 +11,7 @@ const mockStore = configureMockStore(middlewares);
 
 describe('eventsQueueActions', () => {
   const CREATE_EVENT_URL = '/api/secure/events';
-  const GET_EVENTS_URL = '/api/secure/events';
+  const GET_EVENTS_URL = '/api/secure/events?time=1000';
   const GENERATE_WEATHER_EVENTS_URL = '/api/secure/events/weather';
   let store;
 
@@ -34,7 +34,7 @@ describe('eventsQueueActions', () => {
       });
 
       it('should dispatch properly', (done) => {
-        store.dispatch(eventsQueueActions.loadEvents())
+        store.dispatch(eventsQueueActions.loadEvents(1000))
         .then(() => {
           const actions = store.getActions();
           should(actions.length).equal(2);
@@ -58,7 +58,7 @@ describe('eventsQueueActions', () => {
       });
 
       it('should dispatch properly', (done) => {
-        store.dispatch(eventsQueueActions.loadEvents())
+        store.dispatch(eventsQueueActions.loadEvents(1000))
         .then(() => {
           const actions = store.getActions();
           should(actions.length).equal(2);

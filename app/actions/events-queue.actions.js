@@ -69,11 +69,11 @@ function generateWeatherEventsSuccess(events) {
   };
 }
 
-export function loadEvents() {
+export function loadEvents(time) {
   return (dispatch) => {
     dispatch(loadEventsInitiated());
 
-    const uri = '/api/secure/events';
+    const uri = `/api/secure/events?time=${time}`;
     const options = Object.assign({}, FETCH_DEFAULT_OPTIONS, {
       method: 'GET',
     });
