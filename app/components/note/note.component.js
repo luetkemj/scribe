@@ -55,12 +55,19 @@ export default class Note extends Component {
     if (!this.props.creating && !this.props.editing) {
       contentToRender = (
         <div className={style.content}>{
-          content.split('\n').map(item => (
-            <span key={id}>
-              {item}
-              <br />
-            </span>
-          ))
+          content.split('\n').map((item, index) => {
+            // this is bad and I should feel bad.
+            // But the content has no unique identifiers to key off
+            // should explore this option:
+            // https://www.npmjs.com/package/react-key-index
+            const key = `${id}${index}`;
+            return (
+              <span key={key}>
+                {item}
+                <br />
+              </span>
+            );
+          })
           }
         </div>
       );
