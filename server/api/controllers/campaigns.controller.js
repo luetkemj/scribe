@@ -106,37 +106,3 @@ export function createCampaign(req, res) {
     return res.send(createdCampaign);
   });
 }
-
-export function updateCampaign(req, res) {
-  const { id } = req.params;
-
-  Campaign.update({
-    _id: id,
-    userId: req.user.id,
-  }, { $set: req.body }, (err, campaign) => {
-    if (err) {
-      logger.log(`Error: ${err}`);
-      return res.send(err);
-    }
-
-    logger.log('updateCampaign: %o', campaign);
-    return res.send(campaign);
-  });
-}
-
-export function deleteCampaign(req, res) {
-  const { id } = req.params;
-
-  Campaign.remove({
-    _id: id,
-    userId: req.user.id,
-  }, (err, campaign) => {
-    if (err) {
-      logger.log(`Error: ${err}`);
-      return res.send(err);
-    }
-
-    logger.log('deleteCampaign: %o', campaign);
-    return res.send(campaign);
-  });
-}
