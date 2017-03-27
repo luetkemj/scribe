@@ -31,26 +31,6 @@ export function getLogs(req, res) {
   });
 }
 
-export function getLog(req, res) {
-  if (!getCampaignId(req)) { return res.status(403).send('Error: Forbidden'); }
-
-  const { id } = req.params;
-
-  return Log
-  .findById(id)
-  .lean()
-  .exec((err, log) => {
-    if (!err) {
-      const logUI = buildLogUI(log);
-      logger.log('getLogs: %o', logUI);
-      return res.send(logUI);
-    }
-    logger.log('getLog Error: %j', err);
-    return res.send(err);
-  });
-}
-
-
 export function createLog(req, res) {
   const authorized = getCampaignId(req);
 

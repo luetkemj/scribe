@@ -5,10 +5,6 @@ import {
   LOGS_ALREADY_LOADED,
   LOADING_LOGS_SUCCESS,
   LOADING_LOGS_ERROR,
-  LOADING_LOG_INITIATED,
-  LOG_ALREADY_LOADED,
-  LOADING_LOG_SUCCESS,
-  LOADING_LOG_ERROR,
   UPDATING_LOG_INITIATED,
   UPDATING_LOG_SUCCESS,
   UPDATING_LOG_ERROR,
@@ -107,10 +103,6 @@ export default function historyReducer(state = initialState, action) {
         loading: false,
         error: action.error,
       });
-    case LOADING_LOG_INITIATED:
-    case LOG_ALREADY_LOADED:
-    case LOADING_LOG_SUCCESS:
-    case LOADING_LOG_ERROR:
     case UPDATING_LOG_INITIATED:
     case UPDATING_LOG_SUCCESS:
     case UPDATING_LOG_ERROR:

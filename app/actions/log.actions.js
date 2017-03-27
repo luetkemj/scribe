@@ -1,5 +1,3 @@
-import { find } from 'lodash';
-
 import {
   FETCH_DEFAULT_OPTIONS,
   checkHttpStatus,
@@ -7,10 +5,6 @@ import {
 } from '../utils/http.utils';
 
 import {
-  LOADING_LOG_INITIATED,
-  LOG_ALREADY_LOADED,
-  LOADING_LOG_SUCCESS,
-  LOADING_LOG_ERROR,
   UPDATING_LOG_INITIATED,
   UPDATING_LOG_SUCCESS,
   UPDATING_LOG_ERROR,
@@ -21,28 +15,6 @@ import {
   DELETING_LOGS_SUCCESS,
   DELETING_LOGS_ERROR,
 } from '../constants/action-types';
-
-function loadingLogInitiated() {
-  return { type: LOADING_LOG_INITIATED };
-}
-
-function logAlreadyLoaded() {
-  return { type: LOG_ALREADY_LOADED };
-}
-
-function loadingLogSuccess(log) {
-  return {
-    type: LOADING_LOG_SUCCESS,
-    log,
-  };
-}
-
-function loadingLogError(error) {
-  return {
-    type: LOADING_LOG_ERROR,
-    error,
-  };
-}
 
 function updatingLogInitiated(log) {
   return {
@@ -98,34 +70,6 @@ function deletingLogsError(error) {
   return {
     type: DELETING_LOGS_ERROR,
     error,
-  };
-}
-
-
-function loadLog(id, dispatch) {
-  dispatch(loadingLogInitiated());
-
-  const uri = `/api/secure/logs/${id}`;
-  const options = Object.assign({}, FETCH_DEFAULT_OPTIONS, {
-    method: 'GET',
-  });
-
-  return fetch(uri, options)
-    .then(checkHttpStatus)
-    .then(response => response.json())
-    .then(log => dispatch(loadingLogSuccess(log)))
-    .catch(error => handleHttpError(dispatch, error, loadingLogError));
-}
-
-export function loadLogIfNeeded(id) {
-  return (dispatch, getState) => {
-    const { historyState } = getState();
-
-    if (find(historyState.logs, { _id: id })) {
-      return dispatch(logAlreadyLoaded());
-    }
-
-    return loadLog(id, dispatch);
   };
 }
 
