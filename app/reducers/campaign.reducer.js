@@ -1,17 +1,9 @@
-import { cloneDeep, chain, find, without, indexOf } from 'lodash';
+import { cloneDeep, chain } from 'lodash';
 
 import {
   CREATE_CAMPAIGN_INITIATED,
   CREATE_CAMPAIGN_ERROR,
   CREATE_CAMPAIGN_SUCCESS,
-
-  DELETE_CAMPAIGN_INITIATED,
-  DELETE_CAMPAIGN_ERROR,
-  DELETE_CAMPAIGN_SUCCESS,
-
-  UPDATE_CAMPAIGN_INITIATED,
-  UPDATE_CAMPAIGN_ERROR,
-  UPDATE_CAMPAIGN_SUCCESS,
 
   LOAD_CAMPAIGN_INITIATED,
   LOAD_CAMPAIGN_ERROR,
@@ -37,8 +29,6 @@ const initialState = {
 export default function campaignReducer(state = initialState, action) {
   switch (action.type) {
     case CREATE_CAMPAIGN_INITIATED:
-    case DELETE_CAMPAIGN_INITIATED:
-    case UPDATE_CAMPAIGN_INITIATED:
     case LOAD_CAMPAIGN_INITIATED:
     case LOAD_CAMPAIGNS_INITIATED:
       return Object.assign({}, state, {
@@ -46,8 +36,6 @@ export default function campaignReducer(state = initialState, action) {
         error: null,
       });
     case CREATE_CAMPAIGN_ERROR:
-    case DELETE_CAMPAIGN_ERROR:
-    case UPDATE_CAMPAIGN_ERROR:
     case LOAD_CAMPAIGN_ERROR:
     case LOAD_CAMPAIGNS_ERROR:
       return Object.assign({}, state, {
@@ -73,42 +61,6 @@ export default function campaignReducer(state = initialState, action) {
         loading: false,
         error: null,
         campaigns,
-      });
-    }
-
-    case DELETE_CAMPAIGN_SUCCESS: {
-      const updatedState = cloneDeep(state);
-      // find the campaign we deleted in state
-      const campaign = find(updatedState.campaigns, ['name', action.campaign.name]);
-      // if we can't find the campaign, bail!
-      if (!campaign) {
-        return state;
-      }
-      // get campaigns without the one we just deleted
-      const campaigns = without(updatedState.campaigns, campaign);
-
-      // update state
-      return Object.assign({}, updatedState, {
-        loading: false,
-        error: null,
-        campaigns,
-      });
-    }
-
-    case UPDATE_CAMPAIGN_SUCCESS: {
-      const updatedState = cloneDeep(state);
-      // find the campaign we are updating
-      const campaign = find(updatedState.campaigns, ['id', action.campaign.id]);
-
-      // cache the index of the campaign we are modiying
-      const index = indexOf(updatedState.campaigns, campaign);
-
-      // update our state with this new product guide
-      updatedState.campaigns[index] = action.campaign;
-
-      return Object.assign({}, updatedState, {
-        loading: false,
-        error: null,
       });
     }
 

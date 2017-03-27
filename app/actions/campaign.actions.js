@@ -11,14 +11,6 @@ import {
   CREATE_CAMPAIGN_ERROR,
   CREATE_CAMPAIGN_SUCCESS,
 
-  DELETE_CAMPAIGN_INITIATED,
-  DELETE_CAMPAIGN_ERROR,
-  DELETE_CAMPAIGN_SUCCESS,
-
-  UPDATE_CAMPAIGN_INITIATED,
-  UPDATE_CAMPAIGN_ERROR,
-  UPDATE_CAMPAIGN_SUCCESS,
-
   LOAD_CAMPAIGN_INITIATED,
   LOAD_CAMPAIGN_ERROR,
   LOAD_CAMPAIGN_SUCCESS,
@@ -44,42 +36,6 @@ function createCampaignError(error) {
 function createCampaignSuccess(campaign) {
   return {
     type: CREATE_CAMPAIGN_SUCCESS,
-    campaign,
-  };
-}
-
-function updateCampaignInitiated() {
-  return { type: UPDATE_CAMPAIGN_INITIATED };
-}
-
-function updateCampaignError(error) {
-  return {
-    type: UPDATE_CAMPAIGN_ERROR,
-    error,
-  };
-}
-
-function updateCampaignSuccess(campaign) {
-  return {
-    type: UPDATE_CAMPAIGN_SUCCESS,
-    campaign,
-  };
-}
-
-function deleteCampaignInitiated() {
-  return { type: DELETE_CAMPAIGN_INITIATED };
-}
-
-function deleteCampaignError(error) {
-  return {
-    type: DELETE_CAMPAIGN_ERROR,
-    error,
-  };
-}
-
-function deleteCampaignSuccess(campaign) {
-  return {
-    type: DELETE_CAMPAIGN_SUCCESS,
     campaign,
   };
 }
@@ -201,40 +157,5 @@ export function createCampaign(campaign) {
       .then(response => response.json())
       .then(createdCampaign => dispatch(createCampaignSuccess(createdCampaign)))
       .catch(error => handleHttpError(dispatch, error, createCampaignError));
-  };
-}
-
-export function updateCampaign(campaign) {
-  return (dispatch) => {
-    dispatch(updateCampaignInitiated(campaign));
-
-    const uri = `/api/secure/campaigns/${campaign._id}`;
-    const options = Object.assign({}, FETCH_DEFAULT_OPTIONS, {
-      method: 'PATCH',
-      body: JSON.stringify(campaign),
-    });
-
-    return fetch(uri, options)
-      .then(checkHttpStatus)
-      .then(response => response.json())
-      .then(updatedCampaign => dispatch(updateCampaignSuccess(updatedCampaign)))
-      .catch(error => handleHttpError(dispatch, error, updateCampaignError));
-  };
-}
-
-export function deleteCampaign(campaign) {
-  return (dispatch) => {
-    dispatch(deleteCampaignInitiated(campaign));
-
-    const uri = `/api/secure/campaigns/${campaign._id}`;
-    const options = Object.assign({}, FETCH_DEFAULT_OPTIONS, {
-      method: 'DELETE',
-    });
-
-    return fetch(uri, options)
-      .then(checkHttpStatus)
-      .then(response => response.json())
-      .then(deletedCampaign => dispatch(deleteCampaignSuccess(deletedCampaign)))
-      .catch(error => handleHttpError(dispatch, error, deleteCampaignError));
   };
 }

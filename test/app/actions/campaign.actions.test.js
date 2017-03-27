@@ -13,8 +13,6 @@ describe('campaignActions', () => {
   const CREATE_CAMPAIGN_URL = '/api/secure/campaigns';
   const LOAD_CAMPAIGN_URL = '/api/secure/campaigns/1';
   const LOAD_CAMPAIGNS_URL = '/api/secure/campaigns';
-  const UPDATE_CAMPAIGN_URL = '/api/secure/campaigns/1';
-  const DELETE_CAMPAIGN_URL = '/api/secure/campaigns/1';
   let store;
 
   afterEach(() => {
@@ -218,102 +216,6 @@ describe('campaignActions', () => {
           should(actions.length).equal(2);
           should(actions[0].type).equal(types.CREATE_CAMPAIGN_INITIATED);
           should(actions[1].type).equal(types.CREATE_CAMPAIGN_ERROR);
-        })
-        .then(done)
-        .catch(done);
-      });
-    });
-  });
-
-  describe('updateCampaign', () => {
-    describe('when status is 200', () => {
-      beforeEach(() => {
-        store = mockStore();
-        fetchMock.mock(UPDATE_CAMPAIGN_URL, {
-          method: 'POST',
-          status: 200,
-          body: { _id: 1 },
-        });
-      });
-
-      it('should dispatch properly', (done) => {
-        store.dispatch(campaignActions.updateCampaign({ _id: 1 }))
-        .then(() => {
-          const actions = store.getActions();
-          should(actions.length).equal(2);
-          should(actions[0].type).equal(types.UPDATE_CAMPAIGN_INITIATED);
-          should(actions[1].type).equal(types.UPDATE_CAMPAIGN_SUCCESS);
-          should(actions[1].campaign).deepEqual({ _id: 1 });
-        })
-        .then(done)
-        .catch(done);
-      });
-    });
-
-    describe('when status is 500', () => {
-      beforeEach(() => {
-        store = mockStore();
-        fetchMock.mock(UPDATE_CAMPAIGN_URL, {
-          method: 'POST',
-          status: 500,
-        });
-      });
-
-      it('should dispatch properly', (done) => {
-        store.dispatch(campaignActions.updateCampaign({ _id: 1 }))
-        .then(() => {
-          const actions = store.getActions();
-          should(actions.length).equal(2);
-          should(actions[0].type).equal(types.UPDATE_CAMPAIGN_INITIATED);
-          should(actions[1].type).equal(types.UPDATE_CAMPAIGN_ERROR);
-        })
-        .then(done)
-        .catch(done);
-      });
-    });
-  });
-
-  describe('deleteLogs', () => {
-    describe('when status is 200', () => {
-      beforeEach(() => {
-        store = mockStore();
-        fetchMock.mock(DELETE_CAMPAIGN_URL, {
-          method: 'DELETE',
-          status: 200,
-          body: { _id: 1 },
-        });
-      });
-
-      it('should dispatch properly', (done) => {
-        store.dispatch(campaignActions.deleteCampaign({ _id: 1 }))
-        .then(() => {
-          const actions = store.getActions();
-          should(actions.length).equal(2);
-          should(actions[0].type).equal(types.DELETE_CAMPAIGN_INITIATED);
-          should(actions[1].type).equal(types.DELETE_CAMPAIGN_SUCCESS);
-          should(actions[1].campaign).deepEqual({ _id: 1 });
-        })
-        .then(done)
-        .catch(done);
-      });
-    });
-
-    describe('when status is 500', () => {
-      beforeEach(() => {
-        store = mockStore();
-        fetchMock.mock(DELETE_CAMPAIGN_URL, {
-          method: 'DELETE',
-          status: 500,
-        });
-      });
-
-      it('should dispatch properly', (done) => {
-        store.dispatch(campaignActions.deleteCampaign({ _id: 1 }))
-        .then(() => {
-          const actions = store.getActions();
-          should(actions.length).equal(2);
-          should(actions[0].type).equal(types.DELETE_CAMPAIGN_INITIATED);
-          should(actions[1].type).equal(types.DELETE_CAMPAIGN_ERROR);
         })
         .then(done)
         .catch(done);
