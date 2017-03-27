@@ -31,25 +31,6 @@ export function getEvents(req, res) {
   });
 }
 
-export function getEvent(req, res) {
-  const authorized = getCampaignId(req);
-  if (!authorized) { return res.status(403).send('Error: Forbidden'); }
-
-  const { id } = req.params;
-
-  return Event
-  .find({ _id: id, campaignId: authorized.campaignId })
-  .lean()
-  .exec((err, event) => {
-    if (!err) {
-      logger.log('getEvent: %o', event);
-      return res.send(event);
-    }
-    logger.log('getEvent Error: %j', err);
-    return res.send(err);
-  });
-}
-
 export function createEvents(req, res) {
   const authorized = getCampaignId(req);
   if (!authorized) { return res.status(403).send('Error: Forbidden'); }
@@ -60,42 +41,6 @@ export function createEvents(req, res) {
     }
 
     return res.status(200).send(events);
-  });
-}
-
-export function updateEvent(req, res) {
-  const authorized = getCampaignId(req);
-  if (!authorized) { return res.status(403).send('Error: Forbidden'); }
-
-  const { id } = req.params;
-
-  return Event.findOneAndUpdate(
-    { _id: id, campaignId: authorized.campaignId },
-    { $set: req.body },
-    { new: true },
-    (err, event) => {
-      if (err) {
-        logger.log(`Error: ${err}`);
-        return res.send(err);
-      }
-
-      logger.log('updateEvent: %o', event);
-      return res.send(event);
-    });
-}
-
-export function deleteEvent(req, res) {
-  const { id } = req.params;
-  const { campaignId } = req.query;
-
-  Event.findOneAndRemove({ _id: id, campaignId }, {}, (err, event) => {
-    if (err) {
-      logger.log(`Error: ${err}`);
-      return res.send(err);
-    }
-
-    logger.log('deleteEvent: %o', event);
-    return res.send(event);
   });
 }
 
