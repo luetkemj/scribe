@@ -14,8 +14,8 @@ rules:
   # this rule breaks globbing in express
   import/no-dynamic-require: 0
 
-  # this rule ignores no-underscore-dangle for _id which mongo uses on all documents
-  no-underscore-dangle: [2, {allow: ['_id']}]
+  # this rule ignores no-underscore-dangle for _id which mongo uses on all documents and _i which momentjs uses
+  no-underscore-dangle: [2, {allow: ['_id', _i]}]
 
   # https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-filename-extension.md
   react/jsx-filename-extension: [1, { "extensions": [".js", ".jsx"] }]
