@@ -2,10 +2,6 @@ import { cloneDeep, find, indexOf, each } from 'lodash';
 import noteReducer from './note.reducer';
 import {
   LOADING_LOGS_SUCCESS,
-  LOADING_LOG_INITIATED,
-  LOG_ALREADY_LOADED,
-  LOADING_LOG_SUCCESS,
-  LOADING_LOG_ERROR,
   UPDATING_LOG_INITIATED,
   UPDATING_LOG_SUCCESS,
   UPDATING_LOG_ERROR,
@@ -28,24 +24,6 @@ const initialState = {
 
 export default function logReducer(state = initialState, action) {
   switch (action.type) {
-    case LOADING_LOG_INITIATED:
-      return Object.assign({}, state, {
-        loading: true,
-      });
-    case LOG_ALREADY_LOADED:
-      return Object.assign({}, state, {
-        loading: false,
-      });
-    case LOADING_LOG_SUCCESS:
-      return Object.assign({}, state, {
-        loading: false,
-        ...action.log,
-      });
-    case LOADING_LOG_ERROR:
-      return Object.assign({}, state, {
-        loading: false,
-        error: action.error,
-      });
     case UPDATING_LOG_INITIATED:
       return Object.assign({}, state, {
         loading: true,

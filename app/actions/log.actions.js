@@ -1,4 +1,5 @@
-import { find } from 'lodash';
+import { filter, inRange } from 'lodash';
+import { digestEvents } from '../lib/events-digest';
 
 import {
   FETCH_DEFAULT_OPTIONS,
@@ -7,10 +8,6 @@ import {
 } from '../utils/http.utils';
 
 import {
-  LOADING_LOG_INITIATED,
-  LOG_ALREADY_LOADED,
-  LOADING_LOG_SUCCESS,
-  LOADING_LOG_ERROR,
   UPDATING_LOG_INITIATED,
   UPDATING_LOG_SUCCESS,
   UPDATING_LOG_ERROR,
@@ -21,28 +18,6 @@ import {
   DELETING_LOGS_SUCCESS,
   DELETING_LOGS_ERROR,
 } from '../constants/action-types';
-
-function loadingLogInitiated() {
-  return { type: LOADING_LOG_INITIATED };
-}
-
-function logAlreadyLoaded() {
-  return { type: LOG_ALREADY_LOADED };
-}
-
-function loadingLogSuccess(log) {
-  return {
-    type: LOADING_LOG_SUCCESS,
-    log,
-  };
-}
-
-function loadingLogError(error) {
-  return {
-    type: LOADING_LOG_ERROR,
-    error,
-  };
-}
 
 function updatingLogInitiated(log) {
   return {
@@ -101,34 +76,6 @@ function deletingLogsError(error) {
   };
 }
 
-
-function loadLog(id, dispatch) {
-  dispatch(loadingLogInitiated());
-
-  const uri = `/api/secure/logs/${id}`;
-  const options = Object.assign({}, FETCH_DEFAULT_OPTIONS, {
-    method: 'GET',
-  });
-
-  return fetch(uri, options)
-    .then(checkHttpStatus)
-    .then(response => response.json())
-    .then(log => dispatch(loadingLogSuccess(log)))
-    .catch(error => handleHttpError(dispatch, error, loadingLogError));
-}
-
-export function loadLogIfNeeded(id) {
-  return (dispatch, getState) => {
-    const { historyState } = getState();
-
-    if (find(historyState.logs, { _id: id })) {
-      return dispatch(logAlreadyLoaded());
-    }
-
-    return loadLog(id, dispatch);
-  };
-}
-
 export function updateLog(log) {
   return (dispatch) => {
     dispatch(updatingLogInitiated(log));
@@ -148,13 +95,34 @@ export function updateLog(log) {
 }
 
 export function createLog(log) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch(creatingLogInitiated());
+    const { day, time, season, weather, notes } = log;
+    const { eventsQueueState, historyState } = getState();
+
+    const currentTime = historyState.logs.length ? historyState.logs[0].time : 0;
+    const targetTime = time + 1;
+    const events = filter(eventsQueueState.events, (event) => {
+      if (inRange(event.time, currentTime, targetTime)) {
+        return event;
+      }
+      return null;
+    });
+
+    const digestedEvents = digestEvents(events);
+
+    const logsToCreate = [{
+      day,
+      time,
+      season,
+      weather,
+      notes,
+    }].concat(digestedEvents);
 
     const uri = '/api/secure/logs';
     const options = Object.assign({}, FETCH_DEFAULT_OPTIONS, {
       method: 'POST',
-      body: JSON.stringify(log),
+      body: JSON.stringify(logsToCreate),
     });
 
     return fetch(uri, options)

@@ -15,7 +15,11 @@ const LogSchema = new Schema({
     type: String,
     enum: ['spring', 'summer', 'fall', 'winter'],
   },
-  weather: String,
+  weather: {
+    conditon: { type: String },
+    wind: { type: String },
+    temp: { type: String },
+  },
   notes: [{
     heading: {
       type: String,

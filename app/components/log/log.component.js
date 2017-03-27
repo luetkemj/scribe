@@ -156,7 +156,7 @@ export default class Log extends Component {
           </div>
           <div>
             <div className={style.season}>{season}</div>
-            <div className={style.temp}>{weather}</div>
+            <div className={style.temp}>{weather.condition}</div>
           </div>
         </div>
         {notesToRender}
@@ -184,7 +184,7 @@ Log.propTypes = {
   day: PropTypes.number.isRequired,
   time: PropTypes.string.isRequired,
   season: PropTypes.string.isRequired,
-  weather: PropTypes.string.isRequired,
+  weather: PropTypes.string,
   notes: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string,
@@ -198,4 +198,9 @@ Log.propTypes = {
 
 Log.defaultProps = {
   notes: [],
+  weather: {
+    condition: 'cold',
+    wind: 'breezey',
+    temp: 'cold',
+  },
 };

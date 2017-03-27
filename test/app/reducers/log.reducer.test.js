@@ -21,57 +21,6 @@ describe('the log reducer', () => {
       state = reducer(undefined, {});
     });
 
-    it('should handle LOADING_LOG_INITIATED correctly', () => {
-      should(
-        reducer(state, {
-          type: types.LOADING_LOG_INITIATED,
-        }),
-      ).deepEqual({
-        loading: true,
-        error: null,
-      });
-    });
-
-    it('should handle LOG_ALREADY_LOADED correctly', () => {
-      should(
-        reducer(state, {
-          type: types.LOG_ALREADY_LOADED,
-        }),
-      ).deepEqual({
-        loading: false,
-        error: null,
-      });
-    });
-
-    it('should handle LOADING_LOG_SUCCESS correctly', () => {
-      should(
-        reducer(state, {
-          type: types.LOADING_LOG_SUCCESS,
-          log: {
-            _id: 1,
-            weather: 'cold',
-          },
-        }),
-      ).deepEqual({
-        loading: false,
-        error: null,
-        _id: 1,
-        weather: 'cold',
-      });
-    });
-
-    it('should handle LOADING_LOG_ERROR correctly', () => {
-      should(
-        reducer(state, {
-          type: types.LOADING_LOG_ERROR,
-          error: 'terrible things!',
-        }),
-      ).deepEqual({
-        loading: false,
-        error: 'terrible things!',
-      });
-    });
-
     it('should handle UPDATING_LOG_INITIATED correctly', () => {
       should(
         reducer(state, {

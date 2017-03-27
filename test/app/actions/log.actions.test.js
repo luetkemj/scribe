@@ -11,9 +11,29 @@ const mockStore = configureMockStore(middlewares);
 
 describe('logActions', () => {
   const CREATE_LOG_URL = '/api/secure/logs';
-  const GET_LOG_URL = '/api/secure/logs/1';
   const UPDATE_LOG_URL = '/api/secure/logs/1';
   const DELETE_LOGS_URL = '/api/secure/logs';
+  const MOCK_STATE = {
+    historyState: {
+      logs: [],
+    },
+    eventsQueueState: {
+      events: [],
+    },
+  };
+
+  const LOG = {
+    day: 1,
+    time: 1,
+    season: 'winter',
+    weather: {
+      condition: 'snow',
+      wind: 'windy',
+      temp: 'cold',
+    },
+    notes: [],
+  };
+
   let store;
 
   afterEach(() => {
@@ -24,99 +44,35 @@ describe('logActions', () => {
     should.exist(logActions);
   });
 
-  describe('loadLogIfNeeded', () => {
-    describe('when status is 200', () => {
-      beforeEach(() => {
-        store = mockStore();
-        fetchMock.mock(GET_LOG_URL, {
-          status: 200,
-          body: { _id: 1 },
-        });
-      });
-
-      describe('when log exists', () => {
-        beforeEach(() => {
-          store = mockStore({
-            historyState: ({
-              logs: [{ _id: 1 }],
-            }),
-          });
-        });
-
-        it('should dispatch properly', () => {
-          store.dispatch(logActions.loadLogIfNeeded(1));
-          const actions = store.getActions();
-          should(actions.length).equal(1);
-          should(actions[0].type).equal(types.LOG_ALREADY_LOADED);
-        });
-      });
-
-      describe('when log does not exist', () => {
-        beforeEach(() => {
-          store = mockStore({
-            historyState: ({
-              logs: [{ _id: 2 }],
-            }),
-          });
-        });
-
-        it('should dispatch properly', (done) => {
-          store.dispatch(logActions.loadLogIfNeeded(1))
-          .then(() => {
-            const actions = store.getActions();
-            should(actions.length).equal(2);
-            should(actions[0].type).equal(types.LOADING_LOG_INITIATED);
-            should(actions[1].type).equal(types.LOADING_LOG_SUCCESS);
-            should(actions[1].log).deepEqual({ _id: 1 });
-          })
-          .then(done)
-          .catch(done);
-        });
-      });
-    });
-
-    describe('when status is 500', () => {
-      beforeEach(() => {
-        store = mockStore({
-          historyState: {
-            logs: [],
-          },
-        });
-        fetchMock.mock(GET_LOG_URL, 500);
-      });
-
-      it('should dispatch properly', (done) => {
-        store.dispatch(logActions.loadLogIfNeeded(1))
-        .then(() => {
-          const actions = store.getActions();
-          should(actions.length).equal(2);
-          should(actions[0].type).equal(types.LOADING_LOG_INITIATED);
-          should(actions[1].type).equal(types.LOADING_LOG_ERROR);
-        })
-        .then(done)
-        .catch(done);
-      });
-    });
-  });
   describe('createLog', () => {
     describe('when status is 200', () => {
       beforeEach(() => {
-        store = mockStore();
+        store = mockStore(MOCK_STATE);
         fetchMock.mock(CREATE_LOG_URL, {
           method: 'POST',
           status: 200,
-          body: { _id: 1 },
+          body: LOG,
         });
       });
 
       it('should dispatch properly', (done) => {
-        store.dispatch(logActions.createLog())
+        store.dispatch(logActions.createLog(LOG))
         .then(() => {
           const actions = store.getActions();
           should(actions.length).equal(2);
           should(actions[0].type).equal(types.CREATING_LOG_INITIATED);
           should(actions[1].type).equal(types.CREATING_LOG_SUCCESS);
-          should(actions[1].log).deepEqual({ _id: 1 });
+          should(actions[1].log).deepEqual({
+            day: 1,
+            time: 1,
+            season: 'winter',
+            weather: {
+              condition: 'snow',
+              wind: 'windy',
+              temp: 'cold',
+            },
+            notes: [],
+          });
         })
         .then(done)
         .catch(done);
@@ -125,7 +81,7 @@ describe('logActions', () => {
 
     describe('when status is 500', () => {
       beforeEach(() => {
-        store = mockStore();
+        store = mockStore(MOCK_STATE);
         fetchMock.mock(CREATE_LOG_URL, {
           method: 'POST',
           status: 500,
@@ -133,7 +89,7 @@ describe('logActions', () => {
       });
 
       it('should dispatch properly', (done) => {
-        store.dispatch(logActions.createLog())
+        store.dispatch(logActions.createLog(LOG))
         .then(() => {
           const actions = store.getActions();
           should(actions.length).equal(2);

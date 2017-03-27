@@ -1,4 +1,4 @@
-import async from 'async';
+import { each, map } from 'async';
 import * as _ from 'lodash';
 import mongoose from 'mongoose';
 import { buildLogUI, buildNewLog } from '../../lib/logs';
@@ -31,26 +31,6 @@ export function getLogs(req, res) {
   });
 }
 
-export function getLog(req, res) {
-  if (!getCampaignId(req)) { return res.status(403).send('Error: Forbidden'); }
-
-  const { id } = req.params;
-
-  return Log
-  .findById(id)
-  .lean()
-  .exec((err, log) => {
-    if (!err) {
-      const logUI = buildLogUI(log);
-      logger.log('getLogs: %o', logUI);
-      return res.send(logUI);
-    }
-    logger.log('getLog Error: %j', err);
-    return res.send(err);
-  });
-}
-
-
 export function createLog(req, res) {
   const authorized = getCampaignId(req);
 
@@ -68,6 +48,33 @@ export function createLog(req, res) {
 
     logger.log('createLog: %o', log);
     return res.send(log);
+  });
+}
+
+export function createLogs(req, res) {
+  const authorized = getCampaignId(req);
+
+  if (!authorized) { return res.status(403).send('Error: Forbidden'); }
+
+  return map(req.body, (eachLog, eachCallback) => {
+    const newLog = buildNewLog(eachLog, authorized.campaignId);
+    logger.log('createLogs: %o', newLog);
+
+    return Log.create(newLog, (err, log) => {
+      if (err) {
+        logger.log(`Error: ${err}`);
+        return eachCallback(err);
+      }
+
+      logger.log('createLogs: %o', log);
+      return eachCallback(null, log);
+    });
+  }, (eachError, logs) => {
+    logger.log('createLogs: Error: %j', eachError);
+    if (eachError) { return eachError; }
+
+    logger.log('createLogs: Success: %j', logs);
+    return res.send(logs);
   });
 }
 
@@ -91,7 +98,7 @@ export function deleteLogs(req, res) {
 
   logger.log('deleteLogs: deleting logs:%j', req.body);
 
-  return async.each(req.body, (logId, eachCallback) => {
+  return each(req.body, (logId, eachCallback) => {
     logger.log('deleting logs');
     Log.findByIdAndRemove(logId, {}, (err, log) => {
       logger.log(logId);
