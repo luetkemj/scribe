@@ -1,8 +1,12 @@
-export function buildPingData(results) {
-  const campaignName = results[1] ? results[1].name : '';
+import { getUserGravatar } from './users';
+
+export function buildPingData(user, campaign) {
+  const campaignName = campaign ? campaign.name : '';
 
   const pingData = {
-    ...results[0],
+    userId: user._id,
+    username: user.username,
+    gravatar: getUserGravatar(user.email),
     campaignName,
   };
 
