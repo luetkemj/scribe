@@ -1,6 +1,6 @@
 # Scribe [![Build Status](https://travis-ci.org/luetkemj/scribe.svg?branch=master)](https://travis-ci.org/luetkemj/scribe)
 
-Scribe is my collection of DM tools.
+Scribe is a tool used for my own weekly DnD game. The main functionality consitists of a timekeeper and campaign log.
 
 ## Run the Application ##
 
@@ -22,7 +22,7 @@ command to install the project dependencies:
 
 ### Data ###
 
-Currently this project depends on an existing database. If you are interested in running the app - contact me for a mongo dump.
+Certain features of this project depends on existing data. If you run the app without existing data you will find that the monster and items codex will be empty. It's ok - you're not missing much.
 
 ### Start the App ###
 
